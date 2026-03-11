@@ -1,0 +1,687 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <!-- =============================================
+       TÍTULO DE LA PÁGINA (aparece en la pestaña)
+       Cámbialo por el nombre de tu negocio
+  ============================================= -->
+  <title>Pijamas Maricela – Un descanso cómodo</title>
+
+  <!-- Archivo de estilos (no tocar esta línea) -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Fuentes de Google: Cormorant = elegante | Jost = moderna -->
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"/>
+
+  <!-- Íconos (fa-whatsapp, fa-instagram, etc.) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+<!-- ╔══════════════════════════════════════════╗
+     ║              BARRA DE NAVEGACIÓN         ║
+     ╚══════════════════════════════════════════╝ -->
+<nav class="navbar" id="navbar">
+
+  <!-- Logo del negocio -->
+  <div class="nav-logo">
+    <!--
+      LOGO:
+      Opción A – solo emoji/texto (como está ahora):
+        Cambia el emoji 🦋 o el texto "Pijamas Maricela"
+
+      Opción B – usar imagen real:
+        Reemplaza las dos líneas siguientes por:
+        <img src="img/logo.png" alt="Logo Pijamas Maricela" class="logo-img"/>
+    -->
+    <div class="logo-icon">🦋</div>
+    <span class="logo-text">Pijamas Maricela</span>
+  </div>
+
+  <!-- Links de navegación (escritorio) -->
+  <ul class="nav-links">
+    <li><a href="#inicio">Inicio</a></li>
+    <li><a href="#catalogo">Catálogo</a></li>
+    <li><a href="#nosotros">Nosotros</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+
+  <!-- Botón hamburguesa (solo visible en celular) -->
+  <button class="hamburger" id="hamburger" aria-label="Abrir menú">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+</nav>
+
+<!-- Menú desplegable en celular (se abre al tocar hamburguesa) -->
+<div class="mobile-menu" id="mobileMenu">
+  <ul>
+    <li><a href="#inicio"   class="mob-link">Inicio</a></li>
+    <li><a href="#catalogo" class="mob-link">Catálogo</a></li>
+    <li><a href="#nosotros" class="mob-link">Nosotros</a></li>
+    <li><a href="#contacto" class="mob-link">Contacto</a></li>
+  </ul>
+</div>
+
+
+<!-- ╔══════════════════════════════════════════╗
+     ║            SECCIÓN HERO (PORTADA)        ║
+     ╚══════════════════════════════════════════╝ -->
+<section class="hero" id="inicio">
+
+  <!-- Fondo decorativo con círculos y pétalos flotantes (no editar) -->
+  <div class="hero-bg">
+    <div class="circle c1"></div>
+    <div class="circle c2"></div>
+    <div class="circle c3"></div>
+    <div class="petals">
+      <span class="petal"></span>
+      <span class="petal"></span>
+      <span class="petal"></span>
+      <span class="petal"></span>
+      <span class="petal"></span>
+      <span class="petal"></span>
+    </div>
+  </div>
+
+  <!-- Textos de la portada -->
+  <div class="hero-content">
+
+    <!-- Etiqueta pequeña encima del título -->
+    <p class="hero-tag animate-fade-up delay-1">✨ Nueva colección disponible</p>
+
+    <!-- Título principal grande -->
+    <h1 class="hero-title animate-fade-up delay-2">
+      <span class="title-line">Pijamas</span>
+      <span class="title-line italic">Maricela</span>
+    </h1>
+
+    <!-- Slogan del negocio -->
+    <p class="hero-slogan animate-fade-up delay-3">Un descanso cómodo 🦋</p>
+
+    <!-- Descripción corta del negocio -->
+    <p class="hero-desc animate-fade-up delay-4">
+      Pijamas femeninas diseñadas para que cada noche sea especial.<br/>
+      Suavidad, estilo y confort en cada prenda.
+      <!-- ↑ Cambia este texto si quieres -->
+    </p>
+
+    <!-- Botones de la portada -->
+    <div class="hero-btns animate-fade-up delay-5">
+
+      <!-- Botón 1: lleva al catálogo -->
+      <a href="#catalogo" class="btn-primary">Ver catálogo</a>
+
+      <!-- Botón 2: abre WhatsApp
+           El número: 57 (Colombia) + 3188300429 (sin el 0 inicial)
+           Cambia si quieres usar el segundo número: 573166967170
+      -->
+      <a href="https://wa.me/573188300429" target="_blank" class="btn-outline">
+        <i class="fab fa-whatsapp"></i> Escribir ahora
+      </a>
+
+    </div>
+  </div>
+
+  <!-- Imagen lado derecho de la portada -->
+  <div class="hero-image animate-fade-left delay-3">
+    <!--
+      CÓMO PONER TU FOTO AQUÍ:
+      1. Guarda tu foto en la misma carpeta del archivo HTML (ej: portada.jpg)
+      2. Borra el bloque <div class="hero-img-placeholder">...</div>
+      3. Escribe esto en su lugar:
+         <img src="portada.jpg" alt="Pijamas Maricela" class="hero-img"/>
+    -->
+    <div class="hero-img-placeholder">
+      <span>🌙</span>
+      <p>Coloca aquí<br/>tu foto principal</p>
+      <small>&lt;img src="tu-foto.jpg"&gt;</small>
+    </div>
+
+    <!-- Medallita flotante sobre la imagen -->
+    <div class="hero-badge">
+      <span>🌸</span>
+      <p>Envíos<br/>a todo<br/>Colombia</p>
+    </div>
+  </div>
+
+</section>
+
+
+<!-- ╔══════════════════════════════════════════╗
+     ║            SECCIÓN: BENEFICIOS           ║
+     ╚══════════════════════════════════════════╝
+     4 tarjetas con ventajas del negocio
+     Puedes cambiar el emoji, título y texto de cada una
+-->
+<section class="features">
+
+  <div class="feature-card animate-on-scroll">
+    <div class="feature-icon">🌸</div>
+    <h3>Telas suaves</h3>
+    <p>Materiales seleccionados para tu comodidad</p>
+  </div>
+
+  <div class="feature-card animate-on-scroll">
+    <div class="feature-icon">✨</div>
+    <h3>Diseños únicos</h3>
+    <p>Estampados exclusivos y elegantes</p>
+  </div>
+
+  <div class="feature-card animate-on-scroll">
+    <div class="feature-icon">📦</div>
+    <h3>Envíos rápidos</h3>
+    <p>Entrega a todo Colombia</p>
+  </div>
+
+  <div class="feature-card animate-on-scroll">
+    <div class="feature-icon">💛</div>
+    <h3>Atención personal</h3>
+    <p>Te acompañamos en cada compra</p>
+  </div>
+
+</section>
+
+
+<!-- ╔══════════════════════════════════════════╗
+     ║            SECCIÓN: CATÁLOGO             ║
+     ╚══════════════════════════════════════════╝ -->
+<section class="catalogo" id="catalogo">
+
+  <!-- Encabezado de la sección -->
+  <div class="section-header animate-on-scroll">
+    <p class="section-tag">Nuestras pijamas</p>
+    <h2 class="section-title">Catálogo <em>2025</em></h2>
+    <p class="section-desc">Elige tu favorita y escríbenos por WhatsApp 💬</p>
+  </div>
+
+  <!-- Cuadrícula de productos (3 columnas escritorio, 1 celular) -->
+  <div class="products-grid">
+
+    <!-- ┌───────────────────────────────────────────────────────┐
+         │  CÓMO AGREGAR UN PRODUCTO NUEVO:                      │
+         │  Copia todo el bloque desde  "product-card"           │
+         │  hasta su "FIN Producto X" y pégalo aquí abajo        │
+         │  Luego cambia: número del data-product,               │
+         │  id del color-label, nombre, descripción, precio      │
+         │  y el enlace de WhatsApp                              │
+         └───────────────────────────────────────────────────────┘ -->
+
+
+    <!-- ══════════════ PRODUCTO 1 ══════════════ -->
+    <div class="product-card animate-on-scroll">
+
+      <div class="product-img-wrap">
+
+        <!--
+          FOTO DEL PRODUCTO:
+          Borra el div "img-placeholder" y escribe:
+          <img src="img/pijama1-rosa.jpg" alt="Pijama Floral" class="product-img"/>
+          (guarda tus fotos en una carpeta llamada "img/")
+        -->
+        <div class="img-placeholder">
+          <span>🌸</span>
+          <p>Foto producto 1</p>
+        </div>
+
+        <!--
+          PUNTOS DE COLOR:
+          • Cada <span class="dot"> es un círculo de color
+          • background:#... → el color en hexadecimal
+          • data-color="..."  → nombre que aparece como etiqueta
+          • El primero siempre lleva class="dot active"
+          • Agrega o quita dots según cuántos colores tenga la pijama
+        -->
+        <div class="color-dots" data-product="1">
+          <span class="dot active" style="background:#f4a7b9" data-color="Rosa Palo"       title="Rosa Palo"></span>
+          <span class="dot"        style="background:#c8a2c8" data-color="Lila"            title="Lila"></span>
+          <span class="dot"        style="background:#fffacd" data-color="Amarillo Pastel" title="Amarillo Pastel"></span>
+          <span class="dot"        style="background:#b2d8d8" data-color="Menta"           title="Menta"></span>
+        </div>
+
+        <!-- Muestra el nombre del color seleccionado (gestionado por JS) -->
+        <div class="color-label" id="color-label-1">Rosa Palo</div>
+
+        <!-- Etiqueta de la tarjeta: "Nuevo", "Oferta", "Top", etc.
+             Bórrala si no quieres mostrar ninguna etiqueta -->
+        <div class="product-tag">Nuevo</div>
+      </div>
+
+      <div class="product-info">
+
+        <!-- Nombre del producto -->
+        <h3 class="product-name">Pijama Floral</h3>
+
+        <!-- Descripción corta (1-2 líneas máximo) -->
+        <p class="product-desc">Conjunto pantalón + camisa, estampado floral, tela tipo seda fría.</p>
+
+        <!-- Precio: cambia XX.000 por el precio real -->
+        <p class="product-price">$XX.000 COP</p>
+
+        <!--
+          BOTÓN COMPRAR:
+          • Cambia el texto después de "text=" para personalizar el mensaje de WhatsApp
+          • %20 = espacio  |  %0A = salto de línea  |  🌸 = %F0%9F%8C%B8
+          • Puedes usar el segundo número cambiando 573188300429 por 573166967170
+        -->
+        <a class="btn-buy"
+           href="https://wa.me/573188300429?text=Hola%20Maricela!%20Quiero%20la%20Pijama%20Floral%20%F0%9F%8C%B8"
+           target="_blank"
+           data-product="1">
+          <i class="fab fa-whatsapp"></i> Comprar
+        </a>
+
+      </div>
+    </div>
+    <!-- FIN Producto 1 -->
+
+
+    <!-- ══════════════ PRODUCTO 2 ══════════════ -->
+    <div class="product-card animate-on-scroll">
+      <div class="product-img-wrap">
+        <div class="img-placeholder"><span>🌙</span><p>Foto producto 2</p></div>
+        <div class="color-dots" data-product="2">
+          <span class="dot active" style="background:#d4a5a5" data-color="Rosado Viejo" title="Rosado Viejo"></span>
+          <span class="dot"        style="background:#e8d5c4" data-color="Camel"        title="Camel"></span>
+          <span class="dot"        style="background:#c4d4c4" data-color="Sage"         title="Sage"></span>
+        </div>
+        <div class="color-label" id="color-label-2">Rosado Viejo</div>
+        <div class="product-tag">⭐ Top</div>
+      </div>
+      <div class="product-info">
+        <h3 class="product-name">Pijama Luna</h3>
+        <p class="product-desc">Diseño romántico con lunas y estrellas, corte holgado y cómodo.</p>
+        <p class="product-price">$XX.000 COP</p>
+        <a class="btn-buy"
+           href="https://wa.me/573188300429?text=Hola%20Maricela!%20Quiero%20la%20Pijama%20Luna%20%F0%9F%8C%99"
+           target="_blank" data-product="2">
+          <i class="fab fa-whatsapp"></i> Comprar
+        </a>
+      </div>
+    </div>
+    <!-- FIN Producto 2 -->
+
+
+    <!-- ══════════════ PRODUCTO 3 ══════════════ -->
+    <div class="product-card animate-on-scroll">
+      <div class="product-img-wrap">
+        <div class="img-placeholder"><span>🌺</span><p>Foto producto 3</p></div>
+        <div class="color-dots" data-product="3">
+          <span class="dot active" style="background:#f9d5e5" data-color="Rosa Bebé"  title="Rosa Bebé"></span>
+          <span class="dot"        style="background:#d5e8d4" data-color="Verde Agua" title="Verde Agua"></span>
+          <span class="dot"        style="background:#fff2cc" data-color="Vainilla"   title="Vainilla"></span>
+        </div>
+        <div class="color-label" id="color-label-3">Rosa Bebé</div>
+      </div>
+      <div class="product-info">
+        <h3 class="product-name">Pijama Primavera</h3>
+        <p class="product-desc">Estampado de flores pequeñas, fresco y delicado para el descanso.</p>
+        <p class="product-price">$XX.000 COP</p>
+        <a class="btn-buy"
+           href="https://wa.me/573188300429?text=Hola%20Maricela!%20Quiero%20la%20Pijama%20Primavera%20%F0%9F%8C%BA"
+           target="_blank" data-product="3">
+          <i class="fab fa-whatsapp"></i> Comprar
+        </a>
+      </div>
+    </div>
+    <!-- FIN Producto 3 -->
+
+
+    <!-- ══════════════ PRODUCTO 4 ══════════════ -->
+    <div class="product-card animate-on-scroll">
+      <div class="product-img-wrap">
+        <div class="img-placeholder"><span>💐</span><p>Foto producto 4</p></div>
+        <div class="color-dots" data-product="4">
+          <span class="dot active" style="background:#e6c9a8" data-color="Dorado"  title="Dorado"></span>
+          <span class="dot"        style="background:#f0e6ff" data-color="Lavanda" title="Lavanda"></span>
+          <span class="dot"        style="background:#ffe4e1" data-color="Salmón"  title="Salmón"></span>
+        </div>
+        <div class="color-label" id="color-label-4">Dorado</div>
+        <div class="product-tag">Exclusivo</div>
+      </div>
+      <div class="product-info">
+        <h3 class="product-name">Pijama Dorada</h3>
+        <p class="product-desc">Conjunto elegante con detalles dorados, perfecta para regalar.</p>
+        <p class="product-price">$XX.000 COP</p>
+        <a class="btn-buy"
+           href="https://wa.me/573188300429?text=Hola%20Maricela!%20Quiero%20la%20Pijama%20Dorada%20%F0%9F%92%AB"
+           target="_blank" data-product="4">
+          <i class="fab fa-whatsapp"></i> Comprar
+        </a>
+      </div>
+    </div>
+    <!-- FIN Producto 4 -->
+
+
+    <!-- ══════════════ PRODUCTO 5 ══════════════ -->
+    <div class="product-card animate-on-scroll">
+      <div class="product-img-wrap">
+        <div class="img-placeholder"><span>🦋</span><p>Foto producto 5</p></div>
+        <div class="color-dots" data-product="5">
+          <span class="dot active" style="background:#b8d4e8" data-color="Azul Cielo" title="Azul Cielo"></span>
+          <span class="dot"        style="background:#f4a7b9" data-color="Rosa"       title="Rosa"></span>
+          <span class="dot"        style="background:#d8c4e8" data-color="Lila"       title="Lila"></span>
+          <span class="dot"        style="background:#c4e8c4" data-color="Menta"      title="Menta"></span>
+        </div>
+        <div class="color-label" id="color-label-5">Azul Cielo</div>
+      </div>
+      <div class="product-info">
+        <h3 class="product-name">Pijama Mariposa</h3>
+        <p class="product-desc">Diseño especial con mariposas, la más femenina de la colección.</p>
+        <p class="product-price">$XX.000 COP</p>
+        <a class="btn-buy"
+           href="https://wa.me/573188300429?text=Hola%20Maricela!%20Quiero%20la%20Pijama%20Mariposa%20%F0%9F%A6%8B"
+           target="_blank" data-product="5">
+          <i class="fab fa-whatsapp"></i> Comprar
+        </a>
+      </div>
+    </div>
+    <!-- FIN Producto 5 -->
+
+
+    <!-- ══════════════ PRODUCTO 6 ══════════════ -->
+    <div class="product-card animate-on-scroll">
+      <div class="product-img-wrap">
+        <div class="img-placeholder"><span>🌷</span><p>Foto producto 6</p></div>
+        <div class="color-dots" data-product="6">
+          <span class="dot active" style="background:#e8b4b8" data-color="Coral"  title="Coral"></span>
+          <span class="dot"        style="background:#c4b8e8" data-color="Morado" title="Morado"></span>
+          <span class="dot"        style="background:#b8e4b8" data-color="Verde"  title="Verde"></span>
+        </div>
+        <div class="color-label" id="color-label-6">Coral</div>
+      </div>
+      <div class="product-info">
+        <h3 class="product-name">Pijama Tulipán</h3>
+        <p class="product-desc">Suave y fresca, con bordado de tulipanes en el bolsillo del pecho.</p>
+        <p class="product-price">$XX.000 COP</p>
+        <a class="btn-buy"
+           href="https://wa.me/573188300429?text=Hola%20Maricela!%20Quiero%20la%20Pijama%20Tulip%C3%A1n%20%F0%9F%8C%B7"
+           target="_blank" data-product="6">
+          <i class="fab fa-whatsapp"></i> Comprar
+        </a>
+      </div>
+    </div>
+    <!-- FIN Producto 6 -->
+
+
+    <!-- ══════════════ PRODUCTO 7 ══════════════ -->
+    <div class="product-card animate-on-scroll">
+      <div class="product-img-wrap">
+        <div class="img-placeholder"><span>⭐</span><p>Foto producto 7</p></div>
+        <div class="color-dots" data-product="7">
+          <span class="dot active" style="background:#f5deb3" data-color="Beige"    title="Beige"></span>
+          <span class="dot"        style="background:#dda0dd" data-color="Ciruela"  title="Ciruela"></span>
+          <span class="dot"        style="background:#98d8c8" data-color="Turquesa" title="Turquesa"></span>
+        </div>
+        <div class="color-label" id="color-label-7">Beige</div>
+        <div class="product-tag">Oferta</div>
+      </div>
+      <div class="product-info">
+        <h3 class="product-name">Pijama Estrella</h3>
+        <p class="product-desc">Conjunto con estrellas bordadas, elegante y muy cómodo para dormir.</p>
+        <p class="product-price">$XX.000 COP</p>
+        <a class="btn-buy"
+           href="https://wa.me/573188300429?text=Hola%20Maricela!%20Quiero%20la%20Pijama%20Estrella%20%E2%AD%90"
+           target="_blank" data-product="7">
+          <i class="fab fa-whatsapp"></i> Comprar
+        </a>
+      </div>
+    </div>
+    <!-- FIN Producto 7 -->
+
+
+    <!-- ══════════════ PRODUCTO 8 ══════════════ -->
+    <div class="product-card animate-on-scroll">
+      <div class="product-img-wrap">
+        <div class="img-placeholder"><span>🍓</span><p>Foto producto 8</p></div>
+        <div class="color-dots" data-product="8">
+          <span class="dot active" style="background:#ff9aa2" data-color="Rojo Suave"  title="Rojo Suave"></span>
+          <span class="dot"        style="background:#ffdac1" data-color="Melocotón"   title="Melocotón"></span>
+          <span class="dot"        style="background:#e2f0cb" data-color="Verde Pálido"title="Verde Pálido"></span>
+        </div>
+        <div class="color-label" id="color-label-8">Rojo Suave</div>
+      </div>
+      <div class="product-info">
+        <h3 class="product-name">Pijama Frutal</h3>
+        <p class="product-desc">Estampado divertido y juvenil, tela fresca ideal para el calor.</p>
+        <p class="product-price">$XX.000 COP</p>
+        <a class="btn-buy"
+           href="https://wa.me/573188300429?text=Hola%20Maricela!%20Quiero%20la%20Pijama%20Frutal%20%F0%9F%8D%93"
+           target="_blank" data-product="8">
+          <i class="fab fa-whatsapp"></i> Comprar
+        </a>
+      </div>
+    </div>
+    <!-- FIN Producto 8 -->
+
+
+    <!-- ══════════════ PRODUCTO 9 ══════════════ -->
+    <div class="product-card animate-on-scroll">
+      <div class="product-img-wrap">
+        <div class="img-placeholder"><span>🌿</span><p>Foto producto 9</p></div>
+        <div class="color-dots" data-product="9">
+          <span class="dot active" style="background:#a8d8a8" data-color="Verde Suave" title="Verde Suave"></span>
+          <span class="dot"        style="background:#f0d4e8" data-color="Rosa Claro"  title="Rosa Claro"></span>
+          <span class="dot"        style="background:#d4e8f0" data-color="Celeste"     title="Celeste"></span>
+        </div>
+        <div class="color-label" id="color-label-9">Verde Suave</div>
+      </div>
+      <div class="product-info">
+        <h3 class="product-name">Pijama Natura</h3>
+        <p class="product-desc">Inspirada en la naturaleza, con hojas sutiles y colores tierra.</p>
+        <p class="product-price">$XX.000 COP</p>
+        <a class="btn-buy"
+           href="https://wa.me/573188300429?text=Hola%20Maricela!%20Quiero%20la%20Pijama%20Natura%20%F0%9F%8C%BF"
+           target="_blank" data-product="9">
+          <i class="fab fa-whatsapp"></i> Comprar
+        </a>
+      </div>
+    </div>
+    <!-- FIN Producto 9 -->
+
+
+    <!-- ══════════════ PRODUCTO 10 ══════════════ -->
+    <div class="product-card animate-on-scroll">
+      <div class="product-img-wrap">
+        <div class="img-placeholder"><span>👑</span><p>Foto producto 10</p></div>
+        <div class="color-dots" data-product="10">
+          <span class="dot active" style="background:#d4af37" data-color="Dorado Real"  title="Dorado Real"></span>
+          <span class="dot"        style="background:#c0c0c0" data-color="Plateado"     title="Plateado"></span>
+          <span class="dot"        style="background:#e8c4d4" data-color="Rosa Antiguo" title="Rosa Antiguo"></span>
+        </div>
+        <div class="color-label" id="color-label-10">Dorado Real</div>
+        <div class="product-tag">Premium</div>
+      </div>
+      <div class="product-info">
+        <h3 class="product-name">Pijama Reina</h3>
+        <p class="product-desc">La más lujosa de la colección, perfecta para regalar o consentirte.</p>
+        <p class="product-price">$XX.000 COP</p>
+        <a class="btn-buy"
+           href="https://wa.me/573188300429?text=Hola%20Maricela!%20Quiero%20la%20Pijama%20Reina%20%F0%9F%91%91"
+           target="_blank" data-product="10">
+          <i class="fab fa-whatsapp"></i> Comprar
+        </a>
+      </div>
+    </div>
+    <!-- FIN Producto 10 -->
+
+
+  </div><!-- FIN products-grid -->
+</section>
+
+
+<!-- ╔══════════════════════════════════════════╗
+     ║           SECCIÓN: SOBRE NOSOTROS        ║
+     ╚══════════════════════════════════════════╝ -->
+<section class="nosotros" id="nosotros">
+
+  <!-- Foto del lado izquierdo -->
+  <div class="nosotros-img animate-on-scroll">
+    <!--
+      CÓMO PONER TU FOTO AQUÍ:
+      Borra el div placeholder y escribe:
+      <img src="img/maricela.jpg" alt="Maricela" class="nosotros-photo"/>
+    -->
+    <div class="img-placeholder large">
+      <span>🦋</span>
+      <p>Tu foto aquí</p>
+    </div>
+  </div>
+
+  <!-- Texto del lado derecho -->
+  <div class="nosotros-text animate-on-scroll">
+    <p class="section-tag">Nuestra historia</p>
+    <h2 class="section-title">Sobre <em>Nosotros</em></h2>
+
+    <!--
+      TEXTO DE PRESENTACIÓN:
+      Cambia este texto por la historia real de tu hermana / negocio
+    -->
+    <p>
+      Hola, soy <strong>Maricela</strong> 🦋 y desde hace años me apasiona
+      crear pijamas que hagan sentir a cada mujer especial y cómoda en su
+      descanso.
+    </p>
+    <p>
+      Cada pijama es diseñada con amor, usando telas suaves y estampados
+      únicos que combinan estilo y comodidad. Porque dormir bien también
+      es un acto de amor propio. 💛
+    </p>
+
+    <!-- Datos destacados del negocio (cámbialos por los reales) -->
+    <div class="nosotros-stats">
+      <div class="stat">
+        <span class="stat-num">+200</span>
+        <span class="stat-label">Clientas felices</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">3</span>
+        <span class="stat-label">Años de experiencia</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">10+</span>
+        <span class="stat-label">Diseños exclusivos</span>
+      </div>
+    </div>
+
+    <a href="#catalogo" class="btn-primary">Ver pijamas</a>
+  </div>
+
+</section>
+
+
+<!-- ╔══════════════════════════════════════════╗
+     ║       SECCIÓN: CONTACTO Y REDES          ║
+     ╚══════════════════════════════════════════╝ -->
+<section class="contacto" id="contacto">
+
+  <div class="section-header animate-on-scroll">
+    <p class="section-tag">¿Tienes dudas?</p>
+    <h2 class="section-title">Contáctanos <em>ahora</em></h2>
+    <p class="section-desc">Estamos aquí para ayudarte 💛</p>
+  </div>
+
+  <div class="contacto-cards">
+
+    <!-- Tarjeta WhatsApp 1 -->
+    <a class="contact-card whatsapp animate-on-scroll"
+       href="https://wa.me/573188300429?text=Hola%20Maricela!%20Quiero%20informaci%C3%B3n%20sobre%20sus%20pijamas%20%F0%9F%8C%B8"
+       target="_blank">
+      <i class="fab fa-whatsapp"></i>
+      <div>
+        <strong>WhatsApp 1</strong>
+        <!-- Número visible para el cliente (cámbialo si quieres otro formato) -->
+        <p>+57 318 830 0429</p>
+      </div>
+    </a>
+
+    <!-- Tarjeta WhatsApp 2 -->
+    <a class="contact-card whatsapp animate-on-scroll"
+       href="https://wa.me/573166967170?text=Hola%20Maricela!%20Quiero%20informaci%C3%B3n%20sobre%20sus%20pijamas%20%F0%9F%8C%B8"
+       target="_blank">
+      <i class="fab fa-whatsapp"></i>
+      <div>
+        <strong>WhatsApp 2</strong>
+        <p>+57 316 696 7170</p>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- ─── REDES SOCIALES ───────────────────────
+       Reemplaza TU_USUARIO / TU_PAGINA por tus redes reales
+       Ejemplo: href="https://instagram.com/pijamas.maricela"
+       Si no tienes alguna red, borra toda la etiqueta <a> correspondiente
+  ─────────────────────────────────────────── -->
+  <div class="social-links animate-on-scroll">
+    <p class="social-title">Síguenos en redes 🦋</p>
+    <div class="social-icons">
+
+      <a href="https://instagram.com/TU_USUARIO"
+         target="_blank" class="social-icon instagram" title="Instagram">
+        <i class="fab fa-instagram"></i>
+      </a>
+
+      <a href="https://facebook.com/TU_PAGINA"
+         target="_blank" class="social-icon facebook" title="Facebook">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+
+      <a href="https://tiktok.com/@TU_USUARIO"
+         target="_blank" class="social-icon tiktok" title="TikTok">
+        <i class="fab fa-tiktok"></i>
+      </a>
+
+      <!-- Borra este bloque si no tienes Pinterest -->
+      <a href="https://pinterest.com/TU_USUARIO"
+         target="_blank" class="social-icon pinterest" title="Pinterest">
+        <i class="fab fa-pinterest-p"></i>
+      </a>
+
+    </div>
+  </div>
+
+</section>
+
+
+<!-- ╔══════════════════════════════════════════╗
+     ║             PIE DE PÁGINA (FOOTER)       ║
+     ╚══════════════════════════════════════════╝ -->
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-logo">
+      <span>🦋</span> Pijamas Maricela
+    </div>
+    <p class="footer-slogan">Un descanso cómodo</p>
+    <p class="footer-copy">© 2025 Pijamas Maricela · Todos los derechos reservados</p>
+  </div>
+</footer>
+
+
+<!-- ══════════════════════════════════════════
+     BOTÓN FLOTANTE DE WHATSAPP
+     Siempre visible en la esquina inferior derecha
+     Cambia el número o el texto del mensaje si lo deseas
+══════════════════════════════════════════ -->
+<a class="whatsapp-float"
+   href="https://wa.me/573188300429?text=Hola%20Maricela!%20Quiero%20informaci%C3%B3n%20%F0%9F%8C%B8"
+   target="_blank"
+   title="Escríbenos por WhatsApp">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+
+<!-- ═══════════════════════════════════════════
+     JAVASCRIPT: archivo externo (no editar esta línea)
+═══════════════════════════════════════════ -->
+<script src="script.js"></script>
+
+</body>
+</html>
+</body>
+</html>
