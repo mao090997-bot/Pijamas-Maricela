@@ -26,24 +26,13 @@
      ╚══════════════════════════════════════════╝ -->
 <nav class="navbar" id="navbar">
 
-  <!-- Logo del negocio -->
   <div class="nav-logo">
-    <!--
-      LOGO:
-      Opción A – solo emoji/texto (como está ahora):
-        Cambia el emoji 🦋 o el texto "Pijamas Maricela"
-
-      Opción B – usar imagen real:
-        Reemplaza las dos líneas siguientes por:
-        <img src="img/logo.png" alt="Logo Pijamas Maricela" class="logo-img"/>
-    -->
     <div class="logo-icon">
         <img src="recursos/logo.png" alt="Pijamas Maricela" class="logo-img"/>
     </div>
     <span class="logo-text">Pijamas Maricela</span>
   </div>
 
-  <!-- Links de navegación (escritorio) -->
   <ul class="nav-links">
     <li><a href="#inicio">Inicio</a></li>
     <li><a href="#catalogo">Catálogo</a></li>
@@ -51,7 +40,6 @@
     <li><a href="#contacto">Contacto</a></li>
   </ul>
 
-  <!-- Botón hamburguesa (solo visible en celular) -->
   <button class="hamburger" id="hamburger" aria-label="Abrir menú">
     <span></span>
     <span></span>
@@ -59,7 +47,6 @@
   </button>
 </nav>
 
-<!-- Menú desplegable en celular (se abre al tocar hamburguesa) -->
 <div class="mobile-menu" id="mobileMenu">
   <ul>
     <li><a href="#inicio"   class="mob-link">Inicio</a></li>
@@ -75,7 +62,6 @@
      ╚══════════════════════════════════════════╝ -->
 <section class="hero" id="inicio">
 
-  <!-- Fondo decorativo con círculos y pétalos flotantes (no editar) -->
   <div class="hero-bg">
     <div class="circle c1"></div>
     <div class="circle c2"></div>
@@ -90,61 +76,30 @@
     </div>
   </div>
 
-  <!-- Textos de la portada -->
   <div class="hero-content">
-
-    <!-- Etiqueta pequeña encima del título -->
     <p class="hero-tag animate-fade-up delay-1">✨ Nueva colección disponible</p>
-
-    <!-- Título principal grande -->
     <h1 class="hero-title animate-fade-up delay-2">
       <span class="title-line">Pijamas</span>
       <span class="title-line italic">Maricela</span>
     </h1>
-
-    <!-- Slogan del negocio -->
-
-   <p class="hero-slogan animate-fade-up delay-3" style="display:flex; align-items:center; gap:8px;">
-     Un descanso cómodo 
-    <img src="recursos/logo.png" style="height:35px;"/>
-   </p>
-
-    <!-- Descripción corta del negocio -->
+    <p class="hero-slogan animate-fade-up delay-3" style="display:flex; align-items:center; gap:8px;">
+      Un descanso cómodo
+      <img src="recursos/logo.png" style="height:35px;"/>
+    </p>
     <p class="hero-desc animate-fade-up delay-4">
       Pijamas femeninas diseñadas para que cada noche sea especial.<br/>
       Suavidad, estilo y confort en cada prenda.
-      <!-- ↑ Cambia este texto si quieres -->
     </p>
-
-    <!-- Botones de la portada -->
     <div class="hero-btns animate-fade-up delay-5">
-
-      <!-- Botón 1: lleva al catálogo -->
       <a href="#catalogo" class="btn-primary">Ver catálogo</a>
-
-      <!-- Botón 2: abre WhatsApp
-           El número: 57 (Colombia) + 3188300429 (sin el 0 inicial)
-           Cambia si quieres usar el segundo número: 573166967170
-      -->
       <a href="https://wa.me/573188300429" target="_blank" class="btn-outline">
         <i class="fab fa-whatsapp"></i> Escribir ahora
       </a>
-
     </div>
   </div>
 
-  <!-- Imagen lado derecho de la portada -->
   <div class="hero-image animate-fade-left delay-3">
-    <!--
-      CÓMO PONER TU FOTO AQUÍ:
-      1. Guarda tu foto en la misma carpeta del archivo HTML (ej: portada.jpg)
-      2. Borra el bloque <div class="hero-img-placeholder">...</div>
-      3. Escribe esto en su lugar:
-         <img src="portada.jpg" alt="Pijamas Maricela" class="hero-img"/>
-    -->
-   <img src="recursos/portada.jpeg" alt="Pijamas Maricela" class="hero-img"/>
-
-    <!-- Medallita flotante sobre la imagen -->
+    <img src="recursos/portada.jpeg" alt="Pijamas Maricela" class="hero-img"/>
     <div class="hero-badge">
       <span><img src="recursos/logo.png" style="height: 30px; display: inline-block; text-align: center;" alt=""></span>
       <p>Envíos<br/>a todo<br/>Colombia</p>
@@ -152,106 +107,238 @@
   </div>
 
 </section>
-<!-- ╔══════════════════════════════════════════╗
-     ║            SECCIÓN: CATÁLOGO             ║
-     ╚══════════════════════════════════════════╝ -->
+
+
+<!-- ╔══════════════════════════════════════════════════════════════════╗
+     ║                     SECCIÓN: CATÁLOGO                           ║
+     ╠══════════════════════════════════════════════════════════════════╣
+     ║                                                                  ║
+     ║  CÓMO FUNCIONA EL SISTEMA DE FOTOS Y COLORES:                   ║
+     ║                                                                  ║
+     ║  Cada tarjeta tiene un CARRUSEL con múltiples fotos.             ║
+     ║  Cada foto corresponde a UN COLOR de la pijama.                  ║
+     ║                                                                  ║
+     ║  El cliente puede:                                               ║
+     ║    A) Hacer clic en un PUNTO DE COLOR → cambia la foto           ║
+     ║    B) Usar las FLECHAS ← → para pasar las fotos                  ║
+     ║    C) DESLIZAR con el dedo en celular (swipe)                    ║
+     ║                                                                  ║
+     ║  CÓMO NOMBRAR Y ORGANIZAR TUS FOTOS:                            ║
+     ║                                                                  ║
+     ║  1. Crea una carpeta llamada "img" en la misma carpeta           ║
+     ║     donde tienes el index.html                                   ║
+     ║                                                                  ║
+     ║  2. Para PRODUCTO 1 (Tulipán), guarda las fotos así:            ║
+     ║     img/tulipan-rosado.jpg                                       ║
+     ║     img/tulipan-negro.jpg                                        ║
+     ║     img/tulipan-rojo.jpg                                         ║
+     ║     img/tulipan-azul.jpg                                         ║
+     ║     img/tulipan-vino.jpg                                         ║
+     ║     img/tulipan-lila.jpg                                         ║
+     ║                                                                  ║
+     ║  3. Para PRODUCTO 2 (Luna):                                      ║
+     ║     img/luna-rosadoviejo.jpg                                     ║
+     ║     img/luna-camel.jpg                                           ║
+     ║     img/luna-sage.jpg                                            ║
+     ║                                                                  ║
+     ║  4. El patrón es siempre: img/NOMBRE-COLOR.jpg                  ║
+     ║     (sin tildes, sin espacios, todo en minúsculas)               ║
+     ║                                                                  ║
+     ║  REGLA DE ORO:                                                   ║
+     ║  El orden de las fotos en data-images DEBE ser el mismo          ║
+     ║  que el orden de los puntos de color (dots)                      ║
+     ║  Primer dot = primera foto, segundo dot = segunda foto, etc.     ║
+     ║                                                                  ║
+     ╚══════════════════════════════════════════════════════════════════╝ -->
 <section class="catalogo" id="catalogo">
 
-  <!-- Encabezado de la sección -->
   <div class="section-header animate-on-scroll">
     <p class="section-tag">Nuestras pijamas</p>
     <h2 class="section-title">Catálogo <em>2026</em></h2>
     <p class="section-desc">Elige tu favorita y escríbenos por WhatsApp 💬</p>
   </div>
 
-  <!-- Cuadrícula de productos (3 columnas escritorio, 1 celular) -->
   <div class="products-grid">
 
-    <!-- ┌───────────────────────────────────────────────────────┐
-         │  CÓMO AGREGAR UN PRODUCTO NUEVO:                      │
-         │  Copia todo el bloque desde  "product-card"           │
-         │  hasta su "FIN Producto X" y pégalo aquí abajo        │
-         │  Luego cambia: número del data-product,               │
-         │  id del color-label, nombre, descripción, precio      │
-         │  y el enlace de WhatsApp                              │
-         └───────────────────────────────────────────────────────┘ -->
+    <!-- ════════════════════════════════════════════════════
+         CÓMO AGREGAR UN PRODUCTO NUEVO:
+         1. Copia todo el bloque desde  <div class="product-card">
+            hasta su comentario "FIN Producto X"
+         2. Pégalo aquí abajo
+         3. Cambia:
+            - data-product="X"  → el número del nuevo producto
+            - id="color-label-X" → el mismo número
+            - data-images='[...]' → lista de fotos (ver formato abajo)
+            - los dots (colores)
+            - nombre, descripción, precio y link de WhatsApp
+    ═══════════════════════════════════════════════════════ -->
 
 
-    <!-- ══════════════ PRODUCTO 1 ══════════════ -->
+    <!-- ══════════════ PRODUCTO 1 ══════════════
+         Nombre: Pijama Tulipán
+         Colores: Rosado, Negro, Rojo, Azul Oscuro, Vino Tinto, Lila
+    ═══════════════════════════════════════════ -->
     <div class="product-card animate-on-scroll">
-
       <div class="product-img-wrap">
 
-        <!--
-          FOTO DEL PRODUCTO:
-          Borra el div "img-placeholder" y escribe:
-          <img src="img/pijama1-rosa.jpg" alt="Pijama Floral" class="product-img"/>
-          (guarda tus fotos en una carpeta llamada "img/")
-        -->
-       <img src="recursos/foto1.jpeg" alt="Pijama satin" class="product-img">
-        <!--
-          PUNTOS DE COLOR:
-          • Cada <span class="dot"> es un círculo de color
-          • background:#... → el color en hexadecimal
-          • data-color="..."  → nombre que aparece como etiqueta
-          • El primero siempre lleva class="dot active"
-          • Agrega o quita dots según cuántos colores tenga la pijama
-        -->
+        <!-- ─────────────────────────────────────────────────────────
+             CARRUSEL DE FOTOS
+             ─────────────────────────────────────────────────────────
+             data-images: lista de rutas de fotos en formato JSON
+             IMPORTANTE: el orden aquí DEBE coincidir con el orden
+             de los dots (puntos de color) que están más abajo.
+
+             Ejemplo con 6 colores:
+             data-images='[
+               "img/tulipan-rosado.jpg",    ← dot 1 (Rosado Bebé)
+               "img/tulipan-negro.jpg",     ← dot 2 (Negro)
+               "img/tulipan-rojo.jpg",      ← dot 3 (Rojo)
+               "img/tulipan-azul.jpg",      ← dot 4 (Azul Oscuro)
+               "img/tulipan-vino.jpg",      ← dot 5 (Vino Tinto)
+               "img/tulipan-lila.jpg"       ← dot 6 (Lila)
+             ]'
+
+             MIENTRAS NO TENGAS LAS FOTOS:
+             Puedes dejar el src="recursos/foto1.jpeg" como foto
+             temporal y luego reemplazas el data-images cuando
+             tengas todas las fotos listas.
+        ──────────────────────────────────────────────────────────── -->
+        <div class="carousel-container"
+             data-product="1"
+             data-images='[
+               "recursos/foto1.jpeg",
+               "recursos/tulipan-negro.jpeg",
+               "recursos/tulipan-rojo.jpeg",
+               "recursos/foto1.jpeg",
+               "recursos/tulipan-vino.jpeg",
+               "recursos/foto1.jpeg"
+             ]'>
+          <!--
+            ↑ REEMPLAZA cada "recursos/foto1.jpeg" por la foto real:
+               "img/tulipan-rosado.jpg",
+               "img/tulipan-negro.jpg",
+               "img/tulipan-rojo.jpg",
+               "img/tulipan-azul.jpg",
+               "img/tulipan-vino.jpg",
+               "img/tulipan-lila.jpg"
+          -->
+
+          <!-- Pista de fotos (el JS mueve esta pista) -->
+          <div class="carousel-track">
+            <!-- Las imágenes se generan automáticamente con JavaScript -->
+            <!-- No escribas nada aquí dentro, el JS lo llena solo     -->
+          </div>
+
+          <!-- Flecha izquierda (foto anterior) -->
+          <button class="carousel-btn carousel-btn--prev" aria-label="Foto anterior">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+
+          <!-- Flecha derecha (foto siguiente) -->
+          <button class="carousel-btn carousel-btn--next" aria-label="Foto siguiente">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+
+          <!-- Indicadores de posición (puntitos abajo) -->
+          <div class="carousel-indicators">
+            <!-- Se generan automáticamente con JavaScript -->
+          </div>
+
+        </div><!-- fin carousel-container -->
+
+        <!-- ─────────────────────────────────────────────────────────
+             PUNTOS DE COLOR
+             ─────────────────────────────────────────────────────────
+             Cada <span class="dot"> es un círculo de color.
+             • style="background:#..."  → color en hexadecimal
+             • data-color="..."         → nombre que aparece como etiqueta
+             • data-index="0"           → posición de la foto (empieza en 0)
+               Primer color  = data-index="0"
+               Segundo color = data-index="1"
+               Tercer color  = data-index="2"  ... y así
+             • El primero siempre lleva class="dot active"
+             • Agrega o quita dots según cuántos colores tenga la pijama
+        ──────────────────────────────────────────────────────────── -->
         <div class="color-dots" data-product="1">
-          <span class="dot active" style="background:#B3838F" data-color="Rosado Bebé"       title="Rosado Bebé"></span>
-          <span class="dot"        style="background:black" data-color="Negro"            title="Negro"></span>
-          <span class="dot"        style="background:red" data-color="Rojo"           title="Rojo"></span>
-          <span class="dot"        style="background:#001855" data-color="Azul Oscuro"           title="Azul Oscuro"></span>
-          <span class="dot"        style="background:#930001" data-color="Vino Tinto"           title="Vino Tinto"></span>
-          <span class="dot"        style="background:#B19DC0" data-color="Lila"           title="Lila"></span>
+          <span class="dot active" style="background:#B3838F" data-color="Rosado Bebé"  data-index="0" title="Rosado Bebé"></span>
+          <span class="dot"        style="background:black"   data-color="Negro"        data-index="1" title="Negro"></span>
+          <span class="dot"        style="background:red"     data-color="Rojo"         data-index="2" title="Rojo"></span>
+          <span class="dot"        style="background:#001855" data-color="Azul Oscuro"  data-index="3" title="Azul Oscuro"></span>
+          <span class="dot"        style="background:#930001" data-color="Vino Tinto"   data-index="4" title="Vino Tinto"></span>
+          <span class="dot"        style="background:#B19DC0" data-color="Lila"         data-index="5" title="Lila"></span>
         </div>
 
-        <!-- Muestra el nombre del color seleccionado (gestionado por JS) -->
+        <!-- Muestra el nombre del color seleccionado -->
         <div class="color-label" id="color-label-1">Rosado Bebé</div>
 
-        <!-- Etiqueta de la tarjeta: "Nuevo", "Oferta", "Top", etc.
+        <!-- Etiqueta: "Nuevo", "Oferta", "Top", "Premium", etc.
              Bórrala si no quieres mostrar ninguna etiqueta -->
         <div class="product-tag">Premium</div>
-      </div>
+
+      </div><!-- fin product-img-wrap -->
 
       <div class="product-info">
-
-        <!-- Nombre del producto -->
         <h3 class="product-name">Pijama Tulipán</h3>
-
-        <!-- Descripción corta (1-2 líneas máximo) -->
         <p class="product-desc">Conjunto de botones + short, tela: satin licrado tipo seda</p>
         <p class="product-desc">S, M, L, XL</p>
-
-        <!-- Precio: cambia XX.000 por el precio real -->
         <p class="product-price">$59.900 COP</p>
 
         <!--
           BOTÓN COMPRAR:
-          • Cambia el texto después de "text=" para personalizar el mensaje de WhatsApp
+          • Cambia el texto después de "text=" para personalizar el mensaje
           • %20 = espacio  |  %0A = salto de línea  |  🌸 = %F0%9F%8C%B8
-          • Puedes usar el segundo número cambiando 573188300429 por 573166967170
+          • El JS actualiza automáticamente el mensaje con el color seleccionado
         -->
         <a class="btn-buy"
-           href="https://wa.me/573188300429?text=Hola%20Maricela!%20Quiero%20la%20Pijama%20Floral%20%F0%9F%8C%B8"
+           href="https://wa.me/573188300429?text=Hola%20Maricela!%20Quiero%20la%20Pijama%20Tulip%C3%A1n%20%F0%9F%8C%B8"
            target="_blank"
            data-product="1">
           <i class="fab fa-whatsapp"></i> Comprar
         </a>
-
       </div>
     </div>
     <!-- FIN Producto 1 -->
 
 
-    <!-- ══════════════ PRODUCTO 2 ══════════════ -->
+    <!-- ══════════════ PRODUCTO 2 ══════════════
+         Nombre: Pijama Luna
+         Colores: Rosado Viejo, Camel, Sage
+    ═══════════════════════════════════════════ -->
     <div class="product-card animate-on-scroll">
       <div class="product-img-wrap">
-        <div class="img-placeholder"><span>🌙</span><p>Foto producto 2</p></div>
+
+        <!-- FOTOS:
+             Reemplaza los src por las fotos reales cuando las tengas:
+               "img/luna-rosadoviejo.jpg",
+               "img/luna-camel.jpg",
+               "img/luna-sage.jpg"
+        -->
+        <div class="carousel-container"
+             data-product="2"
+             data-images='[
+               "recursos/segundafoto/pij1.jpeg",
+               "recursos/segundafoto/pij2.jpeg",
+               "recursos/segundafoto/pij3.jpeg",
+               "recursos/segundafoto/pij4.jpeg",
+               "recursos/segundafoto/pij1.jpeg",
+               "recursos/placeholder.jpg",
+               "recursos/placeholder.jpg"
+             ]'>
+          <!-- ↑ Reemplaza "recursos/placeholder.jpg" por:
+                 "img/luna-rosadoviejo.jpg",
+                 "img/luna-camel.jpg",
+                 "img/luna-sage.jpg"
+          -->
+          <div class="carousel-track"></div>
+          <button class="carousel-btn carousel-btn--prev" aria-label="Foto anterior"><i class="fas fa-chevron-left"></i></button>
+          <button class="carousel-btn carousel-btn--next" aria-label="Foto siguiente"><i class="fas fa-chevron-right"></i></button>
+          <div class="carousel-indicators"></div>
+        </div>
+
         <div class="color-dots" data-product="2">
-          <span class="dot active" style="background:#d4a5a5" data-color="Rosado Viejo" title="Rosado Viejo"></span>
-          <span class="dot"        style="background:#e8d5c4" data-color="Camel"        title="Camel"></span>
-          <span class="dot"        style="background:#c4d4c4" data-color="Sage"         title="Sage"></span>
+          <span class="dot active" style="background:#d4a5a5" data-color="Rosado Viejo" data-index="0" title="Rosado Viejo"></span>
+          <span class="dot"        style="background:#e8d5c4" data-color="Camel"        data-index="1" title="Camel"></span>
+          <span class="dot"        style="background:#c4d4c4" data-color="Sage"         data-index="2" title="Sage"></span>
         </div>
         <div class="color-label" id="color-label-2">Rosado Viejo</div>
         <div class="product-tag">⭐ Top</div>
@@ -270,14 +357,35 @@
     <!-- FIN Producto 2 -->
 
 
-    <!-- ══════════════ PRODUCTO 3 ══════════════ -->
+    <!-- ══════════════ PRODUCTO 3 ══════════════
+         Nombre: Pijama Primavera
+         Colores: Rosa Bebé, Verde Agua, Vainilla
+    ═══════════════════════════════════════════ -->
     <div class="product-card animate-on-scroll">
       <div class="product-img-wrap">
-        <div class="img-placeholder"><span>🌺</span><p>Foto producto 3</p></div>
+
+        <!-- FOTOS: reemplaza por:
+               "img/primavera-rosabebe.jpg",
+               "img/primavera-verdeagua.jpg",
+               "img/primavera-vainilla.jpg"
+        -->
+        <div class="carousel-container"
+             data-product="3"
+             data-images='[
+               "recursos/placeholder.jpg",
+               "recursos/placeholder.jpg",
+               "recursos/placeholder.jpg"
+             ]'>
+          <div class="carousel-track"></div>
+          <button class="carousel-btn carousel-btn--prev" aria-label="Foto anterior"><i class="fas fa-chevron-left"></i></button>
+          <button class="carousel-btn carousel-btn--next" aria-label="Foto siguiente"><i class="fas fa-chevron-right"></i></button>
+          <div class="carousel-indicators"></div>
+        </div>
+
         <div class="color-dots" data-product="3">
-          <span class="dot active" style="background:#f9d5e5" data-color="Rosa Bebé"  title="Rosa Bebé"></span>
-          <span class="dot"        style="background:#d5e8d4" data-color="Verde Agua" title="Verde Agua"></span>
-          <span class="dot"        style="background:#fff2cc" data-color="Vainilla"   title="Vainilla"></span>
+          <span class="dot active" style="background:#f9d5e5" data-color="Rosa Bebé"  data-index="0" title="Rosa Bebé"></span>
+          <span class="dot"        style="background:#d5e8d4" data-color="Verde Agua" data-index="1" title="Verde Agua"></span>
+          <span class="dot"        style="background:#fff2cc" data-color="Vainilla"   data-index="2" title="Vainilla"></span>
         </div>
         <div class="color-label" id="color-label-3">Rosa Bebé</div>
       </div>
@@ -295,14 +403,35 @@
     <!-- FIN Producto 3 -->
 
 
-    <!-- ══════════════ PRODUCTO 4 ══════════════ -->
+    <!-- ══════════════ PRODUCTO 4 ══════════════
+         Nombre: Pijama Dorada
+         Colores: Dorado, Lavanda, Salmón
+    ═══════════════════════════════════════════ -->
     <div class="product-card animate-on-scroll">
       <div class="product-img-wrap">
-        <div class="img-placeholder"><span>💐</span><p>Foto producto 4</p></div>
+
+        <!-- FOTOS: reemplaza por:
+               "img/dorada-dorado.jpg",
+               "img/dorada-lavanda.jpg",
+               "img/dorada-salmon.jpg"
+        -->
+        <div class="carousel-container"
+             data-product="4"
+             data-images='[
+               "recursos/placeholder.jpg",
+               "recursos/placeholder.jpg",
+               "recursos/placeholder.jpg"
+             ]'>
+          <div class="carousel-track"></div>
+          <button class="carousel-btn carousel-btn--prev" aria-label="Foto anterior"><i class="fas fa-chevron-left"></i></button>
+          <button class="carousel-btn carousel-btn--next" aria-label="Foto siguiente"><i class="fas fa-chevron-right"></i></button>
+          <div class="carousel-indicators"></div>
+        </div>
+
         <div class="color-dots" data-product="4">
-          <span class="dot active" style="background:#e6c9a8" data-color="Dorado"  title="Dorado"></span>
-          <span class="dot"        style="background:#f0e6ff" data-color="Lavanda" title="Lavanda"></span>
-          <span class="dot"        style="background:#ffe4e1" data-color="Salmón"  title="Salmón"></span>
+          <span class="dot active" style="background:#e6c9a8" data-color="Dorado"  data-index="0" title="Dorado"></span>
+          <span class="dot"        style="background:#f0e6ff" data-color="Lavanda" data-index="1" title="Lavanda"></span>
+          <span class="dot"        style="background:#ffe4e1" data-color="Salmón"  data-index="2" title="Salmón"></span>
         </div>
         <div class="color-label" id="color-label-4">Dorado</div>
         <div class="product-tag">Exclusivo</div>
@@ -321,15 +450,38 @@
     <!-- FIN Producto 4 -->
 
 
-    <!-- ══════════════ PRODUCTO 5 ══════════════ -->
+    <!-- ══════════════ PRODUCTO 5 ══════════════
+         Nombre: Pijama Mariposa
+         Colores: Azul Cielo, Rosa, Lila, Menta
+    ═══════════════════════════════════════════ -->
     <div class="product-card animate-on-scroll">
       <div class="product-img-wrap">
-        <div class="img-placeholder"><span>🦋</span><p>Foto producto 5</p></div>
+
+        <!-- FOTOS: reemplaza por:
+               "img/mariposa-azulcielo.jpg",
+               "img/mariposa-rosa.jpg",
+               "img/mariposa-lila.jpg",
+               "img/mariposa-menta.jpg"
+        -->
+        <div class="carousel-container"
+             data-product="5"
+             data-images='[
+               "recursos/placeholder.jpg",
+               "recursos/placeholder.jpg",
+               "recursos/placeholder.jpg",
+               "recursos/placeholder.jpg"
+             ]'>
+          <div class="carousel-track"></div>
+          <button class="carousel-btn carousel-btn--prev" aria-label="Foto anterior"><i class="fas fa-chevron-left"></i></button>
+          <button class="carousel-btn carousel-btn--next" aria-label="Foto siguiente"><i class="fas fa-chevron-right"></i></button>
+          <div class="carousel-indicators"></div>
+        </div>
+
         <div class="color-dots" data-product="5">
-          <span class="dot active" style="background:#b8d4e8" data-color="Azul Cielo" title="Azul Cielo"></span>
-          <span class="dot"        style="background:#f4a7b9" data-color="Rosa"       title="Rosa"></span>
-          <span class="dot"        style="background:#d8c4e8" data-color="Lila"       title="Lila"></span>
-          <span class="dot"        style="background:#c4e8c4" data-color="Menta"      title="Menta"></span>
+          <span class="dot active" style="background:#b8d4e8" data-color="Azul Cielo" data-index="0" title="Azul Cielo"></span>
+          <span class="dot"        style="background:#f4a7b9" data-color="Rosa"       data-index="1" title="Rosa"></span>
+          <span class="dot"        style="background:#d8c4e8" data-color="Lila"       data-index="2" title="Lila"></span>
+          <span class="dot"        style="background:#c4e8c4" data-color="Menta"      data-index="3" title="Menta"></span>
         </div>
         <div class="color-label" id="color-label-5">Azul Cielo</div>
       </div>
@@ -347,14 +499,35 @@
     <!-- FIN Producto 5 -->
 
 
-    <!-- ══════════════ PRODUCTO 6 ══════════════ -->
+    <!-- ══════════════ PRODUCTO 6 ══════════════
+         Nombre: Pijama Tulipán (segundo)
+         Colores: Coral, Morado, Verde
+    ═══════════════════════════════════════════ -->
     <div class="product-card animate-on-scroll">
       <div class="product-img-wrap">
-        <div class="img-placeholder"><span>🌷</span><p>Foto producto 6</p></div>
+
+        <!-- FOTOS: reemplaza por:
+               "img/tulipan2-coral.jpg",
+               "img/tulipan2-morado.jpg",
+               "img/tulipan2-verde.jpg"
+        -->
+        <div class="carousel-container"
+             data-product="6"
+             data-images='[
+               "recursos/placeholder.jpg",
+               "recursos/placeholder.jpg",
+               "recursos/placeholder.jpg"
+             ]'>
+          <div class="carousel-track"></div>
+          <button class="carousel-btn carousel-btn--prev" aria-label="Foto anterior"><i class="fas fa-chevron-left"></i></button>
+          <button class="carousel-btn carousel-btn--next" aria-label="Foto siguiente"><i class="fas fa-chevron-right"></i></button>
+          <div class="carousel-indicators"></div>
+        </div>
+
         <div class="color-dots" data-product="6">
-          <span class="dot active" style="background:#e8b4b8" data-color="Coral"  title="Coral"></span>
-          <span class="dot"        style="background:#c4b8e8" data-color="Morado" title="Morado"></span>
-          <span class="dot"        style="background:#b8e4b8" data-color="Verde"  title="Verde"></span>
+          <span class="dot active" style="background:#e8b4b8" data-color="Coral"  data-index="0" title="Coral"></span>
+          <span class="dot"        style="background:#c4b8e8" data-color="Morado" data-index="1" title="Morado"></span>
+          <span class="dot"        style="background:#b8e4b8" data-color="Verde"  data-index="2" title="Verde"></span>
         </div>
         <div class="color-label" id="color-label-6">Coral</div>
       </div>
@@ -372,14 +545,35 @@
     <!-- FIN Producto 6 -->
 
 
-    <!-- ══════════════ PRODUCTO 7 ══════════════ -->
+    <!-- ══════════════ PRODUCTO 7 ══════════════
+         Nombre: Pijama Estrella
+         Colores: Beige, Ciruela, Turquesa
+    ═══════════════════════════════════════════ -->
     <div class="product-card animate-on-scroll">
       <div class="product-img-wrap">
-        <div class="img-placeholder"><span>⭐</span><p>Foto producto 7</p></div>
+
+        <!-- FOTOS: reemplaza por:
+               "img/estrella-beige.jpg",
+               "img/estrella-ciruela.jpg",
+               "img/estrella-turquesa.jpg"
+        -->
+        <div class="carousel-container"
+             data-product="7"
+             data-images='[
+               "recursos/placeholder.jpg",
+               "recursos/placeholder.jpg",
+               "recursos/placeholder.jpg"
+             ]'>
+          <div class="carousel-track"></div>
+          <button class="carousel-btn carousel-btn--prev" aria-label="Foto anterior"><i class="fas fa-chevron-left"></i></button>
+          <button class="carousel-btn carousel-btn--next" aria-label="Foto siguiente"><i class="fas fa-chevron-right"></i></button>
+          <div class="carousel-indicators"></div>
+        </div>
+
         <div class="color-dots" data-product="7">
-          <span class="dot active" style="background:#f5deb3" data-color="Beige"    title="Beige"></span>
-          <span class="dot"        style="background:#dda0dd" data-color="Ciruela"  title="Ciruela"></span>
-          <span class="dot"        style="background:#98d8c8" data-color="Turquesa" title="Turquesa"></span>
+          <span class="dot active" style="background:#f5deb3" data-color="Beige"    data-index="0" title="Beige"></span>
+          <span class="dot"        style="background:#dda0dd" data-color="Ciruela"  data-index="1" title="Ciruela"></span>
+          <span class="dot"        style="background:#98d8c8" data-color="Turquesa" data-index="2" title="Turquesa"></span>
         </div>
         <div class="color-label" id="color-label-7">Beige</div>
         <div class="product-tag">Oferta</div>
@@ -398,14 +592,35 @@
     <!-- FIN Producto 7 -->
 
 
-    <!-- ══════════════ PRODUCTO 8 ══════════════ -->
+    <!-- ══════════════ PRODUCTO 8 ══════════════
+         Nombre: Pijama Frutal
+         Colores: Rojo Suave, Melocotón, Verde Pálido
+    ═══════════════════════════════════════════ -->
     <div class="product-card animate-on-scroll">
       <div class="product-img-wrap">
-        <div class="img-placeholder"><span>🍓</span><p>Foto producto 8</p></div>
+
+        <!-- FOTOS: reemplaza por:
+               "img/frutal-rojosuave.jpg",
+               "img/frutal-melocoton.jpg",
+               "img/frutal-verdep.jpg"
+        -->
+        <div class="carousel-container"
+             data-product="8"
+             data-images='[
+               "recursos/placeholder.jpg",
+               "recursos/placeholder.jpg",
+               "recursos/placeholder.jpg"
+             ]'>
+          <div class="carousel-track"></div>
+          <button class="carousel-btn carousel-btn--prev" aria-label="Foto anterior"><i class="fas fa-chevron-left"></i></button>
+          <button class="carousel-btn carousel-btn--next" aria-label="Foto siguiente"><i class="fas fa-chevron-right"></i></button>
+          <div class="carousel-indicators"></div>
+        </div>
+
         <div class="color-dots" data-product="8">
-          <span class="dot active" style="background:#ff9aa2" data-color="Rojo Suave"  title="Rojo Suave"></span>
-          <span class="dot"        style="background:#ffdac1" data-color="Melocotón"   title="Melocotón"></span>
-          <span class="dot"        style="background:#e2f0cb" data-color="Verde Pálido"title="Verde Pálido"></span>
+          <span class="dot active" style="background:#ff9aa2" data-color="Rojo Suave"   data-index="0" title="Rojo Suave"></span>
+          <span class="dot"        style="background:#ffdac1" data-color="Melocotón"    data-index="1" title="Melocotón"></span>
+          <span class="dot"        style="background:#e2f0cb" data-color="Verde Pálido" data-index="2" title="Verde Pálido"></span>
         </div>
         <div class="color-label" id="color-label-8">Rojo Suave</div>
       </div>
@@ -423,14 +638,35 @@
     <!-- FIN Producto 8 -->
 
 
-    <!-- ══════════════ PRODUCTO 9 ══════════════ -->
+    <!-- ══════════════ PRODUCTO 9 ══════════════
+         Nombre: Pijama Natura
+         Colores: Verde Suave, Rosa Claro, Celeste
+    ═══════════════════════════════════════════ -->
     <div class="product-card animate-on-scroll">
       <div class="product-img-wrap">
-        <div class="img-placeholder"><span>🌿</span><p>Foto producto 9</p></div>
+
+        <!-- FOTOS: reemplaza por:
+               "img/natura-verdesuave.jpg",
+               "img/natura-rosaclaro.jpg",
+               "img/natura-celeste.jpg"
+        -->
+        <div class="carousel-container"
+             data-product="9"
+             data-images='[
+               "recursos/placeholder.jpg",
+               "recursos/placeholder.jpg",
+               "recursos/placeholder.jpg"
+             ]'>
+          <div class="carousel-track"></div>
+          <button class="carousel-btn carousel-btn--prev" aria-label="Foto anterior"><i class="fas fa-chevron-left"></i></button>
+          <button class="carousel-btn carousel-btn--next" aria-label="Foto siguiente"><i class="fas fa-chevron-right"></i></button>
+          <div class="carousel-indicators"></div>
+        </div>
+
         <div class="color-dots" data-product="9">
-          <span class="dot active" style="background:#a8d8a8" data-color="Verde Suave" title="Verde Suave"></span>
-          <span class="dot"        style="background:#f0d4e8" data-color="Rosa Claro"  title="Rosa Claro"></span>
-          <span class="dot"        style="background:#d4e8f0" data-color="Celeste"     title="Celeste"></span>
+          <span class="dot active" style="background:#a8d8a8" data-color="Verde Suave" data-index="0" title="Verde Suave"></span>
+          <span class="dot"        style="background:#f0d4e8" data-color="Rosa Claro"  data-index="1" title="Rosa Claro"></span>
+          <span class="dot"        style="background:#d4e8f0" data-color="Celeste"     data-index="2" title="Celeste"></span>
         </div>
         <div class="color-label" id="color-label-9">Verde Suave</div>
       </div>
@@ -447,10 +683,6 @@
     </div>
     <!-- FIN Producto 9 -->
 
-
-
-
-
   </div><!-- FIN products-grid -->
 </section>
 
@@ -460,7 +692,6 @@
      ╚══════════════════════════════════════════╝ -->
 <section class="nosotros" id="nosotros">
 
-  <!-- Foto del lado izquierdo -->
   <div class="nosotros-img animate-on-scroll">
     <!--
       CÓMO PONER TU FOTO AQUÍ:
@@ -473,15 +704,9 @@
     </div>
   </div>
 
-  <!-- Texto del lado derecho -->
   <div class="nosotros-text animate-on-scroll">
     <p class="section-tag">Nuestra historia</p>
     <h2 class="section-title">Sobre <em>Nosotros</em></h2>
-
-    <!--
-      TEXTO DE PRESENTACIÓN:
-      Cambia este texto por la historia real de tu hermana / negocio
-    -->
     <p>
       Hola, soy <strong>Maricela</strong> 🦋 y desde hace años me apasiona
       crear pijamas que hagan sentir a cada mujer especial y cómoda en su
@@ -492,8 +717,6 @@
       únicos que combinan estilo y comodidad. Porque dormir bien también
       es un acto de amor propio. 💛
     </p>
-
-    <!-- Datos destacados del negocio (cámbialos por los reales) -->
     <div class="nosotros-stats">
       <div class="stat">
         <span class="stat-num">+200</span>
@@ -508,7 +731,6 @@
         <span class="stat-label">Diseños exclusivos</span>
       </div>
     </div>
-
     <a href="#catalogo" class="btn-primary">Ver pijamas</a>
   </div>
 
@@ -527,20 +749,15 @@
   </div>
 
   <div class="contacto-cards">
-
-    <!-- Tarjeta WhatsApp 1 -->
     <a class="contact-card whatsapp animate-on-scroll"
        href="https://wa.me/573188300429?text=Hola%20Maricela!%20Quiero%20informaci%C3%B3n%20sobre%20sus%20pijamas%20%F0%9F%8C%B8"
        target="_blank">
       <i class="fab fa-whatsapp"></i>
       <div>
         <strong>WhatsApp 1</strong>
-        <!-- Número visible para el cliente (cámbialo si quieres otro formato) -->
         <p>+57 318 830 0429</p>
       </div>
     </a>
-
-    <!-- Tarjeta WhatsApp 2 -->
     <a class="contact-card whatsapp animate-on-scroll"
        href="https://wa.me/573166967170?text=Hola%20Maricela!%20Quiero%20informaci%C3%B3n%20sobre%20sus%20pijamas%20%F0%9F%8C%B8"
        target="_blank">
@@ -550,39 +767,23 @@
         <p>+57 316 696 7170</p>
       </div>
     </a>
-
   </div>
 
-  <!-- ─── REDES SOCIALES ───────────────────────
-       Reemplaza TU_USUARIO / TU_PAGINA por tus redes reales
-       Ejemplo: href="https://instagram.com/pijamas.maricela"
-       Si no tienes alguna red, borra toda la etiqueta <a> correspondiente
-  ─────────────────────────────────────────── -->
   <div class="social-links animate-on-scroll">
     <p class="social-title">Síguenos en redes 🦋</p>
     <div class="social-icons">
-
-      <a href="https://instagram.com/TU_USUARIO"
-         target="_blank" class="social-icon instagram" title="Instagram">
+      <a href="https://instagram.com/TU_USUARIO" target="_blank" class="social-icon instagram" title="Instagram">
         <i class="fab fa-instagram"></i>
       </a>
-
-      <a href="https://facebook.com/TU_PAGINA"
-         target="_blank" class="social-icon facebook" title="Facebook">
+      <a href="https://facebook.com/TU_PAGINA" target="_blank" class="social-icon facebook" title="Facebook">
         <i class="fab fa-facebook-f"></i>
       </a>
-
-      <a href="https://tiktok.com/@TU_USUARIO"
-         target="_blank" class="social-icon tiktok" title="TikTok">
+      <a href="https://tiktok.com/@TU_USUARIO" target="_blank" class="social-icon tiktok" title="TikTok">
         <i class="fab fa-tiktok"></i>
       </a>
-
-      <!-- Borra este bloque si no tienes Pinterest -->
-      <a href="https://pinterest.com/TU_USUARIO"
-         target="_blank" class="social-icon pinterest" title="Pinterest">
+      <a href="https://pinterest.com/TU_USUARIO" target="_blank" class="social-icon pinterest" title="Pinterest">
         <i class="fab fa-pinterest-p"></i>
       </a>
-
     </div>
   </div>
 
@@ -603,11 +804,7 @@
 </footer>
 
 
-<!-- ══════════════════════════════════════════
-     BOTÓN FLOTANTE DE WHATSAPP
-     Siempre visible en la esquina inferior derecha
-     Cambia el número o el texto del mensaje si lo deseas
-══════════════════════════════════════════ -->
+<!-- Botón flotante de WhatsApp -->
 <a class="whatsapp-float"
    href="https://wa.me/573188300429?text=Hola%20Maricela!%20Quiero%20informaci%C3%B3n%20%F0%9F%8C%B8"
    target="_blank"
@@ -616,9 +813,7 @@
 </a>
 
 
-<!-- ═══════════════════════════════════════════
-     JAVASCRIPT: archivo externo (no editar esta línea)
-═══════════════════════════════════════════ -->
+<!-- JavaScript (no editar esta línea) -->
 <script src="script.js"></script>
 
 </body>

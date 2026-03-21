@@ -1,6 +1,5 @@
 /* ═══════════════════════════════════════════════════
-   styles.css – Pijamas Maricela
-   Autor: tu-nombre | 2025
+   style.css – Pijamas Maricela
    ═══════════════════════════════════════════════════
 
    ÍNDICE:
@@ -9,8 +8,8 @@
    3.  Navbar
    4.  Menú móvil
    5.  Hero (portada)
-   6.  Beneficios (features)
-   7.  Catálogo / Productos
+   6.  Catálogo / Productos
+   7.  *** CARRUSEL DE FOTOS (NUEVO) ***
    8.  Sobre Nosotros
    9.  Contacto y Redes
    10. Footer
@@ -26,33 +25,25 @@
    el sitio se actualiza automáticamente
 ───────────────────────────────────────────────── */
 :root {
-  /* Colores principales */
-  --dorado:       #c9a84c;      /* dorado suave */
-  --dorado-claro: #e8d49a;      /* dorado muy claro para fondos */
-  --rosa:         #f4a7b9;      /* palo rosa */
-  --rosa-suave:   #fce8ef;      /* rosa muy claro para fondos */
-  --crema:        #fff9f4;      /* fondo general del sitio */
+  --dorado:       #c9a84c;
+  --dorado-claro: #e8d49a;
+  --rosa:         #f4a7b9;
+  --rosa-suave:   #fce8ef;
+  --crema:        #fff9f4;
   --blanco:       #ffffff;
-  --texto:        #4a3728;      /* marrón oscuro para texto */
-  --texto-suave:  #8a7060;      /* texto secundario */
-  --borde:        #f0ddd5;      /* color de bordes suaves */
-
-  /* Fuentes */
-  --fuente-titulo: 'Cormorant Garamond', serif;   /* elegante, para títulos */
-  --fuente-cuerpo: 'Jost', sans-serif;            /* moderna, para texto */
-
-  /* Sombras */
+  --texto:        #4a3728;
+  --texto-suave:  #8a7060;
+  --borde:        #f0ddd5;
+  --fuente-titulo: 'Cormorant Garamond', serif;
+  --fuente-cuerpo: 'Jost', sans-serif;
   --sombra:       0 8px 30px rgba(201,168,76,0.12);
   --sombra-hover: 0 16px 40px rgba(201,168,76,0.22);
-
-  /* Transición estándar */
   --transicion: all 0.35s ease;
 }
 
 
 /* ─────────────────────────────────────────────────
    2. RESET Y BASE
-   Configuración inicial del documento
 ───────────────────────────────────────────────── */
 *, *::before, *::after {
   margin: 0;
@@ -61,7 +52,7 @@
 }
 
 html {
-  scroll-behavior: smooth;       /* desplazamiento suave al navegar */
+  scroll-behavior: smooth;
   font-size: 16px;
 }
 
@@ -69,7 +60,7 @@ body {
   font-family: var(--fuente-cuerpo);
   color: var(--texto);
   background-color: var(--crema);
-  overflow-x: hidden;            /* evita scroll horizontal */
+  overflow-x: hidden;
   line-height: 1.7;
 }
 
@@ -83,11 +74,9 @@ a {
   color: inherit;
 }
 
-ul {
-  list-style: none;
-}
+ul { list-style: none; }
 
-/* ── Botones reutilizables ── */
+/* Botones reutilizables */
 .btn-primary {
   display: inline-block;
   padding: 14px 36px;
@@ -122,7 +111,7 @@ ul {
   transform: translateY(-3px);
 }
 
-/* ── Encabezados de sección (reutilizable) ── */
+/* Encabezados de sección */
 .section-header {
   text-align: center;
   margin-bottom: 60px;
@@ -139,7 +128,7 @@ ul {
 
 .section-title {
   font-family: var(--fuente-titulo);
-  font-size: clamp(2rem, 4vw, 3rem);   /* escala según pantalla */
+  font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 400;
   line-height: 1.2;
   margin-bottom: 16px;
@@ -155,10 +144,10 @@ ul {
   margin: 0 auto;
 }
 
-/* ── Placeholder de imágenes (mientras no tienes fotos reales) ── */
+/* Placeholder de imágenes temporales */
 .img-placeholder {
   width: 100%;
-  aspect-ratio: 3/4;              /* proporción vertical para pijamas */
+  aspect-ratio: 3/4;
   background: linear-gradient(135deg, var(--rosa-suave), var(--dorado-claro));
   border-radius: 16px;
   display: flex;
@@ -171,11 +160,6 @@ ul {
   text-align: center;
 }
 .img-placeholder span { font-size: 2.5rem; }
-.img-placeholder small {
-  font-size: 0.75rem;
-  color: #b89a8a;
-  font-family: monospace;
-}
 .img-placeholder.large {
   aspect-ratio: 1/1;
   border-radius: 24px;
@@ -187,7 +171,7 @@ ul {
    3. NAVBAR
 ───────────────────────────────────────────────── */
 .navbar {
-  position: fixed;               /* fija al hacer scroll */
+  position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 1000;
   display: flex;
@@ -195,18 +179,16 @@ ul {
   justify-content: space-between;
   padding: 18px 6%;
   background: rgba(255,249,244,0.92);
-  backdrop-filter: blur(12px);   /* efecto vidrio esmerilado */
+  backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--borde);
   transition: var(--transicion);
 }
 
-/* Navbar más compacta al hacer scroll (activada por JS) */
 .navbar.scrolled {
   padding: 12px 6%;
   box-shadow: 0 4px 20px rgba(0,0,0,0.08);
 }
 
-/* Logo */
 .nav-logo {
   display: flex;
   align-items: center;
@@ -214,7 +196,7 @@ ul {
 }
 .logo-icon {
   font-size: 1.6rem;
-  animation: flutter 3s ease-in-out infinite;  /* mariposa animada */
+  animation: flutter 3s ease-in-out infinite;
 }
 .logo-text {
   font-family: var(--fuente-titulo);
@@ -222,15 +204,12 @@ ul {
   font-weight: 600;
   letter-spacing: 0.5px;
 }
-
-/* Imagen de logo (cuando uses imagen real) */
 .logo-img {
   height: 45px;
   width: auto;
   object-fit: contain;
 }
 
-/* Links de navegación (escritorio) */
 .nav-links {
   display: flex;
   gap: 36px;
@@ -243,7 +222,6 @@ ul {
   position: relative;
   transition: var(--transicion);
 }
-/* Línea animada debajo del link al pasar el mouse */
 .nav-links a::after {
   content: '';
   position: absolute;
@@ -256,9 +234,8 @@ ul {
 .nav-links a:hover { color: var(--dorado); }
 .nav-links a:hover::after { width: 100%; }
 
-/* Botón hamburguesa (celular) */
 .hamburger {
-  display: none;                 /* oculto en escritorio */
+  display: none;
   flex-direction: column;
   gap: 5px;
   cursor: pointer;
@@ -273,7 +250,6 @@ ul {
   border-radius: 2px;
   transition: var(--transicion);
 }
-/* Animación a "X" cuando está abierto */
 .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
 .hamburger.active span:nth-child(2) { opacity: 0; }
 .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
@@ -284,7 +260,7 @@ ul {
 ───────────────────────────────────────────────── */
 .mobile-menu {
   position: fixed;
-  top: 0; right: -100%;         /* oculto fuera de pantalla */
+  top: 0; right: -100%;
   width: 75%;
   max-width: 300px;
   height: 100vh;
@@ -294,7 +270,6 @@ ul {
   box-shadow: -10px 0 40px rgba(0,0,0,0.1);
   transition: right 0.4s cubic-bezier(0.4,0,0.2,1);
 }
-/* Clase que agrega JS al abrir */
 .mobile-menu.open { right: 0; }
 
 .mobile-menu ul {
@@ -325,15 +300,13 @@ ul {
   overflow: hidden;
 }
 
-/* Fondo decorativo */
 .hero-bg {
   position: absolute;
   inset: 0;
-  pointer-events: none;          /* no interfiere con clics */
+  pointer-events: none;
   z-index: 0;
 }
 
-/* Círculos de fondo */
 .circle {
   position: absolute;
   border-radius: 50%;
@@ -359,7 +332,6 @@ ul {
   animation-delay: 1.5s;
 }
 
-/* Pétalos flotantes */
 .petals { position: absolute; inset: 0; }
 .petal {
   position: absolute;
@@ -369,7 +341,6 @@ ul {
   opacity: 0.3;
   animation: petal-fall 10s linear infinite;
 }
-/* Posiciones y delays distintos para cada pétalo */
 .petal:nth-child(1) { left:10%; animation-delay:0s;   animation-duration:8s; }
 .petal:nth-child(2) { left:25%; animation-delay:2s;   animation-duration:11s; }
 .petal:nth-child(3) { left:50%; animation-delay:4s;   animation-duration:9s; }
@@ -377,7 +348,6 @@ ul {
 .petal:nth-child(5) { left:85%; animation-delay:3s;   animation-duration:10s; }
 .petal:nth-child(6) { left:40%; animation-delay:5.5s; animation-duration:13s; }
 
-/* Contenido hero */
 .hero-content {
   position: relative;
   z-index: 1;
@@ -426,7 +396,6 @@ ul {
   flex-wrap: wrap;
 }
 
-/* Imagen lado derecho */
 .hero-image {
   position: relative;
   z-index: 1;
@@ -434,7 +403,6 @@ ul {
   width: min(400px, 40vw);
 }
 
-/* Cuando coloques la foto real de portada */
 .hero-img {
   width: 100%;
   border-radius: 30px;
@@ -442,7 +410,6 @@ ul {
   box-shadow: var(--sombra);
 }
 
-/* Medallita flotante sobre la imagen */
 .hero-badge {
   position: absolute;
   bottom: -20px; left: -20px;
@@ -461,64 +428,19 @@ ul {
 
 
 /* ─────────────────────────────────────────────────
-   6. BENEFICIOS (4 tarjetitas)
-───────────────────────────────────────────────── */
-.features {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);  /* 4 columnas en escritorio */
-  gap: 20px;
-  padding: 60px 6%;
-  background: var(--blanco);
-}
-
-.feature-card {
-  text-align: center;
-  padding: 36px 24px;
-  border-radius: 20px;
-  border: 1px solid var(--borde);
-  transition: var(--transicion);
-}
-.feature-card:hover {
-  transform: translateY(-6px);
-  box-shadow: var(--sombra);
-  border-color: var(--dorado-claro);
-}
-
-.feature-icon {
-  font-size: 2.2rem;
-  margin-bottom: 16px;
-  display: block;
-}
-
-.feature-card h3 {
-  font-family: var(--fuente-titulo);
-  font-size: 1.15rem;
-  margin-bottom: 8px;
-  font-weight: 600;
-}
-
-.feature-card p {
-  font-size: 0.85rem;
-  color: var(--texto-suave);
-}
-
-
-/* ─────────────────────────────────────────────────
-   7. CATÁLOGO / PRODUCTOS
+   6. CATÁLOGO / PRODUCTOS
 ───────────────────────────────────────────────── */
 .catalogo {
   padding: 100px 6%;
   background: var(--crema);
 }
 
-/* Cuadrícula: 3 columnas en escritorio */
 .products-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 30px;
 }
 
-/* Tarjeta de producto */
 .product-card {
   background: var(--blanco);
   border-radius: 24px;
@@ -531,13 +453,12 @@ ul {
   box-shadow: var(--sombra-hover);
 }
 
-/* Contenedor de la imagen */
 .product-img-wrap {
   position: relative;
   overflow: hidden;
 }
 
-/* Imagen real del producto (cuando la añadas) */
+/* Imagen real del producto */
 .product-img {
   width: 100%;
   aspect-ratio: 3/4;
@@ -546,7 +467,7 @@ ul {
   transition: transform 0.5s ease;
 }
 .product-card:hover .product-img {
-  transform: scale(1.04);        /* zoom suave al pasar el mouse */
+  transform: scale(1.04);
 }
 
 /* Puntos de color */
@@ -555,7 +476,9 @@ ul {
   bottom: 50px; left: 14px;
   display: flex;
   gap: 8px;
-  z-index: 2;
+  z-index: 10;           /* z-index alto para estar sobre el carrusel */
+  flex-wrap: wrap;       /* si hay muchos colores, saltan a la siguiente línea */
+  max-width: calc(100% - 28px);
 }
 .dot {
   width: 22px; height: 22px;
@@ -563,27 +486,28 @@ ul {
   cursor: pointer;
   border: 2px solid transparent;
   transition: var(--transicion);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+  flex-shrink: 0;
 }
 .dot:hover { transform: scale(1.2); }
-/* Dot seleccionado: borde dorado */
 .dot.active {
   border-color: var(--dorado);
   transform: scale(1.15);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.35);
 }
 
 /* Etiqueta del color seleccionado */
 .color-label {
   position: absolute;
   bottom: 14px; left: 14px;
-  background: rgba(255,255,255,0.9);
+  background: rgba(255,255,255,0.92);
   backdrop-filter: blur(4px);
   padding: 4px 12px;
   border-radius: 20px;
   font-size: 0.78rem;
   color: var(--texto);
   font-weight: 500;
-  z-index: 2;
+  z-index: 10;
 }
 
 /* Etiqueta "Nuevo / Top / Premium" */
@@ -597,7 +521,7 @@ ul {
   font-size: 0.75rem;
   font-weight: 500;
   letter-spacing: 0.5px;
-  z-index: 2;
+  z-index: 10;
 }
 
 /* Información del producto */
@@ -615,7 +539,7 @@ ul {
 .product-desc {
   font-size: 0.85rem;
   color: var(--texto-suave);
-  margin-bottom: 14px;
+  margin-bottom: 6px;
   line-height: 1.6;
 }
 
@@ -624,15 +548,15 @@ ul {
   font-weight: 600;
   color: var(--dorado);
   margin-bottom: 18px;
+  margin-top: 8px;
 }
 
-/* Botón comprar */
 .btn-buy {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   padding: 12px 28px;
-  background: linear-gradient(135deg, #25d366, #1da851);  /* verde WhatsApp */
+  background: linear-gradient(135deg, #25d366, #1da851);
   color: var(--blanco);
   border-radius: 50px;
   font-size: 0.9rem;
@@ -649,13 +573,149 @@ ul {
 
 
 /* ─────────────────────────────────────────────────
+   7. CARRUSEL DE FOTOS (NUEVO)
+   ─────────────────────────────────────────────────
+
+   Estructura HTML del carrusel:
+   .carousel-container          ← caja exterior (recorta el desbordamiento)
+     .carousel-track            ← pista que se mueve horizontalmente
+       img.carousel-img (×N)   ← fotos generadas por JS
+     .carousel-btn--prev        ← flecha izquierda
+     .carousel-btn--next        ← flecha derecha
+     .carousel-indicators       ← puntitos de posición (generados por JS)
+
+   CÓMO FUNCIONA:
+   • La pista (.carousel-track) tiene todas las fotos una al lado de la otra
+   • Para "ir a la foto 2", el JS mueve la pista hacia la izquierda
+     usando: transform: translateX(-100%)
+   • Para "ir a la foto 3": transform: translateX(-200%)  ... y así
+   • Al clic en un punto de color, el JS mueve la pista a esa posición
+   • Al clic en las flechas, el JS avanza o retrocede una posición
+   • En celular, el swipe táctil también mueve la pista
+───────────────────────────────────────────────── */
+
+/* Contenedor exterior del carrusel
+   overflow:hidden recorta las fotos que están fuera de vista */
+.carousel-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3/4;       /* misma proporción que las fotos de producto */
+  overflow: hidden;         /* IMPORTANTE: oculta las fotos "fuera de pantalla" */
+  background: linear-gradient(135deg, var(--rosa-suave), var(--dorado-claro));
+}
+
+/* Pista de fotos
+   display:flex pone las fotos una al lado de la otra
+   transition hace que el movimiento sea suave */
+.carousel-track {
+  display: flex;
+  height: 100%;
+  transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  /* cubic-bezier da un movimiento más natural que "ease" simple */
+  will-change: transform;   /* optimización de rendimiento para la animación */
+}
+
+/* Cada foto dentro del carrusel
+   flex-shrink:0 evita que la foto se comprima
+   min-width:100% hace que cada foto ocupe exactamente el ancho del contenedor */
+.carousel-img {
+  min-width: 100%;          /* cada foto ocupa el 100% del ancho visible */
+  height: 100%;
+  object-fit: cover;        /* la foto llena el espacio sin deformarse */
+  object-position: bottom;
+  flex-shrink: 0;           /* no se encoge aunque haya muchas fotos */
+  display: block;
+  /* Transición suave al cambiar foto con clic en color */
+  transition: opacity 0.2s ease;
+}
+
+/* Flechas de navegación
+   position:absolute las ubica dentro del carrusel
+   transform:translateY(-50%) las centra verticalmente */
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;               /* encima de las fotos pero debajo de los dots */
+  background: rgba(255,255,255,0.88);
+  border: none;
+  border-radius: 50%;
+  width: 34px; height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: var(--texto);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+  transition: var(--transicion);
+  backdrop-filter: blur(4px);
+}
+.carousel-btn:hover {
+  background: var(--blanco);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  transform: translateY(-50%) scale(1.08);
+}
+
+/* Flecha izquierda: pegada al borde izquierdo */
+.carousel-btn--prev {
+  left: 10px;
+}
+
+/* Flecha derecha: pegada al borde derecho */
+.carousel-btn--next {
+  right: 10px;
+}
+
+/* Ocultar flechas cuando hay solo 1 foto
+   (el JS agrega esta clase al contenedor cuando solo hay 1 imagen) */
+.carousel-container.single .carousel-btn {
+  display: none;
+}
+.carousel-container.single .carousel-indicators {
+  display: none;
+}
+
+/* Indicadores de posición (puntitos abajo del carrusel)
+   Se generan automáticamente con JS */
+.carousel-indicators {
+  position: absolute;
+  bottom: 50px;             /* mismo nivel que los dots de color (encima) */
+  right: 14px;              /* pegados al lado derecho */
+  display: flex;
+  gap: 5px;
+  z-index: 5;
+}
+
+/* Cada puntito indicador */
+.carousel-indicator {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.5);
+  border: none;
+  cursor: pointer;
+  transition: var(--transicion);
+  padding: 0;
+}
+
+/* Puntito de la foto activa */
+.carousel-indicator.active {
+  background: var(--blanco);
+  transform: scale(1.3);
+}
+.carousel-indicator:hover {
+  background: rgba(255,255,255,0.8);
+}
+
+
+/* ─────────────────────────────────────────────────
    8. SOBRE NOSOTROS
 ───────────────────────────────────────────────── */
 .nosotros {
   padding: 100px 6%;
   background: var(--blanco);
   display: grid;
-  grid-template-columns: 1fr 1fr;   /* 2 columnas en escritorio */
+  grid-template-columns: 1fr 1fr;
   gap: 80px;
   align-items: center;
 }
@@ -680,7 +740,6 @@ ul {
 }
 .nosotros-text strong { color: var(--texto); }
 
-/* Estadísticas del negocio */
 .nosotros-stats {
   display: flex;
   gap: 30px;
@@ -720,7 +779,6 @@ ul {
   text-align: center;
 }
 
-/* Tarjetas de contacto */
 .contacto-cards {
   display: flex;
   gap: 20px;
@@ -759,7 +817,6 @@ ul {
   color: var(--texto-suave);
 }
 
-/* Redes sociales */
 .social-title {
   font-family: var(--fuente-titulo);
   font-size: 1.3rem;
@@ -785,7 +842,6 @@ ul {
 }
 .social-icon:hover { transform: scale(1.15) rotate(-5deg); }
 
-/* Colores de cada red (puedes cambiarlos) */
 .instagram  { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
 .facebook   { background: #1877f2; }
 .tiktok     { background: #000000; }
@@ -825,7 +881,6 @@ ul {
 
 /* ─────────────────────────────────────────────────
    11. BOTÓN FLOTANTE DE WHATSAPP
-   Siempre visible en la esquina inferior derecha
 ───────────────────────────────────────────────── */
 .whatsapp-float {
   position: fixed;
@@ -841,33 +896,28 @@ ul {
   color: var(--blanco);
   box-shadow: 0 6px 20px rgba(37,211,102,0.5);
   transition: var(--transicion);
-  /* Pulso para llamar la atención */
   animation: pulse-green 2.5s ease-in-out infinite;
 }
 .whatsapp-float:hover {
   transform: scale(1.12);
   box-shadow: 0 10px 30px rgba(37,211,102,0.6);
-  animation: none;              /* detiene el pulso al pasar el mouse */
+  animation: none;
 }
 
 
 /* ─────────────────────────────────────────────────
    12. ANIMACIONES
 ───────────────────────────────────────────────── */
-
-/* Flotación suave (círculos de fondo, badge hero) */
 @keyframes float {
   0%, 100% { transform: translateY(0); }
   50%       { transform: translateY(-15px); }
 }
 
-/* Mariposa del logo */
 @keyframes flutter {
   0%, 100% { transform: rotate(-5deg) scale(1); }
   50%       { transform: rotate(5deg) scale(1.1); }
 }
 
-/* Pétalos cayendo */
 @keyframes petal-fall {
   0%   { transform: translateY(-20px) rotate(0deg);   opacity: 0; }
   10%  { opacity: 0.4; }
@@ -875,13 +925,11 @@ ul {
   100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
 }
 
-/* Pulso del botón WhatsApp flotante */
 @keyframes pulse-green {
   0%, 100% { box-shadow: 0 6px 20px rgba(37,211,102,0.5); }
   50%       { box-shadow: 0 6px 20px rgba(37,211,102,0.5), 0 0 0 12px rgba(37,211,102,0.15); }
 }
 
-/* ── Entrada desde abajo (texto del hero) ── */
 .animate-fade-up {
   opacity: 0;
   transform: translateY(30px);
@@ -891,7 +939,6 @@ ul {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ── Entrada desde la derecha (imagen del hero) ── */
 .animate-fade-left {
   opacity: 0;
   transform: translateX(40px);
@@ -901,14 +948,12 @@ ul {
   to { opacity: 1; transform: translateX(0); }
 }
 
-/* ── Delays escalonados para el hero ── */
 .delay-1 { animation-delay: 0.1s; }
 .delay-2 { animation-delay: 0.25s; }
 .delay-3 { animation-delay: 0.4s; }
 .delay-4 { animation-delay: 0.55s; }
 .delay-5 { animation-delay: 0.7s; }
 
-/* ── Animación al hacer scroll (manejada por JS con IntersectionObserver) ── */
 .animate-on-scroll {
   opacity: 0;
   transform: translateY(40px);
@@ -922,24 +967,13 @@ ul {
 
 /* ─────────────────────────────────────────────────
    13. RESPONSIVE – CELULAR Y TABLET
-   Los cambios se aplican cuando la pantalla
-   tiene menos de cierto ancho
 ───────────────────────────────────────────────── */
 
 /* Tablet (hasta 1024px) */
 @media (max-width: 1024px) {
-
-  /* Catálogo: 2 columnas */
   .products-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-
-  /* Beneficios: 2 columnas */
-  .features {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  /* Nosotros: 1 columna */
   .nosotros {
     grid-template-columns: 1fr;
     gap: 40px;
@@ -947,16 +981,11 @@ ul {
   .nosotros-img { max-width: 400px; margin: 0 auto; }
 }
 
-
 /* Celular (hasta 768px) */
 @media (max-width: 768px) {
-
-  /* Ocultar links del navbar en celular */
   .nav-links { display: none; }
-  /* Mostrar botón hamburguesa */
   .hamburger { display: flex; }
 
-  /* Hero: una columna, centrado */
   .hero {
     flex-direction: column;
     text-align: center;
@@ -970,18 +999,16 @@ ul {
   .hero-btns { justify-content: center; }
   .hero-badge { left: auto; right: -10px; }
 
-  /* Beneficios: 1 columna */
-  .features {
-    grid-template-columns: 1fr;
-    padding: 40px 5%;
-  }
-
-  /* Catálogo: 1 columna */
   .products-grid {
     grid-template-columns: 1fr;
   }
 
-  /* Nosotros */
+  /* En celular las flechas del carrusel son un poco más pequeñas */
+  .carousel-btn {
+    width: 28px; height: 28px;
+    font-size: 0.75rem;
+  }
+
   .nosotros { padding: 60px 5%; }
   .nosotros-stats { gap: 12px; }
   .nosotros-text .section-title { text-align: center; }
@@ -992,21 +1019,17 @@ ul {
     text-align: center;
   }
 
-  /* Contacto */
   .contacto-cards { flex-direction: column; align-items: center; }
   .contact-card { width: 100%; max-width: 320px; }
 
-  /* Botón flotante más pequeño en celular */
   .whatsapp-float {
     width: 50px; height: 50px;
     font-size: 1.4rem;
     bottom: 18px; right: 18px;
   }
 
-  /* Secciones con menos padding en celular */
   .catalogo, .contacto { padding: 60px 5%; }
 }
-
 
 /* Celular muy pequeño (hasta 480px) */
 @media (max-width: 480px) {
