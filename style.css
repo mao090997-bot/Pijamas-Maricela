@@ -1,29 +1,4 @@
-/* ═══════════════════════════════════════════════════
-   style.css – Pijamas Maricela
-   ═══════════════════════════════════════════════════
-
-   ÍNDICE:
-   1.  Variables (colores, fuentes)
-   2.  Reset y base
-   3.  Navbar
-   4.  Menú móvil
-   5.  Hero (portada)
-   6.  Catálogo / Productos
-   7.  *** CARRUSEL DE FOTOS (NUEVO) ***
-   8.  Sobre Nosotros
-   9.  Contacto y Redes
-   10. Footer
-   11. Botón flotante WhatsApp
-   12. Animaciones
-   13. Responsive (celular)
-   ═══════════════════════════════════════════════════ */
-
-
-/* ─────────────────────────────────────────────────
-   1. VARIABLES
-   Cambia aquí los colores principales y todo
-   el sitio se actualiza automáticamente
-───────────────────────────────────────────────── */
+/* ─── 1. VARIABLES ─── */
 :root {
   --dorado:       #c9a84c;
   --dorado-claro: #e8d49a;
@@ -42,9 +17,7 @@
 }
 
 
-/* ─────────────────────────────────────────────────
-   2. RESET Y BASE
-───────────────────────────────────────────────── */
+/* ─── 2. RESET Y BASE ─── */
 *, *::before, *::after {
   margin: 0;
   padding: 0;
@@ -75,6 +48,47 @@ a {
 }
 
 ul { list-style: none; }
+
+/* Skip link – visible solo al enfocar con teclado */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  z-index: 10000;
+  padding: 12px 24px;
+  background: var(--texto);
+  color: var(--blanco);
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: top 0.2s ease;
+}
+.skip-link:focus {
+  top: 0;
+  outline: 2px solid var(--dorado);
+  outline-offset: 2px;
+}
+
+/* Focus visible para navegación por teclado */
+:focus-visible {
+  outline: 2px solid var(--dorado);
+  outline-offset: 2px;
+}
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Texto visualmente oculto (accesible) */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
 
 /* Botones reutilizables */
 .btn-primary {
@@ -160,16 +174,61 @@ ul { list-style: none; }
   text-align: center;
 }
 .img-placeholder span { font-size: 2.5rem; }
-.img-placeholder.large {
+
+/* Placeholder decorativo para "Sobre Nosotros" */
+.img-placeholder.decorative {
+  position: relative;
+  overflow: hidden;
   aspect-ratio: 1/1;
   border-radius: 24px;
-  font-size: 1rem;
+  background: transparent;
+  isolation: isolate;
+}
+.placeholder-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--rosa-suave), var(--dorado-claro), var(--rosa-suave));
+  background-size: 200% 200%;
+  animation: gradient-shift 6s ease-in-out infinite;
+  z-index: 0;
+}
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+.placeholder-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  backdrop-filter: blur(2px);
+}
+.placeholder-icon {
+  font-size: 3.5rem;
+  animation: float 4s ease-in-out infinite;
+  filter: drop-shadow(0 4px 12px rgba(201,168,76,0.3));
+}
+.placeholder-text {
+  font-family: var(--fuente-titulo);
+  font-size: 1.1rem;
+  color: var(--texto-suave);
+  font-style: italic;
+  letter-spacing: 1px;
+}
+
+.nosotros-photo-wrap {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
 }
 
 
-/* ─────────────────────────────────────────────────
-   3. NAVBAR
-───────────────────────────────────────────────── */
+/* ─── 3. NAVBAR ─── */
 .navbar {
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -255,9 +314,7 @@ ul { list-style: none; }
 .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
 
 
-/* ─────────────────────────────────────────────────
-   4. MENÚ MÓVIL
-───────────────────────────────────────────────── */
+/* ─── 4. MENÚ MÓVIL ─── */
 .mobile-menu {
   position: fixed;
   top: 0; right: -100%;
@@ -286,9 +343,7 @@ ul { list-style: none; }
 .mobile-menu a:hover { color: var(--dorado); padding-left: 8px; }
 
 
-/* ─────────────────────────────────────────────────
-   5. HERO (PORTADA)
-───────────────────────────────────────────────── */
+/* ─── 5. HERO ─── */
 .hero {
   min-height: 100vh;
   padding: 120px 6% 80px;
@@ -382,6 +437,20 @@ ul { list-style: none; }
   color: var(--rosa);
   margin-bottom: 18px;
   font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.hero-slogan-logo {
+  height: 35px;
+  width: auto;
+  animation: flutter 3s ease-in-out infinite;
+}
+.hero-badge-logo {
+  height: 30px;
+  width: auto;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .hero-desc {
@@ -427,9 +496,7 @@ ul { list-style: none; }
 .hero-badge span { font-size: 1.4rem; display: block; margin-bottom: 4px; }
 
 
-/* ─────────────────────────────────────────────────
-   6. CATÁLOGO / PRODUCTOS
-───────────────────────────────────────────────── */
+/* ─── 6. CATÁLOGO / PRODUCTOS ─── */
 .catalogo {
   padding: 100px 6%;
   background: var(--crema);
@@ -447,27 +514,20 @@ ul { list-style: none; }
   overflow: hidden;
   border: 1px solid var(--borde);
   transition: var(--transicion);
+  will-change: transform;
 }
 .product-card:hover {
-  transform: translateY(-8px);
+  transform: translateY(-4px) scale(1.015);
   box-shadow: var(--sombra-hover);
+}
+.product-card:hover .product-tag {
+  transform: scale(1.06);
+  box-shadow: 0 4px 12px rgba(201,168,76,0.4);
 }
 
 .product-img-wrap {
   position: relative;
   overflow: hidden;
-}
-
-/* Imagen real del producto */
-.product-img {
-  width: 100%;
-  aspect-ratio: 3/4;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.5s ease;
-}
-.product-card:hover .product-img {
-  transform: scale(1.04);
 }
 
 /* Puntos de color */
@@ -481,13 +541,15 @@ ul { list-style: none; }
   max-width: calc(100% - 28px);
 }
 .dot {
-  width: 22px; height: 22px;
+  width: 24px; height: 24px;
   border-radius: 50%;
   cursor: pointer;
   border: 2px solid transparent;
   transition: var(--transicion);
   box-shadow: 0 2px 6px rgba(0,0,0,0.25);
   flex-shrink: 0;
+  min-width: 24px;
+  min-height: 24px;
 }
 .dot:hover { transform: scale(1.2); }
 .dot.active {
@@ -522,6 +584,7 @@ ul { list-style: none; }
   font-weight: 500;
   letter-spacing: 0.5px;
   z-index: 10;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* Información del producto */
@@ -572,66 +635,33 @@ ul { list-style: none; }
 .btn-buy i { font-size: 1.1rem; }
 
 
-/* ─────────────────────────────────────────────────
-   7. CARRUSEL DE FOTOS (NUEVO)
-   ─────────────────────────────────────────────────
+/* ─── 7. CARRUSEL ─── */
 
-   Estructura HTML del carrusel:
-   .carousel-container          ← caja exterior (recorta el desbordamiento)
-     .carousel-track            ← pista que se mueve horizontalmente
-       img.carousel-img (×N)   ← fotos generadas por JS
-     .carousel-btn--prev        ← flecha izquierda
-     .carousel-btn--next        ← flecha derecha
-     .carousel-indicators       ← puntitos de posición (generados por JS)
-
-   CÓMO FUNCIONA:
-   • La pista (.carousel-track) tiene todas las fotos una al lado de la otra
-   • Para "ir a la foto 2", el JS mueve la pista hacia la izquierda
-     usando: transform: translateX(-100%)
-   • Para "ir a la foto 3": transform: translateX(-200%)  ... y así
-   • Al clic en un punto de color, el JS mueve la pista a esa posición
-   • Al clic en las flechas, el JS avanza o retrocede una posición
-   • En celular, el swipe táctil también mueve la pista
-───────────────────────────────────────────────── */
-
-/* Contenedor exterior del carrusel
-   overflow:hidden recorta las fotos que están fuera de vista */
 .carousel-container {
   position: relative;
   width: 100%;
-  aspect-ratio: 3/4;       /* misma proporción que las fotos de producto */
-  overflow: hidden;         /* IMPORTANTE: oculta las fotos "fuera de pantalla" */
+  aspect-ratio: 3/4;
+  overflow: hidden;
   background: linear-gradient(135deg, var(--rosa-suave), var(--dorado-claro));
 }
 
-/* Pista de fotos
-   display:flex pone las fotos una al lado de la otra
-   transition hace que el movimiento sea suave */
 .carousel-track {
   display: flex;
   height: 100%;
   transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
-  /* cubic-bezier da un movimiento más natural que "ease" simple */
-  will-change: transform;   /* optimización de rendimiento para la animación */
+  will-change: transform;
 }
-
-/* Cada foto dentro del carrusel
-   flex-shrink:0 evita que la foto se comprima
-   min-width:100% hace que cada foto ocupe exactamente el ancho del contenedor */
 .carousel-img {
-  min-width: 100%;          /* cada foto ocupa el 100% del ancho visible */
+  min-width: 100%;
   height: 100%;
-  object-fit: cover;        /* la foto llena el espacio sin deformarse */
+  object-fit: cover;
   object-position: bottom;
-  flex-shrink: 0;           /* no se encoge aunque haya muchas fotos */
+  flex-shrink: 0;
   display: block;
-  /* Transición suave al cambiar foto con clic en color */
   transition: opacity 0.2s ease;
 }
 
-/* Flechas de navegación
-   position:absolute las ubica dentro del carrusel
-   transform:translateY(-50%) las centra verticalmente */
+/* Flechas de navegación */
 .carousel-btn {
   position: absolute;
   top: 50%;
@@ -657,18 +687,10 @@ ul { list-style: none; }
   transform: translateY(-50%) scale(1.08);
 }
 
-/* Flecha izquierda: pegada al borde izquierdo */
-.carousel-btn--prev {
-  left: 10px;
-}
+.carousel-btn--prev { left: 10px; }
+.carousel-btn--next { right: 10px; }
 
-/* Flecha derecha: pegada al borde derecho */
-.carousel-btn--next {
-  right: 10px;
-}
-
-/* Ocultar flechas cuando hay solo 1 foto
-   (el JS agrega esta clase al contenedor cuando solo hay 1 imagen) */
+/* Ocultar flechas/indicadores si solo hay 1 foto */
 .carousel-container.single .carousel-btn {
   display: none;
 }
@@ -676,18 +698,15 @@ ul { list-style: none; }
   display: none;
 }
 
-/* Indicadores de posición (puntitos abajo del carrusel)
-   Se generan automáticamente con JS */
 .carousel-indicators {
   position: absolute;
-  bottom: 50px;             /* mismo nivel que los dots de color (encima) */
-  right: 14px;              /* pegados al lado derecho */
+  bottom: 50px;
+  right: 14px;
   display: flex;
   gap: 5px;
   z-index: 5;
 }
 
-/* Cada puntito indicador */
 .carousel-indicator {
   width: 6px; height: 6px;
   border-radius: 50%;
@@ -697,8 +716,6 @@ ul { list-style: none; }
   transition: var(--transicion);
   padding: 0;
 }
-
-/* Puntito de la foto activa */
 .carousel-indicator.active {
   background: var(--blanco);
   transform: scale(1.3);
@@ -708,9 +725,7 @@ ul { list-style: none; }
 }
 
 
-/* ─────────────────────────────────────────────────
-   8. SOBRE NOSOTROS
-───────────────────────────────────────────────── */
+/* ─── 8. SOBRE NOSOTROS ─── */
 .nosotros {
   padding: 100px 6%;
   background: var(--blanco);
@@ -718,13 +733,6 @@ ul { list-style: none; }
   grid-template-columns: 1fr 1fr;
   gap: 80px;
   align-items: center;
-}
-
-.nosotros-photo {
-  width: 100%;
-  border-radius: 30px;
-  object-fit: cover;
-  box-shadow: var(--sombra);
 }
 
 .nosotros-text .section-title {
@@ -770,9 +778,7 @@ ul { list-style: none; }
 }
 
 
-/* ─────────────────────────────────────────────────
-   9. CONTACTO Y REDES
-───────────────────────────────────────────────── */
+/* ─── 9. CONTACTO Y REDES ─── */
 .contacto {
   padding: 100px 6%;
   background: var(--crema);
@@ -840,7 +846,10 @@ ul { list-style: none; }
   transition: var(--transicion);
   box-shadow: 0 4px 12px rgba(0,0,0,0.12);
 }
-.social-icon:hover { transform: scale(1.15) rotate(-5deg); }
+.social-icon:hover {
+  transform: scale(1.15) rotate(-5deg);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+}
 
 .instagram  { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
 .facebook   { background: #1877f2; }
@@ -848,9 +857,7 @@ ul { list-style: none; }
 .pinterest  { background: #e60023; }
 
 
-/* ─────────────────────────────────────────────────
-   10. FOOTER
-───────────────────────────────────────────────── */
+/* ─── 10. FOOTER ─── */
 .footer {
   background: var(--texto);
   color: rgba(255,255,255,0.7);
@@ -879,9 +886,7 @@ ul { list-style: none; }
 }
 
 
-/* ─────────────────────────────────────────────────
-   11. BOTÓN FLOTANTE DE WHATSAPP
-───────────────────────────────────────────────── */
+/* ─── 11. WHATSAPP FLOAT ─── */
 .whatsapp-float {
   position: fixed;
   bottom: 28px; right: 28px;
@@ -905,9 +910,7 @@ ul { list-style: none; }
 }
 
 
-/* ─────────────────────────────────────────────────
-   12. ANIMACIONES
-───────────────────────────────────────────────── */
+/* ─── 12. ANIMACIONES ─── */
 @keyframes float {
   0%, 100% { transform: translateY(0); }
   50%       { transform: translateY(-15px); }
@@ -964,12 +967,48 @@ ul { list-style: none; }
   transform: translateY(0);
 }
 
+/* Escalonado en cuadrícula de productos */
+.products-grid .product-card:nth-child(1) { transition-delay: 0s; }
+.products-grid .product-card:nth-child(2) { transition-delay: 0.08s; }
+.products-grid .product-card:nth-child(3) { transition-delay: 0.16s; }
+.products-grid .product-card:nth-child(4) { transition-delay: 0.04s; }
+.products-grid .product-card:nth-child(5) { transition-delay: 0.12s; }
+.products-grid .product-card:nth-child(6) { transition-delay: 0.2s; }
+.products-grid .product-card:nth-child(7) { transition-delay: 0.06s; }
+.products-grid .product-card:nth-child(8) { transition-delay: 0.14s; }
 
-/* ─────────────────────────────────────────────────
-   13. RESPONSIVE – CELULAR Y TABLET
-───────────────────────────────────────────────── */
+/* Escalonado en sección de contacto */
+.contacto-cards .contact-card:nth-child(2) { transition-delay: 0.15s; }
 
-/* Tablet (hasta 1024px) */
+/* Escalonado en sección nosotros */
+.nosotros .nosotros-img { transition-delay: 0s; }
+.nosotros .nosotros-text { transition-delay: 0.2s; }
+
+
+/* Movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .carousel-track {
+    transition: none;
+  }
+  .hero-badge {
+    animation: none;
+  }
+  .whatsapp-float {
+    animation: none;
+  }
+}
+
+/* ─── 13. RESPONSIVE ─── */
+
+/* Tablet (≤1024px) */
 @media (max-width: 1024px) {
   .products-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -981,7 +1020,7 @@ ul { list-style: none; }
   .nosotros-img { max-width: 400px; margin: 0 auto; }
 }
 
-/* Celular (hasta 768px) */
+/* Celular (≤768px) */
 @media (max-width: 768px) {
   .nav-links { display: none; }
   .hamburger { display: flex; }
@@ -1003,7 +1042,7 @@ ul { list-style: none; }
     grid-template-columns: 1fr;
   }
 
-  /* En celular las flechas del carrusel son un poco más pequeñas */
+  /* Flechas más pequeñas en móvil */
   .carousel-btn {
     width: 28px; height: 28px;
     font-size: 0.75rem;
@@ -1031,7 +1070,7 @@ ul { list-style: none; }
   .catalogo, .contacto { padding: 60px 5%; }
 }
 
-/* Celular muy pequeño (hasta 480px) */
+/* Celular muy pequeño (≤480px) */
 @media (max-width: 480px) {
   .hero-title { font-size: 2.8rem; }
   .hero-btns { flex-direction: column; }

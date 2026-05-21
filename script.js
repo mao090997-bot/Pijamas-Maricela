@@ -1,18 +1,4 @@
-/* ═══════════════════════════════════════════════════
-   script.js – Pijamas Maricela
-   ═══════════════════════════════════════════════════
-
-   ÍNDICE:
-   1. Navbar: scroll y menú hamburguesa
-   2. Animaciones al hacer scroll
-   3. Carrusel de fotos por producto (NUEVO)
-   4. Selector de colores → cambia foto del carrusel (NUEVO)
-   ═══════════════════════════════════════════════════ */
-
-
-/* ─────────────────────────────────────────────────
-   1. NAVBAR
-───────────────────────────────────────────────── */
+/* ─── 1. NAVBAR ─── */
 const navbar     = document.getElementById('navbar');
 const hamburger  = document.getElementById('hamburger');
 const mobileMenu = document.getElementById('mobileMenu');
@@ -29,8 +15,10 @@ window.addEventListener('scroll', () => {
 
 // Abrir/cerrar menú hamburguesa
 hamburger.addEventListener('click', () => {
+  const isOpen = mobileMenu.classList.toggle('open');
   hamburger.classList.toggle('active');
-  mobileMenu.classList.toggle('open');
+  hamburger.setAttribute('aria-expanded', isOpen);
+  hamburger.setAttribute('aria-label', isOpen ? 'Cerrar menú' : 'Abrir menú');
 });
 
 // Cerrar menú al tocar un link
@@ -38,13 +26,13 @@ mobLinks.forEach(link => {
   link.addEventListener('click', () => {
     hamburger.classList.remove('active');
     mobileMenu.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+    hamburger.setAttribute('aria-label', 'Abrir menú');
   });
 });
 
 
-/* ─────────────────────────────────────────────────
-   2. ANIMACIONES AL HACER SCROLL
-───────────────────────────────────────────────── */
+/* ─── 2. SCROLL ANIMATIONS ─── */
 const animatedElements = document.querySelectorAll('.animate-on-scroll');
 
 const observer = new IntersectionObserver(
@@ -62,32 +50,7 @@ const observer = new IntersectionObserver(
 animatedElements.forEach(el => observer.observe(el));
 
 
-/* ═══════════════════════════════════════════════════════════════════
-   3. CARRUSEL DE FOTOS POR PRODUCTO
-   ═══════════════════════════════════════════════════════════════════
-
-   QUÉ HACE ESTE BLOQUE:
-   • Lee las fotos del atributo data-images de cada .carousel-container
-   • Crea las etiquetas <img> dentro de .carousel-track
-   • Crea los puntitos indicadores dentro de .carousel-indicators
-   • Maneja el movimiento con transform: translateX()
-   • Permite navegar con flechas, puntitos, y swipe táctil (celular)
-
-   CÓMO AGREGAR FOTOS A UN PRODUCTO:
-   En el HTML, busca el .carousel-container del producto y edita
-   el atributo data-images. Ejemplo:
-
-     data-images='[
-       "img/tulipan-rosado.jpg",
-       "img/tulipan-negro.jpg",
-       "img/tulipan-rojo.jpg"
-     ]'
-
-   REGLA IMPORTANTE:
-   El orden de las fotos en data-images DEBE coincidir con el orden
-   de los puntos de color (dots). Primer dot = primera foto, etc.
-
-═════════════════════════════════════════════════════════════════════ */
+/* ─── 3. CARRUSEL ─── */
 
 // Selecciona todos los contenedores de carrusel en la página
 const carousels = document.querySelectorAll('.carousel-container');
@@ -96,19 +59,8 @@ const carousels = document.querySelectorAll('.carousel-container');
 // Ejemplo: carouselState["1"] = 2  → el producto 1 está en la foto 3
 const carouselState = {};
 
-/**
- * inicializarCarrusel(container)
- * ────────────────────────────────
- * Toma un .carousel-container, lee sus fotos del data-images,
- * crea los <img> y los puntitos indicadores, y prepara los eventos.
- *
- * @param {HTMLElement} container - el div.carousel-container
- */
 function inicializarCarrusel(container) {
   const productId = container.dataset.product;
-
-  // Lee el array de rutas de fotos desde el atributo data-images
-  // JSON.parse convierte el texto '[...]' en un array de JavaScript
   let imagenes;
   try {
     imagenes = JSON.parse(container.dataset.images);
@@ -222,16 +174,6 @@ function inicializarCarrusel(container) {
   }, { passive: true });
 }
 
-/**
- * irAFoto(productId, indice, container)
- * ────────────────────────────────────────
- * Mueve el carrusel del producto indicado a la foto en la posición "indice".
- * También actualiza los puntitos indicadores y el punto de color activo.
- *
- * @param {string}      productId - número del producto (ej: "1")
- * @param {number}      indice    - posición de la foto (0 = primera)
- * @param {HTMLElement} container - el div.carousel-container
- */
 function irAFoto(productId, indice, container) {
   // Actualiza el estado guardado
   carouselState[productId] = indice;
@@ -278,25 +220,7 @@ function irAFoto(productId, indice, container) {
 carousels.forEach(container => inicializarCarrusel(container));
 
 
-/* ═══════════════════════════════════════════════════════════════════
-   4. SELECTOR DE COLORES → CAMBIA FOTO DEL CARRUSEL
-   ═══════════════════════════════════════════════════════════════════
-
-   QUÉ HACE ESTE BLOQUE:
-   • Escucha los clics en los puntos de color (dots)
-   • Cuando el cliente hace clic en un color, llama a irAFoto()
-     para mover el carrusel a la foto de ese color
-   • Actualiza la etiqueta de texto con el nombre del color
-   • Actualiza el mensaje de WhatsApp con el color seleccionado
-
-   RELACIÓN ENTRE COLORES Y FOTOS:
-   Cada punto de color tiene un atributo data-index="N"
-   que indica qué foto mostrar (empezando en 0).
-   Ejemplo:
-     <span class="dot" data-color="Negro" data-index="1">
-     → al hacer clic, muestra la SEGUNDA foto (índice 1)
-
-═════════════════════════════════════════════════════════════════════ */
+/* ─── 4. SELECTOR DE COLORES ─── */
 
 // Selecciona todos los grupos de puntos de color
 const colorGroups = document.querySelectorAll('.color-dots');
@@ -335,16 +259,6 @@ colorGroups.forEach(group => {
 });
 
 
-/* ─────────────────────────────────────────────────
-   FUNCIÓN AUXILIAR: actualizarMensajeWhatsApp
-   ─────────────────────────────────────────────────
-   Agrega el color seleccionado al mensaje de WhatsApp
-   para que cuando el cliente escriba, el mensaje diga:
-   "Hola Maricela! Quiero la Pijama Tulipán 🌸 | Color: Negro"
-
-   @param {HTMLElement} btn       - el botón .btn-buy
-   @param {string}      colorName - nombre del color (ej: "Negro")
-───────────────────────────────────────────────── */
 function actualizarMensajeWhatsApp(btn, colorName) {
   if (!btn || !colorName) return;
 
@@ -363,30 +277,3 @@ function actualizarMensajeWhatsApp(btn, colorName) {
   const nuevaUrl = encodeURI(urlBase + ' | Color: ' + colorName);
   btn.setAttribute('href', nuevaUrl);
 }
-
-
-/* ─────────────────────────────────────────────────
-   FIN DEL ARCHIVO
-
-   RESUMEN DE LO QUE DEBES HACER PARA AGREGAR FOTOS:
-
-   1. Crea la carpeta "img/" en la misma carpeta del index.html
-
-   2. Nombra las fotos así (sin tildes, sin espacios):
-      img/tulipan-rosado.jpg
-      img/tulipan-negro.jpg
-      img/tulipan-rojo.jpg
-      ... etc.
-
-   3. En el HTML de cada producto, reemplaza las rutas en data-images:
-      data-images='[
-        "img/tulipan-rosado.jpg",
-        "img/tulipan-negro.jpg",
-        "img/tulipan-rojo.jpg"
-      ]'
-
-   4. Asegúrate de que el orden en data-images coincida
-      con el orden de los dots (puntos de color).
-
-   5. Guarda y recarga el navegador. ¡Listo!
-───────────────────────────────────────────────── */
