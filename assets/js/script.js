@@ -299,8 +299,6 @@ const VideoMarquee = (() => {
 
   if (!track || !marquee) return;
 
-  const SPEED = 0.35;
-
   let pos = 0;
   let animationId = null;
 
@@ -308,12 +306,9 @@ const VideoMarquee = (() => {
   let startX = 0;
   let initialPos = 0;
 
-  let velocity = 0;
-
   let currentCard = null;
   let isInView = false;
   let hasDragged = false;
-  let soundUnlocked = false;
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -352,6 +347,18 @@ const VideoMarquee = (() => {
 
     video.removeAttribute('controls');
 
+    video.setAttribute('muted', '');
+
+    video.setAttribute('playsinline', '');
+
+    video.setAttribute('disablepictureinpicture', '');
+
+    video.setAttribute('controlslist', 'nodownload noplaybackrate noremoteplayback');
+
+    video.disablePictureInPicture = true;
+
+    video.disableRemotePlayback = true;
+
     video.loop = true;
 
     video.playsInline = true;
@@ -368,7 +375,7 @@ const VideoMarquee = (() => {
 
     if (pos <= -half) pos += half;
 
-    if (pos >= 0) pos -= half;
+    if (pos > 0) pos -= half;
   }
 
   // ─────────────────────────────
@@ -384,20 +391,16 @@ const VideoMarquee = (() => {
     });
   }
 
-  function unlockSound() {
+  function playInlineMuted(video) {
 
-    soundUnlocked = true;
+    video.muted = true;
 
-    if (isInView) {
+    video.setAttribute('muted', '');
 
-      updateActiveCard(true);
-    }
+    video.play().catch(() => {});
   }
 
-  document.addEventListener('touchstart', unlockSound, { once: true, passive: true });
-  document.addEventListener('mousedown', unlockSound, { once: true });
-
-  function updateActiveCard(forceSound = false) {
+  function updateActiveCard() {
 
     const marqueeRect = marquee.getBoundingClientRect();
 
@@ -427,13 +430,11 @@ const VideoMarquee = (() => {
 
     if (closest === currentCard) {
 
-      if ((forceSound || soundUnlocked) && !dragging) {
+      if (!dragging) {
 
         const activeVideo = closest.querySelector('video');
 
-        activeVideo.muted = false;
-
-        activeVideo.play().catch(() => {});
+        playInlineMuted(activeVideo);
       }
 
       return;
@@ -461,9 +462,7 @@ const VideoMarquee = (() => {
 
     const activeVideo = closest.querySelector('video');
 
-    activeVideo.muted = dragging || !(forceSound || soundUnlocked);
-
-    activeVideo.play().catch(() => {});
+    playInlineMuted(activeVideo);
   }
 
   function moveCardToCenter(card) {
@@ -495,25 +494,6 @@ const VideoMarquee = (() => {
   // ─────────────────────────────
   function animate() {
 
-    if (!dragging) {
-
-      const activeVideo = currentCard?.querySelector('video');
-
-      if (!activeVideo || activeVideo.paused) {
-
-        pos -= SPEED;
-      }
-
-      pos += velocity;
-
-      velocity *= 0.95;
-
-      if (Math.abs(velocity) < 0.02) {
-
-        velocity = 0;
-      }
-    }
-
     wrap();
 
     track.style.transform = `translate3d(${pos}px, 0, 0)`;
@@ -531,8 +511,6 @@ const VideoMarquee = (() => {
     dragging = true;
 
     hasDragged = false;
-
-    soundUnlocked = true;
 
     silenceVideos();
 
@@ -561,7 +539,12 @@ const VideoMarquee = (() => {
 
     pos = initialPos + delta;
 
-    velocity = delta * 0.015;
+    wrap();
+
+    track.style.transform = `translate3d(${pos}px, 0, 0)`;
+
+    updateActiveCard();
+
   }
 
   // ─────────────────────────────
@@ -575,7 +558,7 @@ const VideoMarquee = (() => {
 
     if (isInView) {
 
-      updateActiveCard(true);
+      updateActiveCard();
     }
   }
 
@@ -626,16 +609,14 @@ const VideoMarquee = (() => {
 
         moveCardToCenter(card);
 
-        updateActiveCard(true);
+        updateActiveCard();
 
         return;
       }
 
       if (video.paused) {
 
-        video.muted = false;
-
-        video.play();
+        playInlineMuted(video);
 
       } else {
 
@@ -676,7 +657,7 @@ const VideoMarquee = (() => {
 
         isInView = true;
 
-        updateActiveCard(soundUnlocked);
+        updateActiveCard();
 
         startAnimation();
       }
