@@ -93,6 +93,8 @@ function inicializarCarrusel(container) {
     const colorName = colorNames?.[index]?.dataset?.color || `Foto ${index + 1}`;
     img.alt       = `${productName} - Color: ${colorName}`;
     img.className = 'carousel-img';
+    img.loading   = 'lazy';
+    img.decoding  = 'async';
 
     // Si la imagen no carga (ruta incorrecta), muestra un fondo de color
     // en lugar de un ícono roto
@@ -369,7 +371,7 @@ const VideoMarquee = (() => {
 
     video.playsInline = true;
 
-    video.preload = 'metadata';
+    video.preload = 'none';
   });
 
   // ─────────────────────────────
@@ -431,6 +433,8 @@ const VideoMarquee = (() => {
 
   function playInlineMuted(video) {
 
+    video.preload = 'auto';
+
     video.muted = true;
 
     video.setAttribute('muted', '');
@@ -439,6 +443,8 @@ const VideoMarquee = (() => {
   }
 
   function playWithSound(video) {
+
+    video.preload = 'auto';
 
     video.muted = false;
 
