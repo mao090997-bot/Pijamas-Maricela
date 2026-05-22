@@ -422,7 +422,11 @@ const VideoMarquee = (() => {
   function silenceVideos() {
     allCards.forEach(card => {
       const video = card.querySelector('video');
-      if (video) video.muted = true;
+      if (!video) return;
+      try { video.pause(); } catch (e) {}
+      try { video.currentTime = 0; } catch (e) {}
+      video.muted = true;
+      try { video.volume = 0; } catch (e) {}
     });
   }
 
@@ -673,8 +677,31 @@ const VideoMarquee = (() => {
         }
       }
     });
-  }, { threshold: 0.15 });
+  }, { threshold: 0.15, rootMargin: '0px 0px -30% 0px' });
 
   observer.observe(marquee);
+
+  // Pause videos when the document/tab is hidden; resume (muted) when visible
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      allCards.forEach(card => {
+        const v = card.querySelector('video');
+        if (v) {
+          try { v.pause(); } catch (e) {}
+          v.muted = true;
+          try { v.volume = 0; } catch (e) {}
+        }
+      });
+    } else {
+      // If section is visible, ensure active card plays muted for smooth entry
+      if (isInView) {
+        const closest = getClosestCard();
+        if (closest) {
+          const vv = loadVideoForCard(closest);
+          if (vv) playInlineMuted(vv);
+        }
+      }
+    }
+  });
 
 })();
