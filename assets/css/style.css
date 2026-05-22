@@ -1170,3 +1170,28 @@ ul { list-style: none; }
 @media (min-width: 1200px) {
   html { font-size: 18px; }
 }
+
+/* En pantallas táctiles las tarjetas del catálogo quedan quietas.
+   Las fotos se siguen cambiando manualmente con swipe, flechas o puntos. */
+@media (hover: none), (pointer: coarse) {
+  .products-grid .product-card.animate-on-scroll {
+    opacity: 1;
+    transform: none;
+    transition: box-shadow 0.35s ease;
+    transition-delay: 0s;
+  }
+
+  .product-card,
+  .product-card:hover {
+    transform: none;
+  }
+
+  .product-card:hover {
+    box-shadow: var(--sombra);
+  }
+
+  .product-card:hover .product-tag {
+    transform: none;
+    box-shadow: none;
+  }
+}
