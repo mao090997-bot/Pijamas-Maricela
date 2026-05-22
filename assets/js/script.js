@@ -369,6 +369,21 @@ const VideoMarquee = (() => {
 
   const allCards = [...track.querySelectorAll('.video-card')];
 
+  // ─── Preload inteligente: cuando una card está a 600px del viewport, cargar el video
+  const preloadObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const card = entry.target;
+        loadVideoForCard(card);
+        preloadObserver.unobserve(card);
+      }
+    });
+  }, { root: null, rootMargin: '0px 0px 600px 0px', threshold: 0 });
+
+  allCards.forEach(card => {
+    preloadObserver.observe(card);
+  });
+
   // ─── Cargar video lazy en una card ───
   function loadVideoForCard(card) {
     if (card.dataset.videoLoaded) return card.querySelector('video');
