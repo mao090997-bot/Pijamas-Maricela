@@ -149,25 +149,30 @@ function inicializarCarrusel(container) {
   // ── Swipe táctil (celular) ──────────────────────────────────────
   // Detecta cuando el usuario desliza el dedo sobre el carrusel
   let touchStartX = 0;  // posición X donde empezó el toque
-  let touchEndX   = 0;  // posición X donde terminó el toque
+  let touchStartY = 0;  // posición Y donde empezó el toque
 
   // Al tocar la pantalla, guarda la posición inicial
   container.addEventListener('touchstart', (e) => {
     touchStartX = e.changedTouches[0].screenX;
+    touchStartY = e.changedTouches[0].screenY;
   }, { passive: true }); // passive:true mejora el rendimiento del scroll
 
   // Al soltar el dedo, calcula si fue swipe izquierda o derecha
   container.addEventListener('touchend', (e) => {
-    touchEndX = e.changedTouches[0].screenX;
-    const diff = touchStartX - touchEndX;
+    const touchEndX = e.changedTouches[0].screenX;
+    const touchEndY = e.changedTouches[0].screenY;
+    const diffX = touchStartX - touchEndX;
+    const diffY = touchStartY - touchEndY;
+    const absX = Math.abs(diffX);
+    const absY = Math.abs(diffY);
 
-    // Solo activa si el deslizamiento fue de más de 40px
-    // (evita activarse con toques accidentales)
-    if (Math.abs(diff) > 40) {
+    // Solo activa si el deslizamiento fue claramente horizontal
+    // (evita cambiar fotos al bajar por el catálogo)
+    if (absX > 50 && absX > absY * 1.4) {
       const actual = carouselState[productId];
       const total  = imagenes.length;
 
-      if (diff > 0) {
+      if (diffX > 0) {
         // Deslizó hacia la izquierda → siguiente foto
         irAFoto(productId, (actual + 1) % total, container);
       } else {
@@ -306,6 +311,10 @@ const VideoMarquee = (() => {
   let velocity = 0;
 
   let currentCard = null;
+  let isInView = false;
+  let hasDragged = false;
+
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   // ─────────────────────────────
   // CARDS ORIGINALES
@@ -338,6 +347,10 @@ const VideoMarquee = (() => {
 
     video.muted = true;
 
+    video.controls = false;
+
+    video.removeAttribute('controls');
+
     video.loop = true;
 
     video.playsInline = true;
@@ -360,7 +373,17 @@ const VideoMarquee = (() => {
   // ─────────────────────────────
   // DETECTAR CARD ACTIVA
   // ─────────────────────────────
-  function updateActiveCard() {
+  function silenceVideos() {
+
+    allCards.forEach(card => {
+
+      const video = card.querySelector('video');
+
+      video.muted = true;
+    });
+  }
+
+  function updateActiveCard(forceSound = false) {
 
     const marqueeRect = marquee.getBoundingClientRect();
 
@@ -386,7 +409,21 @@ const VideoMarquee = (() => {
       }
     });
 
-    if (!closest || closest === currentCard) return;
+    if (!closest) return;
+
+    if (closest === currentCard) {
+
+      if (forceSound && !dragging) {
+
+        const activeVideo = closest.querySelector('video');
+
+        activeVideo.muted = false;
+
+        activeVideo.play().catch(() => {});
+      }
+
+      return;
+    }
 
     currentCard = closest;
 
@@ -402,6 +439,7 @@ const VideoMarquee = (() => {
       video.currentTime = 0;
 
       video.muted = true;
+
     });
 
     // ACTIVAR NUEVA
@@ -409,9 +447,33 @@ const VideoMarquee = (() => {
 
     const activeVideo = closest.querySelector('video');
 
-    activeVideo.muted = false;
+    activeVideo.muted = dragging ? true : false;
 
     activeVideo.play().catch(() => {});
+  }
+
+  function moveCardToCenter(card) {
+
+    const marqueeRect = marquee.getBoundingClientRect();
+
+    const cardRect = card.getBoundingClientRect();
+
+    const marqueeCenter = marqueeRect.left + marqueeRect.width / 2;
+
+    const cardCenter = cardRect.left + cardRect.width / 2;
+
+    pos += marqueeCenter - cardCenter;
+
+    wrap();
+
+    track.style.transform = `translate3d(${pos}px, 0, 0)`;
+  }
+
+  function startAnimation() {
+
+    if (animationId || reducedMotion.matches) return;
+
+    animationId = requestAnimationFrame(animate);
   }
 
   // ─────────────────────────────
@@ -421,7 +483,12 @@ const VideoMarquee = (() => {
 
     if (!dragging) {
 
-      pos -= SPEED;
+      const activeVideo = currentCard?.querySelector('video');
+
+      if (!activeVideo || activeVideo.paused) {
+
+        pos -= SPEED;
+      }
 
       pos += velocity;
 
@@ -449,6 +516,10 @@ const VideoMarquee = (() => {
 
     dragging = true;
 
+    hasDragged = false;
+
+    silenceVideos();
+
     startX = x;
 
     initialPos = pos;
@@ -465,6 +536,13 @@ const VideoMarquee = (() => {
 
     const delta = x - startX;
 
+    if (Math.abs(delta) > 8) {
+
+      hasDragged = true;
+
+      silenceVideos();
+    }
+
     pos = initialPos + delta;
 
     velocity = delta * 0.015;
@@ -478,6 +556,11 @@ const VideoMarquee = (() => {
     dragging = false;
 
     marquee.style.cursor = 'grab';
+
+    if (isInView) {
+
+      updateActiveCard(true);
+    }
   }
 
   // ─────────────────────────────
@@ -521,9 +604,20 @@ const VideoMarquee = (() => {
 
     card.addEventListener('click', () => {
 
-      if (!card.classList.contains('active')) return;
+      if (hasDragged) return;
+
+      if (!card.classList.contains('active')) {
+
+        moveCardToCenter(card);
+
+        updateActiveCard();
+
+        return;
+      }
 
       if (video.paused) {
+
+        video.muted = false;
 
         video.play();
 
@@ -543,7 +637,13 @@ const VideoMarquee = (() => {
 
       if (!entry.isIntersecting) {
 
+        isInView = false;
+
         cancelAnimationFrame(animationId);
+
+        animationId = null;
+
+        currentCard = null;
 
         allCards.forEach(card => {
 
@@ -552,13 +652,17 @@ const VideoMarquee = (() => {
           video.pause();
 
           video.currentTime = 0;
+
+          video.muted = true;
         });
 
       } else {
 
-        cancelAnimationFrame(animationId);
+        isInView = true;
 
-        animationId = requestAnimationFrame(animate);
+        updateActiveCard();
+
+        startAnimation();
       }
     });
 
@@ -567,15 +671,5 @@ const VideoMarquee = (() => {
   });
 
   observer.observe(marquee);
-
-  // ─────────────────────────────
-  // REDUCED MOTION
-  // ─────────────────────────────
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-
-  if (!reducedMotion.matches) {
-
-    animationId = requestAnimationFrame(animate);
-  }
 
 })();

@@ -613,6 +613,7 @@ ul { list-style: none; }
   width: 100%;
   aspect-ratio: 3/4;
   overflow: hidden;
+  touch-action: pan-y;
   background: linear-gradient(135deg, var(--rosa-suave), var(--dorado-claro));
 }
 
@@ -758,6 +759,7 @@ ul { list-style: none; }
   padding: 10px 0 20px;
   cursor: grab;
   user-select: none;
+  touch-action: pan-y;
 }
 .video-marquee:active {
   cursor: grabbing;
@@ -777,12 +779,22 @@ ul { list-style: none; }
   overflow: hidden;
   background: var(--blanco);
   box-shadow: var(--sombra);
-  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  opacity: 0.72;
+  transform: scale(0.92);
+  transition: transform 0.4s ease, box-shadow 0.4s ease, opacity 0.4s ease;
   cursor: pointer;
 }
 .video-card:hover {
-  transform: scale(1.03);
+  transform: scale(0.96);
   box-shadow: var(--sombra-hover);
+}
+.video-card.active {
+  opacity: 1;
+  transform: scale(1);
+  box-shadow: 0 20px 48px rgba(201,168,76,0.26);
+}
+.video-card.active:hover {
+  transform: scale(1.01);
 }
 .video-card:focus-visible {
   outline: 2px solid var(--dorado);
@@ -799,6 +811,7 @@ ul { list-style: none; }
   height: 100%;
   object-fit: cover;
   display: block;
+  pointer-events: none;
 }
 
 /* ─── 8. SOBRE NOSOTROS ─── */
@@ -1149,6 +1162,27 @@ ul { list-style: none; }
   .contacto-cards { flex-direction: column; align-items: center; }
   .contact-card { width: 100%; max-width: 320px; }
 
+  .videos {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .videos .section-header {
+    padding: 0 5%;
+  }
+  .video-marquee {
+    mask-image: none;
+    -webkit-mask-image: none;
+    padding: 8px 0 24px;
+  }
+  .video-track {
+    gap: 14px;
+  }
+  .video-card {
+    min-width: min(88vw, 380px);
+    max-width: min(88vw, 380px);
+    border-radius: 14px;
+  }
+
   .whatsapp-float {
     width: 50px; height: 50px;
     font-size: 1.4rem;
@@ -1163,7 +1197,10 @@ ul { list-style: none; }
   .hero-title { font-size: 2.8rem; }
   .hero-btns { flex-direction: column; }
   .btn-primary, .btn-outline { text-align: center; justify-content: center; }
-  .video-card { min-width: 200px; max-width: 220px; }
+  .video-card {
+    min-width: 90vw;
+    max-width: 90vw;
+  }
 }
 
 /* Desktop grande (≥1200px) — escalar textos */
