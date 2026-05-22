@@ -1,3 +1,7 @@
+/* ─────────────────────────────────────
+   STYLES.CSS — VERSIÓN OPTIMIZADA
+   ───────────────────────────────────── */
+
 /* ─── 1. VARIABLES ─── */
 :root {
   --dorado:       #c9a84c;
@@ -50,7 +54,7 @@ a {
 
 ul { list-style: none; }
 
-/* Skip link – visible solo al enfocar con teclado */
+/* Skip link */
 .skip-link {
   position: absolute;
   top: -100%;
@@ -69,7 +73,6 @@ ul { list-style: none; }
   outline-offset: 2px;
 }
 
-/* Focus visible para navegación por teclado */
 :focus-visible {
   outline: 2px solid var(--dorado);
   outline-offset: 2px;
@@ -78,7 +81,6 @@ ul { list-style: none; }
   outline: none;
 }
 
-/* Texto visualmente oculto (accesible) */
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -159,7 +161,7 @@ ul { list-style: none; }
   margin: 0 auto;
 }
 
-/* Placeholder de imágenes temporales */
+/* Placeholder de imágenes */
 .img-placeholder {
   width: 100%;
   aspect-ratio: 3/4;
@@ -176,7 +178,6 @@ ul { list-style: none; }
 }
 .img-placeholder span { font-size: 2.5rem; }
 
-/* Placeholder decorativo para "Sobre Nosotros" */
 .img-placeholder.decorative {
   position: relative;
   overflow: hidden;
@@ -501,14 +502,13 @@ ul { list-style: none; }
   overflow: hidden;
 }
 
-/* Puntos de color */
 .color-dots {
   position: absolute;
   bottom: 50px; left: 14px;
   display: flex;
   gap: 8px;
-  z-index: 10;           /* z-index alto para estar sobre el carrusel */
-  flex-wrap: wrap;       /* si hay muchos colores, saltan a la siguiente línea */
+  z-index: 10;
+  flex-wrap: wrap;
   max-width: calc(100% - 28px);
 }
 .dot {
@@ -529,7 +529,6 @@ ul { list-style: none; }
   box-shadow: 0 2px 8px rgba(0,0,0,0.35);
 }
 
-/* Etiqueta del color seleccionado */
 .color-label {
   position: absolute;
   bottom: 14px; left: 14px;
@@ -543,7 +542,6 @@ ul { list-style: none; }
   z-index: 10;
 }
 
-/* Etiqueta "Nuevo / Top / Premium" */
 .product-tag {
   position: absolute;
   top: 14px; right: 14px;
@@ -558,7 +556,6 @@ ul { list-style: none; }
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Información del producto */
 .product-info {
   padding: 22px 22px 26px;
 }
@@ -607,7 +604,6 @@ ul { list-style: none; }
 
 
 /* ─── 7. CARRUSEL ─── */
-
 .carousel-container {
   position: relative;
   width: 100%;
@@ -633,12 +629,11 @@ ul { list-style: none; }
   transition: opacity 0.2s ease;
 }
 
-/* Flechas de navegación */
 .carousel-btn {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  z-index: 5;               /* encima de las fotos pero debajo de los dots */
+  z-index: 5;
   background: rgba(255,255,255,0.88);
   border: none;
   border-radius: 50%;
@@ -662,10 +657,7 @@ ul { list-style: none; }
 .carousel-btn--prev { left: 10px; }
 .carousel-btn--next { right: 10px; }
 
-/* Ocultar flechas/indicadores si solo hay 1 foto */
-.carousel-container.single .carousel-btn {
-  display: none;
-}
+.carousel-container.single .carousel-btn,
 .carousel-container.single .carousel-indicators {
   display: none;
 }
@@ -697,13 +689,14 @@ ul { list-style: none; }
 }
 
 
-/* ─── 8.5 VIDEOS ─── */
+/* ─── 8. VIDEOS ─── */
 .videos {
-  padding: 40px 6% 60px;
+  padding: 40px 0 60px;
   background: var(--crema);
   position: relative;
   overflow: hidden;
 }
+
 .videos-bg {
   position: absolute;
   inset: 0;
@@ -727,14 +720,14 @@ ul { list-style: none; }
   bottom: -80px; right: -60px;
   animation-delay: 3s;
 }
-.videos .section-header,
-.video-marquee {
+
+.videos .section-header {
   position: relative;
   z-index: 1;
-}
-.videos .section-header {
   margin-bottom: 24px;
+  padding: 0 6%;
 }
+
 .videos-heading {
   font-family: var(--fuente-titulo);
   font-size: clamp(2rem, 4vw, 3rem);
@@ -752,60 +745,66 @@ ul { list-style: none; }
   max-width: 500px;
   margin: 0 auto;
 }
+
+/* ── Marquee ── */
 .video-marquee {
+  position: relative;
+  z-index: 1;
   overflow: hidden;
-  mask-image: linear-gradient(to right, transparent 0%, #000 4%, #000 96%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 4%, #000 96%, transparent 100%);
-  padding: 10px 0 20px;
+  padding: 12px 0 28px;
   cursor: grab;
   user-select: none;
+  -webkit-user-select: none;
   touch-action: pan-y;
+  -webkit-tap-highlight-color: transparent;
+  mask-image: linear-gradient(to right, transparent 0%, #000 5%, #000 95%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 5%, #000 95%, transparent 100%);
 }
-.video-marquee:active {
-  cursor: grabbing;
-}
+.video-marquee:active { cursor: grabbing; }
+
+/* ── Track ── */
 .video-track {
   display: flex;
   gap: 20px;
   width: max-content;
   will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
+/* ── Cards ── */
 .video-card {
-  width: clamp(260px, 22vw, 320px);
-  min-width: 280px;
-  max-width: 320px;
+  width: clamp(230px, 68vw, 300px);
   flex-shrink: 0;
-  border-radius: 16px;
+  border-radius: 18px;
   overflow: hidden;
   background: var(--blanco);
   box-shadow: var(--sombra);
-  transform: scale(0.96);
-  transition: transform 0.4s ease, box-shadow 0.4s ease, opacity 0.4s ease;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  opacity: 0.55;
+  transform: scale(0.93);
+  transition: transform 0.4s cubic-bezier(0.22,1,0.36,1),
+              opacity  0.4s cubic-bezier(0.22,1,0.36,1),
+              box-shadow 0.4s ease;
+  will-change: transform, opacity;
 }
-.video-card:hover {
-  transform: scale(0.98);
-  box-shadow: var(--sombra-hover);
-}
+
 .video-card.active {
   opacity: 1;
   transform: scale(1.02);
   box-shadow: 0 20px 48px rgba(201,168,76,0.26);
 }
-.video-card.active:hover {
-  transform: scale(1.01);
-}
-.video-card:focus-visible {
-  outline: 2px solid var(--dorado);
-  outline-offset: 3px;
-}
+
+/* ── Thumb ── */
 .video-thumb {
   position: relative;
   aspect-ratio: 9 / 16;
   overflow: hidden;
-  background: var(--texto);
+  background: #1a1a2e;
 }
+
 .video-thumb video {
   width: 100%;
   height: 100%;
@@ -815,7 +814,42 @@ ul { list-style: none; }
   pointer-events: none;
 }
 
-/* ─── 8. SOBRE NOSOTROS ─── */
+/* ── Placeholder lazy ── */
+.video-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  animation: shimmer-video 1.8s ease-in-out infinite alternate;
+}
+
+@keyframes shimmer-video {
+  from { opacity: 0.55; }
+  to   { opacity: 0.85; }
+}
+
+/* ── Ícono play ── */
+.play-icon {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.play-icon svg {
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
+  opacity: 0.75;
+}
+.video-card.active .play-icon { display: none; }
+
+.video-card:focus-visible {
+  outline: 2px solid var(--dorado);
+  outline-offset: 3px;
+}
+
+
+/* ─── 9. SOBRE NOSOTROS ─── */
 .nosotros {
   padding: 100px 6%;
   background: var(--blanco);
@@ -868,7 +902,7 @@ ul { list-style: none; }
 }
 
 
-/* ─── 9. CONTACTO Y REDES ─── */
+/* ─── 10. CONTACTO Y REDES ─── */
 .contacto {
   padding: 100px 6%;
   background: var(--crema);
@@ -955,7 +989,7 @@ ul { list-style: none; }
 .tiktok     { background: #000000; }
 
 
-/* ─── 10. FOOTER ─── */
+/* ─── 11. FOOTER ─── */
 .footer {
   background: var(--texto);
   color: rgba(255,255,255,0.7);
@@ -993,7 +1027,7 @@ ul { list-style: none; }
 }
 
 
-/* ─── 11. WHATSAPP FLOAT ─── */
+/* ─── 12. WHATSAPP FLOAT ─── */
 .whatsapp-float {
   position: fixed;
   bottom: 28px; right: 28px;
@@ -1017,7 +1051,7 @@ ul { list-style: none; }
 }
 
 
-/* ─── 12. ANIMACIONES ─── */
+/* ─── 13. ANIMACIONES ─── */
 @keyframes float {
   0%, 100% { transform: translateY(0); }
   50%       { transform: translateY(-15px); }
@@ -1074,41 +1108,15 @@ ul { list-style: none; }
   transform: translateY(0);
 }
 
-/* Escalonado en cuadrícula de productos */
 .products-grid .product-card {
   transition-delay: calc(0.04s * (var(--i, 1) - 1));
 }
-
-/* Escalonado en sección de contacto */
 .contacto-cards .contact-card:nth-child(2) { transition-delay: 0.15s; }
-
-/* Escalonado en sección nosotros */
-.nosotros .nosotros-img { transition-delay: 0s; }
+.nosotros .nosotros-img  { transition-delay: 0s; }
 .nosotros .nosotros-text { transition-delay: 0.2s; }
 
 
-/* Movimiento reducido */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-  .carousel-track {
-    transition: none;
-  }
-  .hero-badge {
-    animation: none;
-  }
-  .whatsapp-float {
-    animation: none;
-  }
-}
-
-/* ─── 13. RESPONSIVE ─── */
+/* ─── 14. RESPONSIVE ─── */
 
 /* Tablet (≤1024px) */
 @media (max-width: 1024px) {
@@ -1140,11 +1148,8 @@ ul { list-style: none; }
   .hero-btns { justify-content: center; }
   .hero-badge { left: auto; right: -10px; }
 
-  .products-grid {
-    grid-template-columns: 1fr;
-  }
+  .products-grid { grid-template-columns: 1fr; }
 
-  /* Flechas más pequeñas en móvil */
   .carousel-btn {
     width: 28px; height: 28px;
     font-size: 0.75rem;
@@ -1163,175 +1168,10 @@ ul { list-style: none; }
   .contacto-cards { flex-direction: column; align-items: center; }
   .contact-card { width: 100%; max-width: 320px; }
 
-  
-/* ─── 8.5 VIDEOS ─── */
-.videos {
-  padding: 40px 0 60px;
-  background: var(--crema);
-  position: relative;
-  overflow: hidden;
-}
-.videos-bg {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-}
-.videos-bg .circle {
-  position: absolute;
-  border-radius: 50%;
-  opacity: 0.4;
-  animation: float 8s ease-in-out infinite;
-}
-.videos-bg .c1 {
-  width: 400px; height: 400px;
-  background: radial-gradient(circle, var(--rosa-suave), transparent 70%);
-  top: -150px; left: -100px;
-}
-.videos-bg .c2 {
-  width: 300px; height: 300px;
-  background: radial-gradient(circle, var(--dorado-claro), transparent 70%);
-  bottom: -80px; right: -60px;
-  animation-delay: 3s;
-}
-
-.videos .section-header {
-  position: relative;
-  z-index: 1;
-  margin-bottom: 24px;
-  padding: 0 6%;
-}
-.videos-heading {
-  font-family: var(--fuente-titulo);
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 400;
-  color: var(--dorado);
-  margin-bottom: 8px;
-  line-height: 1.2;
-}
-.videos-subheading {
-  font-family: var(--fuente-cuerpo);
-  font-size: 1rem;
-  font-weight: 300;
-  color: var(--texto-suave);
-  font-style: italic;
-  max-width: 500px;
-  margin: 0 auto;
-}
-
-/* ── Marquee ── */
-.video-marquee {
-  position: relative;
-  z-index: 1;
-  overflow: hidden;
-  padding: 12px 0 28px;
-  cursor: grab;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: pan-y;           /* ✅ scroll vertical libre */
-  -webkit-tap-highlight-color: transparent;
-
-  /* fade lateral solo en desktop */
-  mask-image: linear-gradient(to right, transparent 0%, #000 5%, #000 95%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 5%, #000 95%, transparent 100%);
-}
-.video-marquee:active { cursor: grabbing; }
-
-/* ── Track ── */
-.video-track {
-  display: flex;
-  gap: 20px;
-  width: max-content;
-  will-change: transform;
-  transform: translate3d(0, 0, 0);
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-}
-
-
-/* ── Cards ── */
-.video-card {
-  /* tamaño: generoso en móvil, controlado en desktop */
-  width: clamp(230px, 68vw, 300px);
-  flex-shrink: 0;
-  border-radius: 18px;
-  overflow: hidden;
-  background: var(--blanco);
-  box-shadow: var(--sombra);
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent; /* quita flash azul en iOS */
-
-  /* estado inactivo */
-  opacity: 0.55;
-  transform: scale(0.93);
-  transition: transform 0.4s cubic-bezier(0.22,1,0.36,1),
-              opacity  0.4s cubic-bezier(0.22,1,0.36,1),
-              box-shadow 0.4s ease;
-  will-change: transform, opacity;
-}
-
-.video-card.active {
-  opacity: 1;
-  transform: scale(1.02);
-  box-shadow: 0 20px 48px rgba(201,168,76,0.26);
-}
-
-/* ── Thumb (contenedor del video) ── */
-.video-thumb {
-  position: relative;
-  aspect-ratio: 9 / 16;
-  overflow: hidden;
-  background: #1a1a2e;   /* fondo mientras carga */
-}
-
-.video-thumb video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  display: block;
-  pointer-events: none;
-}
-
-/* ── Placeholder lazy (shimmer) ── */
-.video-placeholder {
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-  animation: shimmer-video 1.8s ease-in-out infinite alternate;
-}
-
-@keyframes shimmer-video {
-  from { opacity: 0.55; }
-  to   { opacity: 0.85; }
-}
-
-/* ── Ícono play en placeholder ── */
-.play-icon {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-}
-.play-icon svg {
-  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
-  opacity: 0.75;
-}
-.video-card.active .play-icon { display: none; }
-
-/* ── Focus accesible ── */
-.video-card:focus-visible {
-  outline: 2px solid var(--dorado);
-  outline-offset: 3px;
-}
-/* ── Videos móvil ── */
+  /* Videos móvil */
   .videos { padding: 40px 0 50px; }
   .videos .section-header { padding: 0 5%; }
   .video-marquee {
-    /* sin fade lateral en móvil, queda cortado feo */
     mask-image: none;
     -webkit-mask-image: none;
     padding: 8px 0 24px;
@@ -1340,16 +1180,12 @@ ul { list-style: none; }
   .video-card {
     width: clamp(200px, 72vw, 270px);
     border-radius: 14px;
-    /* en táctil quitamos el hover de desktop */
-    transform: scale(0.93);
     opacity: 0.55;
+    transform: scale(0.93);
   }
   .video-card.active {
-    transform: scale(1);   /* más sutil que 1.02 en pantallas pequeñas */
+    transform: scale(1);
     opacity: 1;
-  }
-  .video-card {
-    width: clamp(185px, 78vw, 250px);
   }
 
   .whatsapp-float {
@@ -1359,7 +1195,6 @@ ul { list-style: none; }
   }
 
   .catalogo, .contacto { padding: 60px 5%; }
-  .videos { padding: 60px 0; }
 }
 
 /* Celular muy pequeño (≤480px) */
@@ -1368,19 +1203,16 @@ ul { list-style: none; }
   .hero-btns { flex-direction: column; }
   .btn-primary, .btn-outline { text-align: center; justify-content: center; }
   .video-card {
-    width: clamp(190px, 72vw, 260px);
-    min-width: clamp(190px, 72vw, 260px);
-    max-width: clamp(190px, 72vw, 260px);
+    width: clamp(185px, 78vw, 250px);
   }
 }
 
-/* Desktop grande (≥1200px) — escalar textos */
+/* Desktop grande (≥1200px) */
 @media (min-width: 1200px) {
   html { font-size: 18px; }
 }
 
-/* En pantallas táctiles las tarjetas del catálogo quedan quietas.
-   Las fotos se siguen cambiando manualmente con swipe, flechas o puntos. */
+/* Pantallas táctiles: sin hover en catálogo */
 @media (hover: none), (pointer: coarse) {
   .products-grid .product-card.animate-on-scroll {
     opacity: 1;
@@ -1388,18 +1220,31 @@ ul { list-style: none; }
     transition: box-shadow 0.35s ease;
     transition-delay: 0s;
   }
-
   .product-card,
   .product-card:hover {
     transform: none;
   }
-
   .product-card:hover {
     box-shadow: var(--sombra);
   }
-
   .product-card:hover .product-tag {
     transform: none;
     box-shadow: none;
   }
+}
+
+/* Movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .carousel-track { transition: none; }
+  .video-track    { transition: none !important; }
+  .hero-badge     { animation: none; }
+  .whatsapp-float { animation: none; }
 }
