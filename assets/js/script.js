@@ -354,6 +354,7 @@ const VideoMarquee = (() => {
   let dragStartCard = null;
   let lastRafTime = 0;
   const FPS_LIMIT = 60;
+  let oneTimeSoundListenerAdded = false;
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -674,6 +675,28 @@ const VideoMarquee = (() => {
           hasCenteredInitial = true;
         } else {
           updateActiveCard();
+        }
+
+        // Add a one-time minimal interaction listener to enable sound when
+        // the user first taps/clicks while the videos section is visible.
+        if (!oneTimeSoundListenerAdded) {
+          const onFirstInteract = (ev) => {
+            // Only enable if interaction happens inside the videosSection
+            try {
+              if (videosSection.contains(ev.target)) {
+                enableSoundSession();
+                document.removeEventListener('pointerdown', onFirstInteract, true);
+                document.removeEventListener('touchstart', onFirstInteract, true);
+                oneTimeSoundListenerAdded = false;
+              }
+            } catch (e) {
+              // ignore
+            }
+          };
+
+          document.addEventListener('pointerdown', onFirstInteract, true);
+          document.addEventListener('touchstart', onFirstInteract, true);
+          oneTimeSoundListenerAdded = true;
         }
       }
     });
