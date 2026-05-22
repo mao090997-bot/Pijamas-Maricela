@@ -20,7 +20,7 @@ assets/
 │   ├── bolsa.jpg
 │   ├── producto-1/  → fotos Pijama Tulipán
 │   ├── producto-2/  → fotos Pijama Luna
-│   ├── producto-3/  → fotos Pijama Primavera
+│   ├── producto-3/  → fotos Pijama Primavera (JPG optimizados)
 │   ├── producto-4/  → fotos Pijama Dorada
 │   ├── producto-5/  → fotos Pijama Mariposa
 │   ├── producto-6/  → fotos Pijama Tulipán (2)
@@ -51,6 +51,7 @@ AGENTS.md    → este archivo
 - Swipe táctil (>40px) soportado en móvil.
 - La etiqueta de color se actualiza desde `dot.dataset.color`.
 - La URL del botón WhatsApp se actualiza dinámicamente con el color.
+- Las imagenes del catalogo se crean desde JS con `loading="lazy"` y `decoding="async"` para mejorar la carga movil.
 
 ## WhatsApp
 - Números principales: +57 318 830 0429, +57 316 696 7170.
@@ -61,13 +62,22 @@ AGENTS.md    → este archivo
 - Sección `<section class="videos" id="videos">` entre el catálogo y "Sobre Nosotros".
 - Carrusel horizontal infinito con clones generados desde JS.
 - Auto-play del video centrado: se reproduce el video más cercano al centro del viewport.
-- Auto-scroll se pausa al reproducir un video (se queda quieto viéndolo).
-- Al arrastrar con el dedo: el carrusel se mueve, el video cambia según cuál toques.
-- Al levantar el dedo: todos se detienen, auto-scroll + auto-play se reanudan.
-- Desktop: hover preview (mouseenter), click toggle (togglePlay).
-- Si el video termina, se queda en el último frame (no avanza solo).
-- `prefers-reduced-motion: reduce` desactiva el auto-scroll.
+- Al entrar en la seccion, el video mas centrado queda alineado y se reproduce en silencio.
+- La primera interaccion del usuario habilita audio para la sesion de videos.
+- Al arrastrar con el dedo: si el gesto supera el umbral, pasa al siguiente/anterior.
+- Al levantar el dedo: el video objetivo hace snap suave y queda centrado automaticamente.
+- Si el gesto es pequeno, vuelve a centrar el video mas cercano.
+- Los videos usan `preload="none"` en HTML/JS y pasan a `preload="auto"` solo al reproducirse.
+- `prefers-reduced-motion: reduce` evita transiciones/animaciones innecesarias.
 - `IntersectionObserver` silencia los videos al salir del viewport.
+
+## Optimizacion de carga
+- `index.html` usa `preconnect` para Google Fonts, Google Fonts Static y cdnjs.
+- La imagen principal `assets/img/portada.jpeg` usa `fetchpriority="high"` y `decoding="async"`.
+- Imagenes fuera del primer viewport usan `loading="lazy"` y `decoding="async"` cuando aplica.
+- Producto 3 usa JPG optimizados (`ree1.jpg` a `ree5.jpg`) en lugar de los PNG originales.
+- Los PNG originales de producto 3 fueron eliminados tras actualizar las rutas.
+- Evitar volver a subir imagenes de producto pesadas; preferir JPG/WebP optimizados.
 
 ## Notas de estilo
 - Variables CSS en `:root` para theming (dorado, rosa, crema).
@@ -82,6 +92,7 @@ El orden de las fotos en `data-images` **debe** ser exactamente el mismo que el 
 ## Gotchas comunes
 - Las fotos están en `assets/img/producto-N/` organizadas por producto.
 - Los nombres de archivo usan kebab-case (ej: `rosado-bebe.jpeg`).
+- Producto 3 actualmente referencia `assets/img/producto-3/ree1.jpg` a `ree5.jpg`.
 - Los videos están en `assets/videos/video-N.mp4` (nombres limpios).
 - Los clones de video se generan automáticamente desde JS al cargar la página.
 - Los links de redes sociales tienen placeholders `TU_USUARIO` / `TU_PAGINA`.

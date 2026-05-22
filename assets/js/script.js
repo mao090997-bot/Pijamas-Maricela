@@ -93,6 +93,8 @@ function inicializarCarrusel(container) {
     const colorName = colorNames?.[index]?.dataset?.color || `Foto ${index + 1}`;
     img.alt       = `${productName} - Color: ${colorName}`;
     img.className = 'carousel-img';
+    img.loading   = 'lazy';
+    img.decoding  = 'async';
 
     // Si la imagen no carga (ruta incorrecta), muestra un fondo de color
     // en lugar de un ícono roto
@@ -313,6 +315,8 @@ const VideoMarquee = (() => {
   let hasDragged = false;
   let soundEnabled = false;
   let soundEnabledOnPointer = false;
+  let hasCenteredInitial = false;
+  let dragStartCard = null;
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -367,7 +371,7 @@ const VideoMarquee = (() => {
 
     video.playsInline = true;
 
-    video.preload = 'metadata';
+    video.preload = 'none';
   });
 
   // ─────────────────────────────
@@ -376,10 +380,13 @@ const VideoMarquee = (() => {
   function wrap() {
 
     const half = track.scrollWidth / 2;
+    const firstCardWidth = originalCards[0]?.getBoundingClientRect().width || 0;
+    const gap = parseFloat(window.getComputedStyle(track).gap) || 0;
+    const positiveLimit = (firstCardWidth / 2) + gap;
 
     if (pos <= -half) pos += half;
 
-    if (pos > 0) pos -= half;
+    if (pos > positiveLimit) pos -= half;
   }
 
   // ─────────────────────────────
@@ -395,7 +402,38 @@ const VideoMarquee = (() => {
     });
   }
 
+  function getClosestCard() {
+
+    const marqueeRect = marquee.getBoundingClientRect();
+
+    const center = marqueeRect.left + marqueeRect.width / 2;
+
+    let closest = null;
+
+    let closestDistance = Infinity;
+
+    allCards.forEach(card => {
+
+      const rect = card.getBoundingClientRect();
+
+      const cardCenter = rect.left + rect.width / 2;
+
+      const distance = Math.abs(center - cardCenter);
+
+      if (distance < closestDistance) {
+
+        closestDistance = distance;
+
+        closest = card;
+      }
+    });
+
+    return closest;
+  }
+
   function playInlineMuted(video) {
+
+    video.preload = 'auto';
 
     video.muted = true;
 
@@ -405,6 +443,8 @@ const VideoMarquee = (() => {
   }
 
   function playWithSound(video) {
+
+    video.preload = 'auto';
 
     video.muted = false;
 
@@ -437,29 +477,7 @@ const VideoMarquee = (() => {
 
   function updateActiveCard() {
 
-    const marqueeRect = marquee.getBoundingClientRect();
-
-    const center = marqueeRect.left + marqueeRect.width / 2;
-
-    let closest = null;
-
-    let closestDistance = Infinity;
-
-    allCards.forEach(card => {
-
-      const rect = card.getBoundingClientRect();
-
-      const cardCenter = rect.left + rect.width / 2;
-
-      const distance = Math.abs(center - cardCenter);
-
-      if (distance < closestDistance) {
-
-        closestDistance = distance;
-
-        closest = card;
-      }
-    });
+    const closest = getClosestCard();
 
     if (!closest) return;
 
@@ -516,11 +534,13 @@ const VideoMarquee = (() => {
 
   function moveCardToCenter(card) {
 
+    if (!card) return;
+
     const marqueeRect = marquee.getBoundingClientRect();
 
-    const cardRect = card.getBoundingClientRect();
-
     const marqueeCenter = marqueeRect.left + marqueeRect.width / 2;
+
+    const cardRect = card.getBoundingClientRect();
 
     const cardCenter = cardRect.left + cardRect.width / 2;
 
@@ -529,6 +549,37 @@ const VideoMarquee = (() => {
     wrap();
 
     track.style.transform = `translate3d(${pos}px, 0, 0)`;
+  }
+
+  function centerCard(card) {
+
+    if (!card) return;
+
+    if (!reducedMotion.matches) {
+
+      track.style.transition = 'transform 0.36s cubic-bezier(0.22, 1, 0.36, 1)';
+    }
+
+    moveCardToCenter(card);
+
+    updateActiveCard();
+
+    window.setTimeout(() => {
+
+      track.style.transition = '';
+
+    }, 380);
+  }
+
+  function getAdjacentCard(card, direction) {
+
+    const index = allCards.indexOf(card);
+
+    if (index === -1) return getClosestCard();
+
+    const nextIndex = (index + direction + allCards.length) % allCards.length;
+
+    return allCards[nextIndex];
   }
 
   function startAnimation() {
@@ -549,7 +600,7 @@ const VideoMarquee = (() => {
 
     updateActiveCard();
 
-    animationId = requestAnimationFrame(animate);
+    animationId = null;
   }
 
   // ─────────────────────────────
@@ -561,7 +612,11 @@ const VideoMarquee = (() => {
 
     hasDragged = false;
 
+    dragStartCard = currentCard || getClosestCard();
+
     silenceVideos();
+
+    track.style.transition = 'none';
 
     startX = x;
 
@@ -601,14 +656,27 @@ const VideoMarquee = (() => {
   // ─────────────────────────────
   function dragEnd() {
 
+    const delta = pos - initialPos;
+
     dragging = false;
 
     marquee.style.cursor = 'grab';
 
     if (isInView) {
 
-      updateActiveCard();
+      if (hasDragged && Math.abs(delta) > 36) {
+
+        const direction = delta < 0 ? 1 : -1;
+
+        centerCard(getAdjacentCard(dragStartCard || getClosestCard(), direction));
+
+      } else {
+
+        centerCard(getClosestCard());
+      }
     }
+
+    dragStartCard = null;
   }
 
   // ─────────────────────────────
@@ -680,9 +748,7 @@ const VideoMarquee = (() => {
 
       if (!card.classList.contains('active')) {
 
-        moveCardToCenter(card);
-
-        updateActiveCard();
+        centerCard(card);
 
         playWithSound(video);
 
@@ -742,7 +808,16 @@ const VideoMarquee = (() => {
 
         isInView = true;
 
-        updateActiveCard();
+        if (!hasCenteredInitial) {
+
+          centerCard(currentCard || getClosestCard() || originalCards[0]);
+
+          hasCenteredInitial = true;
+
+        } else {
+
+          updateActiveCard();
+        }
 
         startAnimation();
       }

@@ -44,6 +44,9 @@
   </script>
 
   <!-- Archivo de estilos -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
   <link rel="stylesheet" href="assets/css/style.css" />
 
   <!-- Fuentes de Google: Cormorant Garamond (títulos) + Jost (cuerpo) -->
@@ -62,7 +65,7 @@
 
   <div class="nav-logo">
     <div class="logo-icon">
-        <img src="assets/img/logo.png" alt="Pijamas Maricela" class="logo-img"/>
+        <img src="assets/img/logo.png" alt="Pijamas Maricela" class="logo-img" decoding="async"/>
     </div>
     <span class="logo-text">Pijamas Maricela</span>
   </div>
@@ -120,7 +123,7 @@
     </h1>
     <p class="hero-slogan animate-fade-up delay-3">
       Un descanso cómodo
-      <img src="assets/img/logo.png" alt="" class="hero-slogan-logo"/>
+      <img src="assets/img/logo.png" alt="" class="hero-slogan-logo" decoding="async"/>
     </p>
     <p class="hero-desc animate-fade-up delay-4">
       Pijamas femeninas diseñadas para que cada noche sea especial.<br/>
@@ -135,9 +138,9 @@
   </div>
 
   <div class="hero-image animate-fade-left delay-3">
-    <img src="assets/img/portada.jpeg" alt="Pijamas Maricela – colección de pijamas femeninas" class="hero-img"/>
+    <img src="assets/img/portada.jpeg" alt="Pijamas Maricela – colección de pijamas femeninas" class="hero-img" fetchpriority="high" decoding="async"/>
     <div class="hero-badge">
-      <span><img src="assets/img/logo.png" alt="" class="hero-badge-logo"></span>
+      <span><img src="assets/img/logo.png" alt="" class="hero-badge-logo" decoding="async"></span>
       <p>Envíos<br/>a todo<br/>Colombia</p>
     </div>
   </div>
@@ -258,11 +261,11 @@
         <div class="carousel-container"
              data-product="3"
              data-images='[
-                "assets/img/producto-3/ree1.png",
-                "assets/img/producto-3/ree2.png",
-                "assets/img/producto-3/ree3.png",
-                "assets/img/producto-3/ree4.png",
-                "assets/img/producto-3/ree5.png"
+                "assets/img/producto-3/ree1.jpg",
+                "assets/img/producto-3/ree2.jpg",
+                "assets/img/producto-3/ree3.jpg",
+                "assets/img/producto-3/ree4.jpg",
+                "assets/img/producto-3/ree5.jpg"
                ]'>
           <div class="carousel-track"></div>
           <button class="carousel-btn carousel-btn--prev" aria-label="Foto anterior"><i class="fas fa-chevron-left"></i></button>
@@ -456,31 +459,31 @@
 
       <div class="video-card" data-index="0">
         <div class="video-thumb">
-          <video src="assets/videos/video-01.mp4" preload="metadata" playsinline muted disablepictureinpicture controlslist="nodownload noplaybackrate noremoteplayback"></video>
+          <video src="assets/videos/video-01.mp4" preload="none" playsinline muted disablepictureinpicture controlslist="nodownload noplaybackrate noremoteplayback"></video>
         </div>
       </div>
 
       <div class="video-card" data-index="1">
         <div class="video-thumb">
-          <video src="assets/videos/video-02.mp4" preload="metadata" playsinline muted disablepictureinpicture controlslist="nodownload noplaybackrate noremoteplayback"></video>
+          <video src="assets/videos/video-02.mp4" preload="none" playsinline muted disablepictureinpicture controlslist="nodownload noplaybackrate noremoteplayback"></video>
         </div>
       </div>
 
       <div class="video-card" data-index="2">
         <div class="video-thumb">
-          <video src="assets/videos/video-03.mp4" preload="metadata" playsinline muted disablepictureinpicture controlslist="nodownload noplaybackrate noremoteplayback"></video>
+          <video src="assets/videos/video-03.mp4" preload="none" playsinline muted disablepictureinpicture controlslist="nodownload noplaybackrate noremoteplayback"></video>
         </div>
       </div>
 
       <div class="video-card" data-index="3">
         <div class="video-thumb">
-          <video src="assets/videos/video-04.mp4" preload="metadata" playsinline muted disablepictureinpicture controlslist="nodownload noplaybackrate noremoteplayback"></video>
+          <video src="assets/videos/video-04.mp4" preload="none" playsinline muted disablepictureinpicture controlslist="nodownload noplaybackrate noremoteplayback"></video>
         </div>
       </div>
 
       <div class="video-card" data-index="4">
         <div class="video-thumb">
-          <video src="assets/videos/video-05.mp4" preload="metadata" playsinline muted disablepictureinpicture controlslist="nodownload noplaybackrate noremoteplayback"></video>
+          <video src="assets/videos/video-05.mp4" preload="none" playsinline muted disablepictureinpicture controlslist="nodownload noplaybackrate noremoteplayback"></video>
         </div>
       </div>
 
@@ -495,7 +498,7 @@
   <div class="nosotros-img animate-on-scroll">
     <div class="nosotros-photo-wrap">
       <div class="img-placeholder decorative">
-        <img src="assets/img/bolsa.jpg" alt="Pijamas Maricela" class="nosotros-photo">
+        <img src="assets/img/bolsa.jpg" alt="Pijamas Maricela" class="nosotros-photo" loading="lazy" decoding="async">
       </div>
     </div>
   </div>
@@ -564,7 +567,7 @@
   </div>
 
   <div class="social-links animate-on-scroll">
-    <p class="social-title">Síguenos en redes <img src="assets/img/logo.png" alt="" class="social-title-img"></p>
+    <p class="social-title">Síguenos en redes <img src="assets/img/logo.png" alt="" class="social-title-img" loading="lazy" decoding="async"></p>
     <div class="social-icons">
       <a href="https://www.instagram.com/pijamass_maricela?igsh=ZTUwZWxlNmhzbzVi&utm_source=qr" target="_blank" class="social-icon instagram" title="Instagram">
         <i class="fab fa-instagram"></i>
@@ -588,7 +591,7 @@
 <footer class="footer">
   <div class="footer-content">
     <div class="footer-logo">
-      <img src="assets/img/logo.png" alt="Pijamas Maricela" class="footer-logo-img"> Pijamas Maricela
+      <img src="assets/img/logo.png" alt="Pijamas Maricela" class="footer-logo-img" loading="lazy" decoding="async"> Pijamas Maricela
     </div>
     <p class="footer-slogan">Un descanso cómodo</p>
     <p class="footer-copy">© 2026 Pijamas Maricela · Todos los derechos reservados</p>

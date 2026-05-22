@@ -1192,7 +1192,8 @@ ul { list-style: none; }
     bottom: 18px; right: 18px;
   }
 
-  .catalogo, .contacto, .videos { padding: 60px 5%; }
+  .catalogo, .contacto { padding: 60px 5%; }
+  .videos { padding: 60px 0; }
 }
 
 /* Celular muy pequeño (≤480px) */
