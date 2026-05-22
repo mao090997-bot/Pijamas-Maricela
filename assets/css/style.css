@@ -1163,26 +1163,193 @@ ul { list-style: none; }
   .contacto-cards { flex-direction: column; align-items: center; }
   .contact-card { width: 100%; max-width: 320px; }
 
-  .videos {
-    padding-left: 0;
-    padding-right: 0;
-  }
-  .videos .section-header {
-    padding: 0 5%;
-  }
+  
+/* ─── 8.5 VIDEOS ─── */
+.videos {
+  padding: 40px 0 60px;
+  background: var(--crema);
+  position: relative;
+  overflow: hidden;
+}
+.videos-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.videos-bg .circle {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.4;
+  animation: float 8s ease-in-out infinite;
+}
+.videos-bg .c1 {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, var(--rosa-suave), transparent 70%);
+  top: -150px; left: -100px;
+}
+.videos-bg .c2 {
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, var(--dorado-claro), transparent 70%);
+  bottom: -80px; right: -60px;
+  animation-delay: 3s;
+}
+
+.videos .section-header {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 24px;
+  padding: 0 6%;
+}
+.videos-heading {
+  font-family: var(--fuente-titulo);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 400;
+  color: var(--dorado);
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+.videos-subheading {
+  font-family: var(--fuente-cuerpo);
+  font-size: 1rem;
+  font-weight: 300;
+  color: var(--texto-suave);
+  font-style: italic;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* ── Marquee ── */
+.video-marquee {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  padding: 12px 0 28px;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: pan-y;           /* ✅ scroll vertical libre */
+  -webkit-tap-highlight-color: transparent;
+
+  /* fade lateral solo en desktop */
+  mask-image: linear-gradient(to right, transparent 0%, #000 5%, #000 95%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 5%, #000 95%, transparent 100%);
+}
+.video-marquee:active { cursor: grabbing; }
+
+/* ── Track ── */
+.video-track {
+  display: flex;
+  gap: 20px;
+  width: max-content;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+
+/* ── Cards ── */
+.video-card {
+  /* tamaño: generoso en móvil, controlado en desktop */
+  width: clamp(230px, 68vw, 300px);
+  flex-shrink: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--blanco);
+  box-shadow: var(--sombra);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent; /* quita flash azul en iOS */
+
+  /* estado inactivo */
+  opacity: 0.55;
+  transform: scale(0.93);
+  transition: transform 0.4s cubic-bezier(0.22,1,0.36,1),
+              opacity  0.4s cubic-bezier(0.22,1,0.36,1),
+              box-shadow 0.4s ease;
+  will-change: transform, opacity;
+}
+
+.video-card.active {
+  opacity: 1;
+  transform: scale(1.02);
+  box-shadow: 0 20px 48px rgba(201,168,76,0.26);
+}
+
+/* ── Thumb (contenedor del video) ── */
+.video-thumb {
+  position: relative;
+  aspect-ratio: 9 / 16;
+  overflow: hidden;
+  background: #1a1a2e;   /* fondo mientras carga */
+}
+
+.video-thumb video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  pointer-events: none;
+}
+
+/* ── Placeholder lazy (shimmer) ── */
+.video-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  animation: shimmer-video 1.8s ease-in-out infinite alternate;
+}
+
+@keyframes shimmer-video {
+  from { opacity: 0.55; }
+  to   { opacity: 0.85; }
+}
+
+/* ── Ícono play en placeholder ── */
+.play-icon {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.play-icon svg {
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
+  opacity: 0.75;
+}
+.video-card.active .play-icon { display: none; }
+
+/* ── Focus accesible ── */
+.video-card:focus-visible {
+  outline: 2px solid var(--dorado);
+  outline-offset: 3px;
+}
+/* ── Videos móvil ── */
+  .videos { padding: 40px 0 50px; }
+  .videos .section-header { padding: 0 5%; }
   .video-marquee {
+    /* sin fade lateral en móvil, queda cortado feo */
     mask-image: none;
     -webkit-mask-image: none;
     padding: 8px 0 24px;
   }
-  .video-track {
-    gap: 12px;
+  .video-track { gap: 14px; }
+  .video-card {
+    width: clamp(200px, 72vw, 270px);
+    border-radius: 14px;
+    /* en táctil quitamos el hover de desktop */
+    transform: scale(0.93);
+    opacity: 0.55;
+  }
+  .video-card.active {
+    transform: scale(1);   /* más sutil que 1.02 en pantallas pequeñas */
+    opacity: 1;
   }
   .video-card {
-    width: clamp(210px, 68vw, 300px);
-    min-width: clamp(210px, 68vw, 300px);
-    max-width: clamp(210px, 68vw, 300px);
-    border-radius: 14px;
+    width: clamp(185px, 78vw, 250px);
   }
 
   .whatsapp-float {

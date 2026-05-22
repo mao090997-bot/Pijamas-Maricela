@@ -291,7 +291,7 @@ function actualizarMensajeWhatsApp(btn, colorName) {
 
 
 // ─────────────────────────────────────
-// VIDEO MARQUEE PRO
+// VIDEO MARQUEE PRO — Mobile Optimized
 // ─────────────────────────────────────
 
 const VideoMarquee = (() => {
@@ -303,22 +303,16 @@ const VideoMarquee = (() => {
 
   const videosSection = marquee.closest('.videos') || marquee;
 
+  // ─── Build cards ───
   function buildVideoCards(container) {
     const videosAttr = container.dataset.videos;
     if (!videosAttr) return;
-
     let filenames;
-    try {
-      filenames = JSON.parse(videosAttr);
-    } catch (e) {
-      console.warn('VideoMarquee: error parsing data-videos JSON.', e);
-      return;
-    }
-
+    try { filenames = JSON.parse(videosAttr); }
+    catch (e) { console.warn('VideoMarquee: error parsing data-videos JSON.', e); return; }
     if (!Array.isArray(filenames) || filenames.length === 0) return;
 
     container.innerHTML = '';
-
     filenames.forEach((fileName, index) => {
       const card = document.createElement('div');
       card.className = 'video-card';
@@ -327,18 +321,18 @@ const VideoMarquee = (() => {
       const thumb = document.createElement('div');
       thumb.className = 'video-thumb';
 
-      const video = document.createElement('video');
-      video.src = `assets/videos/${fileName}`;
-      video.preload = 'metadata';
-      video.playsInline = true;
-      video.muted = true;
-      video.setAttribute('playsinline', '');
-      video.setAttribute('muted', '');
-      video.setAttribute('disablepictureinpicture', '');
-      video.setAttribute('controlslist', 'nodownload noplaybackrate noremoteplayback');
-      video.setAttribute('data-video-source', fileName);
+      // ✅ LAZY: placeholder en lugar de <video> real
+      const placeholder = document.createElement('div');
+      placeholder.className = 'video-placeholder';
+      placeholder.dataset.src = `assets/videos/${fileName}`;
 
-      thumb.appendChild(video);
+      // Ícono de play visual
+      const playIcon = document.createElement('div');
+      playIcon.className = 'play-icon';
+      playIcon.innerHTML = `<svg viewBox="0 0 24 24" fill="white" width="32" height="32"><path d="M8 5v14l11-7z"/></svg>`;
+
+      thumb.appendChild(placeholder);
+      thumb.appendChild(playIcon);
       card.appendChild(thumb);
       container.appendChild(card);
     });
@@ -346,13 +340,11 @@ const VideoMarquee = (() => {
 
   buildVideoCards(track);
 
+  // ─── Estado ───
   let pos = 0;
-  let animationId = null;
-
   let dragging = false;
   let startX = 0;
   let initialPos = 0;
-
   let currentCard = null;
   let isInView = false;
   let hasDragged = false;
@@ -360,515 +352,328 @@ const VideoMarquee = (() => {
   let soundEnabledOnPointer = false;
   let hasCenteredInitial = false;
   let dragStartCard = null;
+  let lastRafTime = 0;
+  const FPS_LIMIT = 60;
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-  // ─────────────────────────────
-  // CARDS ORIGINALES
-  // ─────────────────────────────
   const originalCards = [...track.querySelectorAll('.video-card')];
 
-  // ─────────────────────────────
-  // CLONAR PARA LOOP INFINITO
-  // ─────────────────────────────
+  // ─── Clonar para loop ───
   originalCards.forEach(card => {
-
     const clone = card.cloneNode(true);
-
     clone.setAttribute('aria-hidden', 'true');
-
     track.appendChild(clone);
   });
 
-  // ─────────────────────────────
-  // TODAS LAS CARDS
-  // ─────────────────────────────
   const allCards = [...track.querySelectorAll('.video-card')];
 
-  // ─────────────────────────────
-  // CONFIGURAR VIDEOS
-  // ─────────────────────────────
-  allCards.forEach(card => {
+  // ─── Cargar video lazy en una card ───
+  function loadVideoForCard(card) {
+    if (card.dataset.videoLoaded) return card.querySelector('video');
 
-    const video = card.querySelector('video');
+    const placeholder = card.querySelector('.video-placeholder');
+    if (!placeholder) return null;
 
+    const src = placeholder.dataset.src;
+    if (!src) return null;
+
+    const video = document.createElement('video');
+    video.src = src;
+    // ✅ CRÍTICO en iOS: estos 3 atributos deben estar antes de .play()
     video.muted = true;
-
+    video.playsInline = true;
+    video.setAttribute('playsinline', '');
+    video.setAttribute('muted', '');
+    video.setAttribute('webkit-playsinline', ''); // Safari antiguo
+    video.setAttribute('disablepictureinpicture', '');
+    video.setAttribute('controlslist', 'nodownload noplaybackrate noremoteplayback');
+    video.disablePictureInPicture = true;
+    video.loop = true;
+    video.preload = 'auto';
     video.controls = false;
 
-    video.removeAttribute('controls');
+    placeholder.replaceWith(video);
+    card.dataset.videoLoaded = '1';
+    return video;
+  }
 
-    video.setAttribute('muted', '');
+  // ─── Pre-cargar adyacentes ───
+  function preloadAdjacentCards(card) {
+    const index = allCards.indexOf(card);
+    if (index === -1) return;
+    [-1, 0, 1].forEach(offset => {
+      const i = (index + offset + allCards.length) % allCards.length;
+      loadVideoForCard(allCards[i]);
+    });
+  }
 
-    video.setAttribute('playsinline', '');
-
-    video.setAttribute('disablepictureinpicture', '');
-
-    video.setAttribute('controlslist', 'nodownload noplaybackrate noremoteplayback');
-
-    video.disablePictureInPicture = true;
-
-    video.disableRemotePlayback = true;
-
-    video.loop = true;
-
-    video.playsInline = true;
-
-    video.preload = 'metadata';
-  });
-
-  // ─────────────────────────────
-  // WRAP INFINITO
-  // ─────────────────────────────
+  // ─── Wrap infinito ───
   function wrap() {
-
     const half = track.scrollWidth / 2;
-    const firstCardWidth = originalCards[0]?.getBoundingClientRect().width || 0;
+    const firstCard = originalCards[0];
+    const firstCardWidth = firstCard ? firstCard.getBoundingClientRect().width : 0;
     const gap = parseFloat(window.getComputedStyle(track).gap) || 0;
     const positiveLimit = (firstCardWidth / 2) + gap;
-
     if (pos <= -half) pos += half;
-
     if (pos > positiveLimit) pos -= half;
   }
 
-  // ─────────────────────────────
-  // DETECTAR CARD ACTIVA
-  // ─────────────────────────────
   function silenceVideos() {
-
     allCards.forEach(card => {
-
       const video = card.querySelector('video');
-
-      video.muted = true;
+      if (video) video.muted = true;
     });
   }
 
   function getClosestCard() {
-
     const marqueeRect = marquee.getBoundingClientRect();
-
     const center = marqueeRect.left + marqueeRect.width / 2;
-
-    let closest = null;
-
-    let closestDistance = Infinity;
-
+    let closest = null, closestDist = Infinity;
     allCards.forEach(card => {
-
       const rect = card.getBoundingClientRect();
-
-      const cardCenter = rect.left + rect.width / 2;
-
-      const distance = Math.abs(center - cardCenter);
-
-      if (distance < closestDistance) {
-
-        closestDistance = distance;
-
-        closest = card;
-      }
+      const dist = Math.abs(center - (rect.left + rect.width / 2));
+      if (dist < closestDist) { closestDist = dist; closest = card; }
     });
-
     return closest;
   }
 
   function playInlineMuted(video) {
-
-    video.preload = 'auto';
-
+    if (!video) return;
     video.muted = true;
-
     video.setAttribute('muted', '');
-
     video.play().catch(() => {});
   }
 
   function playWithSound(video) {
-
-    video.preload = 'auto';
-
+    if (!video) return;
     video.muted = false;
-
     video.removeAttribute('muted');
-
     video.volume = 1;
-
     video.play().catch(() => {});
   }
 
   function enableSoundSession() {
-
-    if (soundEnabled) {
-
-      soundEnabledOnPointer = false;
-
-      return false;
-    }
-
+    if (soundEnabled) { soundEnabledOnPointer = false; return false; }
     soundEnabled = true;
     soundEnabledOnPointer = true;
-
     if (currentCard && isInView) {
-
-      playWithSound(currentCard.querySelector('video'));
+      const v = currentCard.querySelector('video');
+      if (v) playWithSound(v);
     }
-
     return true;
   }
 
   function updateActiveCard() {
-
     const closest = getClosestCard();
-
     if (!closest) return;
 
     if (closest === currentCard) {
-
       if (!dragging) {
-
-        const activeVideo = closest.querySelector('video');
-
-        if (soundEnabled && (activeVideo.paused || activeVideo.muted)) {
-
-          playWithSound(activeVideo);
-
-        } else if (activeVideo.paused && activeVideo.muted) {
-
-          playInlineMuted(activeVideo);
+        const v = closest.querySelector('video');
+        if (v) {
+          if (soundEnabled && (v.paused || v.muted)) playWithSound(v);
+          else if (v.paused && v.muted) playInlineMuted(v);
         }
       }
-
       return;
     }
 
     currentCard = closest;
 
-    // RESET TODAS
     allCards.forEach(card => {
-
       card.classList.remove('active');
-
-      const video = card.querySelector('video');
-
-      video.pause();
-
-      video.currentTime = 0;
-
-      video.muted = true;
-
+      const v = card.querySelector('video');
+      if (v) { v.pause(); v.currentTime = 0; v.muted = true; }
     });
 
-    // ACTIVAR NUEVA
     closest.classList.add('active');
+    preloadAdjacentCards(closest);
 
-    const activeVideo = closest.querySelector('video');
-
-    if (soundEnabled) {
-
-      playWithSound(activeVideo);
-
-    } else {
-
-      playInlineMuted(activeVideo);
-    }
+    const activeVideo = loadVideoForCard(closest);
+    if (soundEnabled) playWithSound(activeVideo);
+    else playInlineMuted(activeVideo);
   }
 
   function moveCardToCenter(card) {
-
     if (!card) return;
-
     const marqueeRect = marquee.getBoundingClientRect();
-
     const marqueeCenter = marqueeRect.left + marqueeRect.width / 2;
-
     const cardRect = card.getBoundingClientRect();
-
     const cardCenter = cardRect.left + cardRect.width / 2;
-
     pos += marqueeCenter - cardCenter;
-
     wrap();
-
     track.style.transform = `translate3d(${pos}px, 0, 0)`;
   }
 
   function centerCard(card) {
-
     if (!card) return;
-
     if (!reducedMotion.matches) {
-
       track.style.transition = 'transform 0.36s cubic-bezier(0.22, 1, 0.36, 1)';
     }
-
     moveCardToCenter(card);
-
     updateActiveCard();
-
-    window.setTimeout(() => {
-
-      track.style.transition = '';
-
-    }, 380);
+    setTimeout(() => { track.style.transition = ''; }, 380);
   }
 
   function getAdjacentCard(card, direction) {
-
     const index = allCards.indexOf(card);
-
     if (index === -1) return getClosestCard();
-
-    const nextIndex = (index + direction + allCards.length) % allCards.length;
-
-    return allCards[nextIndex];
+    return allCards[(index + direction + allCards.length) % allCards.length];
   }
 
-  function startAnimation() {
-
-    if (animationId || reducedMotion.matches) return;
-
-    animationId = requestAnimationFrame(animate);
-  }
-
-  // ─────────────────────────────
-  // ANIMACIÓN PRINCIPAL
-  // ─────────────────────────────
-  function animate() {
-
-    wrap();
-
-    track.style.transform = `translate3d(${pos}px, 0, 0)`;
-
-    updateActiveCard();
-
-    animationId = null;
-  }
-
-  // ─────────────────────────────
-  // DRAG START
-  // ─────────────────────────────
+  // ─── Drag ───
   function dragStart(x) {
-
     dragging = true;
-
     hasDragged = false;
-
     dragStartCard = currentCard || getClosestCard();
-
     silenceVideos();
-
     track.style.transition = 'none';
-
     startX = x;
-
     initialPos = pos;
-
     marquee.style.cursor = 'grabbing';
   }
 
-  // ─────────────────────────────
-  // DRAG MOVE
-  // ─────────────────────────────
   function dragMove(x) {
-
     if (!dragging) return;
-
     const delta = x - startX;
-
-    if (Math.abs(delta) > 8) {
-
-      hasDragged = true;
-
-      silenceVideos();
-    }
-
+    if (Math.abs(delta) > 5) { hasDragged = true; silenceVideos(); }
     pos = initialPos + delta;
-
     wrap();
-
     track.style.transform = `translate3d(${pos}px, 0, 0)`;
-
     updateActiveCard();
-
   }
 
-  // ─────────────────────────────
-  // DRAG END
-  // ─────────────────────────────
   function dragEnd() {
-
     const delta = pos - initialPos;
-
     dragging = false;
-
     marquee.style.cursor = 'grab';
-
     if (isInView) {
-
-      if (hasDragged && Math.abs(delta) > 36) {
-
+      if (hasDragged && Math.abs(delta) > 30) {
         const direction = delta < 0 ? 1 : -1;
-
         centerCard(getAdjacentCard(dragStartCard || getClosestCard(), direction));
-
       } else {
-
         centerCard(getClosestCard());
       }
     }
-
     dragStartCard = null;
   }
 
-  // ─────────────────────────────
-  // DESKTOP EVENTS
-  // ─────────────────────────────
+  // ─── Momentum / inercia en touch ───
+  let touchVelocity = 0;
+  let lastTouchX = 0;
+  let lastTouchTime = 0;
+  let momentumId = null;
+
+  function applyMomentum() {
+    if (Math.abs(touchVelocity) < 0.5) {
+      centerCard(getClosestCard());
+      return;
+    }
+    pos += touchVelocity;
+    touchVelocity *= 0.92; // fricción
+    wrap();
+    track.style.transform = `translate3d(${pos}px, 0, 0)`;
+    updateActiveCard();
+    momentumId = requestAnimationFrame(applyMomentum);
+  }
+
+  // ─── Events Desktop ───
   marquee.addEventListener('mousedown', e => {
-
     dragStart(e.clientX);
-
     enableSoundSession();
   });
-
-  window.addEventListener('mousemove', e => {
-
-    dragMove(e.clientX);
-  });
-
+  window.addEventListener('mousemove', e => dragMove(e.clientX));
   window.addEventListener('mouseup', dragEnd);
 
-  // ─────────────────────────────
-  // TOUCH EVENTS
-  // ─────────────────────────────
+  // ─── Events Touch (con inercia) ───
   marquee.addEventListener('touchstart', e => {
-
+    if (momentumId) { cancelAnimationFrame(momentumId); momentumId = null; }
+    lastTouchX = e.touches[0].clientX;
+    lastTouchTime = Date.now();
+    touchVelocity = 0;
     dragStart(e.touches[0].clientX);
-
     enableSoundSession();
-
-  }, { passive: true });
-
-  videosSection.addEventListener('mousedown', e => {
-
-    if (!marquee.contains(e.target)) {
-
-      enableSoundSession();
-    }
-  });
-
-  videosSection.addEventListener('touchstart', e => {
-
-    if (!marquee.contains(e.target)) {
-
-      enableSoundSession();
-    }
   }, { passive: true });
 
   window.addEventListener('touchmove', e => {
-
+    const now = Date.now();
+    const dt = now - lastTouchTime;
+    if (dt > 0) {
+      touchVelocity = (e.touches[0].clientX - lastTouchX) / dt * 12;
+    }
+    lastTouchX = e.touches[0].clientX;
+    lastTouchTime = now;
     dragMove(e.touches[0].clientX);
-
   }, { passive: true });
 
-  window.addEventListener('touchend', dragEnd);
-
-  // ─────────────────────────────
-  // CLICK EN VIDEO
-  // ─────────────────────────────
-  allCards.forEach(card => {
-
-    const video = card.querySelector('video');
-
-    card.addEventListener('click', () => {
-
-      const soundStartedOnThisClick = soundEnabledOnPointer;
-
-      soundEnabledOnPointer = false;
-
-      if (hasDragged) return;
-
-      if (!card.classList.contains('active')) {
-
-        centerCard(card);
-
-        playWithSound(video);
-
-        return;
-      }
-
-      if (soundStartedOnThisClick && !video.paused && !video.muted) return;
-
-      if (video.paused || video.muted) {
-
-        playWithSound(video);
-
+  window.addEventListener('touchend', () => {
+    dragging = false;
+    marquee.style.cursor = 'grab';
+    dragStartCard = null;
+    if (isInView) {
+      if (hasDragged && Math.abs(touchVelocity) > 2) {
+        momentumId = requestAnimationFrame(applyMomentum);
       } else {
-
-        video.pause();
+        centerCard(getClosestCard());
       }
-    });
-  });
-
-  videosSection.addEventListener('keydown', e => {
-
-    if (e.key === 'Enter' || e.key === ' ') {
-
-      enableSoundSession();
     }
   });
 
-  // ─────────────────────────────
-  // INTERSECTION OBSERVER
-  // ─────────────────────────────
+  // ─── Fuera del marquee ───
+  videosSection.addEventListener('mousedown', e => {
+    if (!marquee.contains(e.target)) enableSoundSession();
+  });
+  videosSection.addEventListener('touchstart', e => {
+    if (!marquee.contains(e.target)) enableSoundSession();
+  }, { passive: true });
+  videosSection.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') enableSoundSession();
+  });
+
+  // ─── Click en cards ───
+  allCards.forEach(card => {
+    card.addEventListener('click', () => {
+      const soundStartedOnThisClick = soundEnabledOnPointer;
+      soundEnabledOnPointer = false;
+      if (hasDragged) return;
+
+      if (!card.classList.contains('active')) {
+        centerCard(card);
+        const v = loadVideoForCard(card);
+        if (v) playWithSound(v);
+        return;
+      }
+
+      const video = card.querySelector('video');
+      if (!video) return;
+      if (soundStartedOnThisClick && !video.paused && !video.muted) return;
+      if (video.paused || video.muted) playWithSound(video);
+      else video.pause();
+    });
+  });
+
+  // ─── IntersectionObserver ───
   const observer = new IntersectionObserver(entries => {
-
     entries.forEach(entry => {
-
       if (!entry.isIntersecting) {
-
         isInView = false;
-
-        cancelAnimationFrame(animationId);
-
-        animationId = null;
-
         currentCard = null;
-
         allCards.forEach(card => {
-
-          const video = card.querySelector('video');
-
-          video.pause();
-
-          video.currentTime = 0;
-
-          video.muted = true;
+          const v = card.querySelector('video');
+          if (v) { v.pause(); v.currentTime = 0; v.muted = true; }
         });
-
       } else {
-
         isInView = true;
-
         if (!hasCenteredInitial) {
-
           centerCard(currentCard || getClosestCard() || originalCards[0]);
-
           hasCenteredInitial = true;
-
         } else {
-
           updateActiveCard();
         }
-
-        startAnimation();
       }
     });
-
-  }, {
-    threshold: 0.2
-  });
+  }, { threshold: 0.15 });
 
   observer.observe(marquee);
 
