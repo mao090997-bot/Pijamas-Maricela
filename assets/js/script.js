@@ -283,227 +283,299 @@ function actualizarMensajeWhatsApp(btn, colorName) {
 }
 
 
-// ─── GENERAR CLONES DE VIDEO ───
-(function generarClones() {
+// ─────────────────────────────────────
+// VIDEO MARQUEE PRO
+// ─────────────────────────────────────
+
+const VideoMarquee = (() => {
+
   const track = document.getElementById('videoTrack');
-  if (!track) return;
-  const cards = track.querySelectorAll('.video-card:not([aria-hidden])');
-  cards.forEach(c => {
-    const clone = c.cloneNode(true);
+  const marquee = document.querySelector('.video-marquee');
+
+  if (!track || !marquee) return;
+
+  const SPEED = 0.35;
+
+  let pos = 0;
+  let animationId = null;
+
+  let dragging = false;
+  let startX = 0;
+  let initialPos = 0;
+
+  let velocity = 0;
+
+  let currentCard = null;
+
+  // ─────────────────────────────
+  // CARDS ORIGINALES
+  // ─────────────────────────────
+  const originalCards = [...track.querySelectorAll('.video-card')];
+
+  // ─────────────────────────────
+  // CLONAR PARA LOOP INFINITO
+  // ─────────────────────────────
+  originalCards.forEach(card => {
+
+    const clone = card.cloneNode(true);
+
     clone.setAttribute('aria-hidden', 'true');
+
     track.appendChild(clone);
   });
-})();
 
-// ─── VIDEO MARQUEE ───
-const VideoMarquee = (() => {
-  const track = document.getElementById('videoTrack');
-  const allCards = track.querySelectorAll('.video-card');
-  const marquee = document.querySelector('.video-marquee');
-  const SPEED = 0.4;
+  // ─────────────────────────────
+  // TODAS LAS CARDS
+  // ─────────────────────────────
+  const allCards = [...track.querySelectorAll('.video-card')];
 
-  let pos = 0, frameId = null, paused = false;
-  let dragging = false, dragX = 0, dragPos = 0;
-  let touched = null, lastAuto = null;
+  // ─────────────────────────────
+  // CONFIGURAR VIDEOS
+  // ─────────────────────────────
+  allCards.forEach(card => {
 
+    const video = card.querySelector('video');
+
+    video.muted = true;
+
+    video.loop = true;
+
+    video.playsInline = true;
+
+    video.preload = 'metadata';
+  });
+
+  // ─────────────────────────────
+  // WRAP INFINITO
+  // ─────────────────────────────
   function wrap() {
+
     const half = track.scrollWidth / 2;
-    if (pos < -half) pos += half;
-    if (pos > 0) pos -= half;
+
+    if (pos <= -half) pos += half;
+
+    if (pos >= 0) pos -= half;
   }
 
+  // ─────────────────────────────
+  // DETECTAR CARD ACTIVA
+  // ─────────────────────────────
+  function updateActiveCard() {
+
+    const marqueeRect = marquee.getBoundingClientRect();
+
+    const center = marqueeRect.left + marqueeRect.width / 2;
+
+    let closest = null;
+
+    let closestDistance = Infinity;
+
+    allCards.forEach(card => {
+
+      const rect = card.getBoundingClientRect();
+
+      const cardCenter = rect.left + rect.width / 2;
+
+      const distance = Math.abs(center - cardCenter);
+
+      if (distance < closestDistance) {
+
+        closestDistance = distance;
+
+        closest = card;
+      }
+    });
+
+    if (!closest || closest === currentCard) return;
+
+    currentCard = closest;
+
+    // RESET TODAS
+    allCards.forEach(card => {
+
+      card.classList.remove('active');
+
+      const video = card.querySelector('video');
+
+      video.pause();
+
+      video.currentTime = 0;
+
+      video.muted = true;
+    });
+
+    // ACTIVAR NUEVA
+    closest.classList.add('active');
+
+    const activeVideo = closest.querySelector('video');
+
+    activeVideo.muted = false;
+
+    activeVideo.play().catch(() => {});
+  }
+
+  // ─────────────────────────────
+  // ANIMACIÓN PRINCIPAL
+  // ─────────────────────────────
   function animate() {
-    if (!paused) {
+
+    if (!dragging) {
+
       pos -= SPEED;
-      wrap();
-      track.style.transform = `translateX(${pos}px)`;
-      autoCenter();
+
+      pos += velocity;
+
+      velocity *= 0.95;
+
+      if (Math.abs(velocity) < 0.02) {
+
+        velocity = 0;
+      }
     }
-    frameId = requestAnimationFrame(animate);
-  }
 
-  function pause() {
-    paused = true;
-    if (frameId) { cancelAnimationFrame(frameId); frameId = null; }
-  }
-
-  function resume() {
-    paused = false;
-    if (!frameId) frameId = requestAnimationFrame(animate);
-  }
-
-  function wrapAndResumeIfNotPlaying() {
     wrap();
-    track.style.transform = `translateX(${pos}px)`;
-    if (!document.querySelector('.video-card.playing')) resume();
+
+    track.style.transform = `translate3d(${pos}px, 0, 0)`;
+
+    updateActiveCard();
+
+    animationId = requestAnimationFrame(animate);
   }
 
-  function playCard(card) {
-    allCards.forEach(c => {
-      c.classList.remove('playing');
-      c.querySelector('video').pause();
-      c.querySelector('video').currentTime = 0;
-    });
-    card.classList.add('playing');
-    card.querySelector('video').play().catch(() => {});
-  }
+  // ─────────────────────────────
+  // DRAG START
+  // ─────────────────────────────
+  function dragStart(x) {
 
-  function togglePlay(card) {
-    const was = card.classList.contains('playing');
-    playCard(card);
-    was ? resume() : pause();
-  }
-
-  function autoCenter() {
-    if (touched || dragging) return;
-    const mr = marquee.getBoundingClientRect();
-    const cx = mr.left + mr.width / 2;
-    let best = null, bestDist = Infinity;
-    for (const c of allCards) {
-      const r = c.getBoundingClientRect();
-      if (r.right < mr.left || r.left > mr.right) continue;
-      const d = Math.abs((r.left + r.width / 2) - cx);
-      if (d < bestDist) { bestDist = d; best = c; }
-    }
-    const playing = document.querySelector('.video-card.playing');
-    if (best && (best !== lastAuto || !playing)) {
-      lastAuto = best;
-      playCard(best);
-      pause();
-    }
-  }
-
-  // ─── Drag compartido desktop + touch ───
-  function dragStart(clientX) {
     dragging = true;
-    dragX = clientX;
-    dragPos = pos;
-    pause();
+
+    startX = x;
+
+    initialPos = pos;
+
+    marquee.style.cursor = 'grabbing';
   }
 
-  function dragMove(clientX) {
+  // ─────────────────────────────
+  // DRAG MOVE
+  // ─────────────────────────────
+  function dragMove(x) {
+
     if (!dragging) return;
-    pos = dragPos + (clientX - dragX);
-    wrap();
-    track.style.transform = `translateX(${pos}px)`;
+
+    const delta = x - startX;
+
+    pos = initialPos + delta;
+
+    velocity = delta * 0.015;
   }
 
+  // ─────────────────────────────
+  // DRAG END
+  // ─────────────────────────────
   function dragEnd() {
-    if (!dragging) return;
+
     dragging = false;
-    wrapAndResumeIfNotPlaying();
+
+    marquee.style.cursor = 'grab';
   }
 
-  // ─── Eventos desktop ───
-  marquee.addEventListener('mousedown', e => dragStart(e.clientX));
-  document.addEventListener('mousemove', e => dragMove(e.clientX));
-  document.addEventListener('mouseup', dragEnd);
+  // ─────────────────────────────
+  // DESKTOP EVENTS
+  // ─────────────────────────────
+  marquee.addEventListener('mousedown', e => {
 
-  // ─── Eventos touch ───
-  marquee.addEventListener('touchstart', e => dragStart(e.touches[0].clientX), { passive: true });
-  document.addEventListener('touchmove', e => {
-    if (dragging) dragMove(e.touches[0].clientX);
-  }, { passive: true });
-  document.addEventListener('touchend', dragEnd, { passive: true });
-
-  // ─── Hover preview (desktop) ───
-  allCards.forEach(card => {
-    card.addEventListener('mouseenter', () => {
-      if (card.classList.contains('playing') || dragging) return;
-      playCard(card);
-      pause();
-    });
-    card.addEventListener('mouseleave', () => {
-      if (card.classList.contains('playing') || dragging) return;
-      card.querySelector('video').pause();
-      card.querySelector('video').currentTime = 0;
-      resume();
-    });
+    dragStart(e.clientX);
   });
 
-  // ─── Touch = hover (mobile) ───
-  allCards.forEach(card => {
-    card.addEventListener('touchstart', () => {
-      lastAuto = null;
-      touched = card;
-      playCard(card);
-    }, { passive: true });
+  window.addEventListener('mousemove', e => {
+
+    dragMove(e.clientX);
   });
 
-  document.addEventListener('touchmove', e => {
-    const el = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY);
-    const card = el?.closest('.video-card');
-    if (card && card !== touched) {
-      touched = card;
-      playCard(card);
-    }
+  window.addEventListener('mouseup', dragEnd);
+
+  // ─────────────────────────────
+  // TOUCH EVENTS
+  // ─────────────────────────────
+  marquee.addEventListener('touchstart', e => {
+
+    dragStart(e.touches[0].clientX);
+
   }, { passive: true });
 
-  document.addEventListener('touchend', () => {
-    if (touched) {
-      allCards.forEach(c => {
-        c.classList.remove('playing');
-        c.querySelector('video').pause();
-        c.querySelector('video').currentTime = 0;
-      });
-      touched._touchHandled = true;
-      touched = null;
-      resume();
-    }
+  window.addEventListener('touchmove', e => {
+
+    dragMove(e.touches[0].clientX);
+
   }, { passive: true });
 
-  // ─── Click + teclado + fin de video (desktop) ───
+  window.addEventListener('touchend', dragEnd);
+
+  // ─────────────────────────────
+  // CLICK EN VIDEO
+  // ─────────────────────────────
   allCards.forEach(card => {
+
+    const video = card.querySelector('video');
+
     card.addEventListener('click', () => {
-      if (card._touchHandled) { card._touchHandled = false; return; }
-      if (dragging) return;
-      togglePlay(card);
-    });
-    card.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        togglePlay(card);
+
+      if (!card.classList.contains('active')) return;
+
+      if (video.paused) {
+
+        video.play();
+
+      } else {
+
+        video.pause();
       }
-    });
-    card.querySelector('video').addEventListener('ended', () => {
-      card.classList.remove('playing');
     });
   });
 
-  // ─── Reduced motion ───
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  if (reducedMotion.matches) { paused = true; }
-  reducedMotion.addEventListener('change', e => e.matches ? pause() : resume());
+  // ─────────────────────────────
+  // INTERSECTION OBSERVER
+  // ─────────────────────────────
+  const observer = new IntersectionObserver(entries => {
 
-  // ─── Inicializar ───
-  function init() {
-    if (!reducedMotion.matches && !frameId) {
-      frameId = requestAnimationFrame(animate);
-    }
-  }
-
-  return { init, pause, resume, reset: () => { touched = null; lastAuto = null; dragging = false; } };
-})();
-
-VideoMarquee.init();
-
-// ─── Silenciar videos al salir del viewport ───
-const videosSection = document.getElementById('videos');
-if (videosSection) {
-  new IntersectionObserver((entries) => {
     entries.forEach(entry => {
+
       if (!entry.isIntersecting) {
-        document.querySelectorAll('.video-card').forEach(c => {
-          c.classList.remove('playing');
-          const v = c.querySelector('video');
-          v.pause();
-          v.currentTime = 0;
+
+        cancelAnimationFrame(animationId);
+
+        allCards.forEach(card => {
+
+          const video = card.querySelector('video');
+
+          video.pause();
+
+          video.currentTime = 0;
         });
-        VideoMarquee.pause();
-        VideoMarquee.reset();
+
       } else {
-        VideoMarquee.resume();
+
+        cancelAnimationFrame(animationId);
+
+        animationId = requestAnimationFrame(animate);
       }
     });
-  }, { threshold: 0 }).observe(videosSection);
-}
+
+  }, {
+    threshold: 0.2
+  });
+
+  observer.observe(marquee);
+
+  // ─────────────────────────────
+  // REDUCED MOTION
+  // ─────────────────────────────
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  if (!reducedMotion.matches) {
+
+    animationId = requestAnimationFrame(animate);
+  }
+
+})();
