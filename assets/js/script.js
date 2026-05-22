@@ -299,6 +299,8 @@ const VideoMarquee = (() => {
 
   if (!track || !marquee) return;
 
+  const videosSection = marquee.closest('.videos') || marquee;
+
   let pos = 0;
   let animationId = null;
 
@@ -309,6 +311,8 @@ const VideoMarquee = (() => {
   let currentCard = null;
   let isInView = false;
   let hasDragged = false;
+  let soundEnabled = false;
+  let soundEnabledOnPointer = false;
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -400,6 +404,37 @@ const VideoMarquee = (() => {
     video.play().catch(() => {});
   }
 
+  function playWithSound(video) {
+
+    video.muted = false;
+
+    video.removeAttribute('muted');
+
+    video.volume = 1;
+
+    video.play().catch(() => {});
+  }
+
+  function enableSoundSession() {
+
+    if (soundEnabled) {
+
+      soundEnabledOnPointer = false;
+
+      return false;
+    }
+
+    soundEnabled = true;
+    soundEnabledOnPointer = true;
+
+    if (currentCard && isInView) {
+
+      playWithSound(currentCard.querySelector('video'));
+    }
+
+    return true;
+  }
+
   function updateActiveCard() {
 
     const marqueeRect = marquee.getBoundingClientRect();
@@ -434,7 +469,14 @@ const VideoMarquee = (() => {
 
         const activeVideo = closest.querySelector('video');
 
-        playInlineMuted(activeVideo);
+        if (soundEnabled && (activeVideo.paused || activeVideo.muted)) {
+
+          playWithSound(activeVideo);
+
+        } else if (activeVideo.paused && activeVideo.muted) {
+
+          playInlineMuted(activeVideo);
+        }
       }
 
       return;
@@ -462,7 +504,14 @@ const VideoMarquee = (() => {
 
     const activeVideo = closest.querySelector('video');
 
-    playInlineMuted(activeVideo);
+    if (soundEnabled) {
+
+      playWithSound(activeVideo);
+
+    } else {
+
+      playInlineMuted(activeVideo);
+    }
   }
 
   function moveCardToCenter(card) {
@@ -568,6 +617,8 @@ const VideoMarquee = (() => {
   marquee.addEventListener('mousedown', e => {
 
     dragStart(e.clientX);
+
+    enableSoundSession();
   });
 
   window.addEventListener('mousemove', e => {
@@ -584,6 +635,24 @@ const VideoMarquee = (() => {
 
     dragStart(e.touches[0].clientX);
 
+    enableSoundSession();
+
+  }, { passive: true });
+
+  videosSection.addEventListener('mousedown', e => {
+
+    if (!marquee.contains(e.target)) {
+
+      enableSoundSession();
+    }
+  });
+
+  videosSection.addEventListener('touchstart', e => {
+
+    if (!marquee.contains(e.target)) {
+
+      enableSoundSession();
+    }
   }, { passive: true });
 
   window.addEventListener('touchmove', e => {
@@ -603,6 +672,10 @@ const VideoMarquee = (() => {
 
     card.addEventListener('click', () => {
 
+      const soundStartedOnThisClick = soundEnabledOnPointer;
+
+      soundEnabledOnPointer = false;
+
       if (hasDragged) return;
 
       if (!card.classList.contains('active')) {
@@ -611,18 +684,30 @@ const VideoMarquee = (() => {
 
         updateActiveCard();
 
+        playWithSound(video);
+
         return;
       }
 
-      if (video.paused) {
+      if (soundStartedOnThisClick && !video.paused && !video.muted) return;
 
-        playInlineMuted(video);
+      if (video.paused || video.muted) {
+
+        playWithSound(video);
 
       } else {
 
         video.pause();
       }
     });
+  });
+
+  videosSection.addEventListener('keydown', e => {
+
+    if (e.key === 'Enter' || e.key === ' ') {
+
+      enableSoundSession();
+    }
   });
 
   // ─────────────────────────────
