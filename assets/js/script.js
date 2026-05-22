@@ -303,6 +303,49 @@ const VideoMarquee = (() => {
 
   const videosSection = marquee.closest('.videos') || marquee;
 
+  function buildVideoCards(container) {
+    const videosAttr = container.dataset.videos;
+    if (!videosAttr) return;
+
+    let filenames;
+    try {
+      filenames = JSON.parse(videosAttr);
+    } catch (e) {
+      console.warn('VideoMarquee: error parsing data-videos JSON.', e);
+      return;
+    }
+
+    if (!Array.isArray(filenames) || filenames.length === 0) return;
+
+    container.innerHTML = '';
+
+    filenames.forEach((fileName, index) => {
+      const card = document.createElement('div');
+      card.className = 'video-card';
+      card.dataset.index = index;
+
+      const thumb = document.createElement('div');
+      thumb.className = 'video-thumb';
+
+      const video = document.createElement('video');
+      video.src = `assets/videos/${fileName}`;
+      video.preload = 'metadata';
+      video.playsInline = true;
+      video.muted = true;
+      video.setAttribute('playsinline', '');
+      video.setAttribute('muted', '');
+      video.setAttribute('disablepictureinpicture', '');
+      video.setAttribute('controlslist', 'nodownload noplaybackrate noremoteplayback');
+      video.setAttribute('data-video-source', fileName);
+
+      thumb.appendChild(video);
+      card.appendChild(thumb);
+      container.appendChild(card);
+    });
+  }
+
+  buildVideoCards(track);
+
   let pos = 0;
   let animationId = null;
 
@@ -371,7 +414,7 @@ const VideoMarquee = (() => {
 
     video.playsInline = true;
 
-    video.preload = 'none';
+    video.preload = 'metadata';
   });
 
   // ─────────────────────────────
