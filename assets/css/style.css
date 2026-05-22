@@ -1175,11 +1175,11 @@ ul { list-style: none; }
     padding: 8px 0 24px;
   }
   .video-track {
-    gap: 14px;
+    gap: 12px;
   }
   .video-card {
-    min-width: min(88vw, 380px);
-    max-width: min(88vw, 380px);
+    min-width: clamp(210px, 68vw, 300px);
+    max-width: clamp(210px, 68vw, 300px);
     border-radius: 14px;
   }
 
@@ -1198,8 +1198,8 @@ ul { list-style: none; }
   .hero-btns { flex-direction: column; }
   .btn-primary, .btn-outline { text-align: center; justify-content: center; }
   .video-card {
-    min-width: 90vw;
-    max-width: 90vw;
+    min-width: clamp(190px, 72vw, 260px);
+    max-width: clamp(190px, 72vw, 260px);
   }
 }
 
