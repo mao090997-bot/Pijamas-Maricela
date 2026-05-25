@@ -460,6 +460,7 @@ const VideoMarquee = (() => {
 
   function playInlineMuted(video) {
     if (!video) return;
+    if (!isInView || document.hidden) return;
     video.muted = true;
     video.setAttribute('muted', '');
     video.play().catch(() => {});
@@ -467,6 +468,7 @@ const VideoMarquee = (() => {
 
   function playWithSound(video) {
     if (!video) return;
+    if (!isInView || document.hidden) return;
     video.muted = false;
     video.removeAttribute('muted');
     video.volume = 1;
@@ -485,6 +487,8 @@ const VideoMarquee = (() => {
   }
 
   function updateActiveCard() {
+    if (!isInView || document.hidden) return;
+
     const closest = getClosestCard();
     if (!closest) return;
 
@@ -654,6 +658,8 @@ const VideoMarquee = (() => {
   // ─── Click en cards ───
   allCards.forEach(card => {
     card.addEventListener('click', () => {
+      if (!isInView || document.hidden) return;
+
       const soundStartedOnThisClick = soundEnabledOnPointer;
       soundEnabledOnPointer = false;
       if (hasDragged) return;
@@ -679,10 +685,12 @@ const VideoMarquee = (() => {
       if (!entry.isIntersecting) {
         isInView = false;
         currentCard = null;
-        allCards.forEach(card => {
-          const v = card.querySelector('video');
-          if (v) { v.pause(); v.currentTime = 0; v.muted = true; }
-        });
+        dragging = false;
+        if (momentumId) {
+          cancelAnimationFrame(momentumId);
+          momentumId = null;
+        }
+        silenceVideos();
       } else {
         isInView = true;
         if (!hasCenteredInitial) {
